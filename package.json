@@ -1,5 +1,5 @@
 {
-  "name": "cdp-libraries",
+  "name": "@defra/cdp-libraries",
   "version": "1.0.0",
   "description": "A monolith to hold shared npm libraries",
   "homepage": "https://github.com/DEFRA/cdp-libraries#readme",
