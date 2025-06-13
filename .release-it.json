@@ -1,0 +1,15 @@
+{
+  "git": {
+    "commit": true,
+    "commitMessage": "chore: release ${version}",
+    "tag": true,
+    "tagName": "v${version}",
+    "requireCleanWorkingDir": true
+  },
+  "npm": {
+    "publish": true
+  },
+  "github": {
+    "release": true
+  }
+}
