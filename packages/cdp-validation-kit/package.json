@@ -1,0 +1,19 @@
+{
+  "name": "@defra/cdp-validation-kit",
+  "version": "0.0.1",
+  "description": "Library for validating CDP data",
+  "main": "index.js",
+  "scripts": {
+    "test": "vitest"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "dependencies": {
+    "joi": "^17.13.3"
+  }
+}
