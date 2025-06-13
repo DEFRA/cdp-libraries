@@ -11,5 +11,11 @@
   },
   "github": {
     "release": true
+  },
+  "release-it": {
+    "plugins": {
+      "@release-it-plugins/workspaces": true
+    },
+    "npm": false
   }
 }
