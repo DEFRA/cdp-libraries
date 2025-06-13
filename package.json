@@ -11,6 +11,10 @@
   "license": "OGL-UK-3.0",
   "type": "module",
   "main": "index.js",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
   "scripts": {
     "format": "prettier --write \"**/*.{cjs,js,json,md}\"",
     "format:check": "prettier --check \"**/*.{cjs,js,json,md}\"",
@@ -20,7 +24,7 @@
     "postinstall": "npm run setup:husky",
     "release": "changeset release",
     "setup:husky": "node -e \"try { (await import('husky')).default() } catch (e) { if (e.code !== 'ERR_MODULE_NOT_FOUND') throw e }\" --input-type module",
-    "test": "vitest"
+    "test": "npm run test -ws"
   },
   "devDependencies": {
     "@changesets/cli": "2.29.4",
