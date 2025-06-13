@@ -1,7 +1,7 @@
 {
   "name": "@defra/cdp-validation-kit",
   "version": "1.0.2",
-  "description": "",
+  "description": "Library for validating CDP data",
   "main": "index.js",
   "scripts": {
     "test": "vitest"
