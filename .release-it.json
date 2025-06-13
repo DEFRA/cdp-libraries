@@ -1,9 +1,9 @@
 {
   "git": {
     "commit": true,
-    "commitMessage": "chore: release ${version}",
+    "commitMessage": "[github-bot] released version ${version}",
     "tag": true,
-    "tagName": "v${version}",
+    "tagName": "${version}",
     "requireCleanWorkingDir": true
   },
   "npm": {
