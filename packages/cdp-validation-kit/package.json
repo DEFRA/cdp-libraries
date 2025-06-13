@@ -7,7 +7,7 @@
     "test": "vitest"
   },
   "publishConfig": {
-    "access": "public"
+    "access": "restricted"
   },
   "keywords": [],
   "author": "",
