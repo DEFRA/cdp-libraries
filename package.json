@@ -1,0 +1,32 @@
+{
+  "name": "cdp-libraries",
+  "version": "1.0.0",
+  "description": "A monolith to hold shared npm libraries",
+  "homepage": "https://github.com/DEFRA/cdp-libraries#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DEFRA/cdp-libraries.git"
+  },
+  "author": "Defra DDTS",
+  "license": "OGL-UK-3.0",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "format": "prettier --write \"**/*.{cjs,js,json,md}\"",
+    "format:check": "prettier --check \"**/*.{cjs,js,json,md}\"",
+    "git:pre-commit-hook": "npm run format:check && npm run lint",
+    "lint": "eslint --cache --cache-strategy content \"**/*.{cjs,js}\"",
+    "lint:fix": "npm run lint -- --fix",
+    "postinstall": "npm run setup:husky",
+    "setup:husky": "node -e \"try { (await import('husky')).default() } catch (e) { if (e.code !== 'ERR_MODULE_NOT_FOUND') throw e }\" --input-type module",
+    "test": "vitest"
+  },
+  "devDependencies": {
+    "@changesets/cli": "2.29.4",
+    "eslint": "^9.28.0",
+    "husky": "9.1.7",
+    "neostandard": "^0.12.1",
+    "prettier": "^3.5.3",
+    "vitest": "^3.2.3"
+  }
+}
