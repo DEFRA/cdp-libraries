@@ -22,7 +22,7 @@
     "lint": "eslint --cache --cache-strategy content \"**/*.{cjs,js}\"",
     "lint:fix": "npm run lint -- --fix",
     "postinstall": "npm run setup:husky",
-    "release": "changeset release",
+    "release": "changeset publish",
     "setup:husky": "node -e \"try { (await import('husky')).default() } catch (e) { if (e.code !== 'ERR_MODULE_NOT_FOUND') throw e }\" --input-type module",
     "test": "npm run test -ws"
   },
