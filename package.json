@@ -29,11 +29,12 @@
     "test": "npm run test -ws"
   },
   "devDependencies": {
+    "@release-it-plugins/workspaces": "4.2.0",
     "eslint": "^9.28.0",
     "husky": "9.1.7",
     "neostandard": "^0.12.1",
     "prettier": "^3.5.3",
-    "release-it": "19.0.3",
+    "release-it": "17.11.0",
     "vitest": "^3.2.3"
   },
   "version": "0.0.3"
