@@ -1,6 +1,5 @@
 {
   "name": "@defra/cdp-libraries",
-  "version": "1.0.0",
   "description": "A monolith to hold shared npm libraries",
   "homepage": "https://github.com/DEFRA/cdp-libraries#readme",
   "repository": {
@@ -25,7 +24,7 @@
     "lint": "eslint --cache --cache-strategy content \"**/*.{cjs,js}\"",
     "lint:fix": "npm run lint -- --fix",
     "postinstall": "npm run setup:husky",
-    "release": "changeset publish",
+    "release": "changeset version && changeset publish",
     "setup:husky": "node -e \"try { (await import('husky')).default() } catch (e) { if (e.code !== 'ERR_MODULE_NOT_FOUND') throw e }\" --input-type module",
     "test": "npm run test -ws"
   },
