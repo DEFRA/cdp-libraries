@@ -22,8 +22,8 @@
   },
   "release-it": {
     "git": {
-      "commitMessage": "Released ${name} ${version}",
-      "tagName": "${name}-${version}",
+      "commitMessage": "Released ${npm.name} ${version}",
+      "tagName": "${npm.name}-${version}",
       "requireCleanWorkingDir": false
     }
   }
