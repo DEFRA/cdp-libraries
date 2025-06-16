@@ -25,17 +25,16 @@
     "lint:fix": "npm run lint -- --fix",
     "postinstall": "npm run setup:husky",
     "release": "npm run release --workspaces && release-it",
-    "release-it": "release-it --release-version",
     "setup:husky": "node -e \"try { (await import('husky')).default() } catch (e) { if (e.code !== 'ERR_MODULE_NOT_FOUND') throw e }\" --input-type module",
     "test": "npm run test -ws"
   },
   "devDependencies": {
-    "eslint": "^9.28.0",
+    "eslint": "9.28.0",
     "husky": "9.1.7",
-    "neostandard": "^0.12.1",
-    "prettier": "^3.5.3",
+    "neostandard": "0.12.1",
+    "prettier": "3.5.3",
     "release-it": "19.0.3",
-    "vitest": "^3.2.3"
+    "vitest": "3.2.3"
   },
   "release-it": {
     "version": false,

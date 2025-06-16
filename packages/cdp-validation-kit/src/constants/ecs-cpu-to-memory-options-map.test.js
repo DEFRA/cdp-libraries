@@ -1,4 +1,5 @@
 import { ecsCpuToMemoryOptionsMap } from './ecs-cpu-to-memory-options-map'
+import { describe, test, expect } from 'vitest'
 
 describe('ecsCpuToMemoryMap', () => {
   test('Cpu of 8192 should only allows memory in increments of 4gb', () => {

@@ -1,4 +1,5 @@
 import Joi from 'joi'
+import { describe, test, expect } from 'vitest'
 import { buildMemoryValidation } from './build-memory-validation.js'
 import { ecsCpuToMemoryOptionsMap } from './ecs-cpu-to-memory-options-map.js'
 

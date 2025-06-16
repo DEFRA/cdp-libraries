@@ -1,3 +1,4 @@
+import { describe, test, expect } from 'vitest'
 import { memoryRange } from './memory-range'
 
 describe('#memoryRange', () => {
