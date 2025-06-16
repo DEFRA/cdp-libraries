@@ -12,6 +12,23 @@ describe('validations', () => {
     expect(result.error).toBeUndefined()
   })
 
+  test('invalid repository name validation', () => {
+    const result = repositoryNameValidation.validate('##totally &cr*azy name!!')
+    expect(result.error.message).toBe(
+      'Letters and numbers with hyphen separators'
+    )
+  })
+
+  test('invalid start and end characters', () => {
+    const result = repositoryNameValidation.validate('-repo-name-')
+    expect(result.error.message).toBe('Start and end with a character')
+  })
+
+  test('invalid start and end characters', () => {
+    const result = repositoryNameValidation.validate('incorrect-ending-ddl')
+    expect(result.error.message).toBe('Must not end with "-ddl"')
+  })
+
   test('invalid repository name validation with name longer than 32 characters', () => {
     const result = repositoryNameValidation.validate(
       'invalid-repo-name-because-it-is-way-too-long'
