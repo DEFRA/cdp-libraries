@@ -44,7 +44,10 @@
     "plugins": {
       "@release-it-plugins/workspaces": true
     },
-    "npm": false,
+    "npm": {
+      "version": true,
+      "publish": false
+    },
     "github": {
       "release": true
     }
