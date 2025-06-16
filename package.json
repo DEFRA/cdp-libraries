@@ -24,6 +24,8 @@
     "lint:fix": "npm run lint -- --fix",
     "postinstall": "npm run setup:husky",
     "release": "npm run release --workspaces && release-it",
+    "release:dry-run:cdp-validation-kit": "release-it --config packages/cdp-validation-kit/.release-it.js --cwd packages/cdp-validation-kit --dry-run",
+    "commit:dry-run:cdp-validation-kit": "release-it --increment=minor --ci --config packages/cdp-validation-kit/.release-it.js --cwd packages/cdp-validation-kit --no-git.push --no-npm.publish",
     "setup:husky": "node -e \"try { (await import('husky')).default() } catch (e) { if (e.code !== 'ERR_MODULE_NOT_FOUND') throw e }\" --input-type module",
     "test": "npm run test --workspaces"
   },
