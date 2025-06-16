@@ -22,8 +22,8 @@
   },
   "release-it": {
     "git": {
-      "commitMessage": "Released {{name}} {{version}}",
-      "tagName": "{{name}}-{{version}}",
+      "commitMessage": "Released cdp-validation-kit ${version}",
+      "tagName": "cdp-validation-kit-${version}",
       "requireCleanWorkingDir": false
     }
   }
