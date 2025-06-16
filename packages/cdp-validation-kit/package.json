@@ -4,6 +4,7 @@
   "description": "Library for validating CDP data",
   "main": "index.js",
   "scripts": {
+    "release": "release-it",
     "test": "vitest"
   },
   "publishConfig": {
@@ -15,5 +16,15 @@
   "type": "module",
   "dependencies": {
     "joi": "^17.13.3"
+  },
+  "devDependencies": {
+    "release-it": "19.0.3"
+  },
+  "release-it": {
+    "git": {
+      "commitMessage": "Released version %s",
+      "tagName": "%s",
+      "requireCleanWorkingDir": false
+    }
   }
 }
