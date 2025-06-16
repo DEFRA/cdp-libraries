@@ -1,3 +1,6 @@
 export default {
-  increment: 'minor'
+  increment: 'minor',
+  git: {
+    requireCleanWorkingDir: false
+  }
 }
