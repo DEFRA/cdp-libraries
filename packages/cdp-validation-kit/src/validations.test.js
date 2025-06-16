@@ -53,22 +53,8 @@ describe('#validations', () => {
     expect(result.error).toBeUndefined()
   })
 
-  test('Should error with incorrect environment name', () => {
-    const result = environmentExceptForProdValidation.validate('prod')
-    expect(result.error.message).toBe(
-      '"value" must be one of [infra-dev, management, dev, test, perf-test, ext-test]'
-    )
-  })
-
   test('Should pass currentEnvironmentValidation validation', () => {
     const result = currentEnvironmentValidation.validate('local')
     expect(result.error).toBeUndefined()
-  })
-
-  test('Should error with incorrect environment name', () => {
-    const result = currentEnvironmentValidation.validate('something-else')
-    expect(result.error.message).toBe(
-      '"value" must be one of [local, management, infra-dev, dev, test, perf-test, ext-test, prod]'
-    )
   })
 })

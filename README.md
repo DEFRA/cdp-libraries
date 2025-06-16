@@ -15,14 +15,12 @@ of workspace package.
 ## Configuration
 
 For further information on how to configure `release-it` see
-the [https://github.com/release-it/release-it/blob/main/docs/configuration.md](https://github.com/release-it/release-it/blob/main/docs/configuration.md)
+the https://github.com/release-it/release-it/blob/main/docs/configuration.md
 
 ### Git Configuration
 
-For further information around `git` config
-see [https://github.com/release-it/release-it/blob/main/docs/git.md](https://github.com/release-it/release-it/blob/main/docs/npm.md)
+For further information around `git` config see https://github.com/release-it/release-it/blob/main/docs/git.md
 
 ### NPM Configuration
 
-For further information around `npm` config
-see [https://github.com/release-it/release-it/blob/main/docs/npm.md](https://github.com/release-it/release-it/blob/main/docs/npm.md)
+For further information around `npm` config see https://github.com/release-it/release-it/blob/main/docs/npm.md
