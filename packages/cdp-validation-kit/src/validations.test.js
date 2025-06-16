@@ -1,5 +1,9 @@
 import { describe, it, expect } from 'vitest'
-import { environmentValidation, repositoryNameValidation } from './validations'
+import {
+  environmentExceptForProdValidation,
+  environmentValidation,
+  repositoryNameValidation
+} from './validations'
 
 describe('validations', () => {
   it('validate repository name validation', () => {
@@ -23,6 +27,18 @@ describe('validations', () => {
     const result = environmentValidation.validate('invalid-env')
     expect(result.error.message).toBe(
       '"value" must be one of [management, infra-dev, dev, test, perf-test, ext-test, prod]'
+    )
+  })
+
+  it('validate environmentExceptForProd validation', () => {
+    const result = environmentExceptForProdValidation.validate('test')
+    expect(result.error).toBeUndefined()
+  })
+
+  it('invalid environmentExceptForProd validation with incorrect environment name', () => {
+    const result = environmentExceptForProdValidation.validate('prod')
+    expect(result.error.message).toBe(
+      '"value" must be one of [infra-dev, management, dev, test, perf-test, ext-test]'
     )
   })
 })
