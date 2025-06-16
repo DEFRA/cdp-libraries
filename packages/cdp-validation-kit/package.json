@@ -21,6 +21,7 @@
     "release-it": "19.0.3"
   },
   "release-it": {
+    "increment": "minor",
     "git": {
       "commitMessage": "Released cdp-validation-kit ${version}",
       "tagName": "cdp-validation-kit-${version}",

@@ -1,7 +1,6 @@
 {
   "name": "@defra/cdp-libraries",
   "description": "A monolith to hold shared npm libraries",
-  "version": "0.1.4",
   "homepage": "https://github.com/DEFRA/cdp-libraries#readme",
   "repository": {
     "type": "git",
@@ -39,10 +38,12 @@
     "vitest": "^3.2.3"
   },
   "release-it": {
+    "version": false,
     "npm": {
       "publish": false
     },
     "git": {
+      "publish": false,
       "requireCleanWorkingDir": false
     }
   }
