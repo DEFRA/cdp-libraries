@@ -1,7 +1,7 @@
 {
   "name": "@defra/cdp-libraries",
-  "description": "A monolith to hold shared npm libraries",
-  "homepage": "https://github.com/DEFRA/cdp-libraries#readme",
+  "description": "A monorepo to hold shared cdp npm libraries",
+  "homepage": "https://github.com/DEFRA/cdp-libraries",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/DEFRA/cdp-libraries.git"
@@ -9,7 +9,6 @@
   "author": "Defra DDTS",
   "license": "OGL-UK-3.0",
   "type": "module",
-  "main": "index.js",
   "private": true,
   "publishConfig": {
     "access": "public"
@@ -25,25 +24,18 @@
     "lint:fix": "npm run lint -- --fix",
     "postinstall": "npm run setup:husky",
     "release": "npm run release --workspaces && release-it",
+    "release:dry-run:cdp-validation-kit": "release-it --config packages/cdp-validation-kit/.release-it.js --cwd packages/cdp-validation-kit --dry-run",
+    "commit:dry-run:cdp-validation-kit": "release-it --increment=minor --ci --config packages/cdp-validation-kit/.release-it.js --cwd packages/cdp-validation-kit --no-git.push --no-npm.publish",
     "setup:husky": "node -e \"try { (await import('husky')).default() } catch (e) { if (e.code !== 'ERR_MODULE_NOT_FOUND') throw e }\" --input-type module",
-    "test": "npm run test -ws"
+    "test": "npm run test --workspaces"
   },
   "devDependencies": {
-    "eslint": "9.28.0",
+    "@vitest/coverage-v8": "3.2.3",
+    "eslint": "9.29.0",
     "husky": "9.1.7",
     "neostandard": "0.12.1",
     "prettier": "3.5.3",
     "release-it": "19.0.3",
     "vitest": "3.2.3"
-  },
-  "release-it": {
-    "version": false,
-    "npm": {
-      "publish": false
-    },
-    "git": {
-      "publish": false,
-      "requireCleanWorkingDir": false
-    }
   }
 }

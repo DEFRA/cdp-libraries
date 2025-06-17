@@ -1,31 +1,29 @@
 {
   "name": "@defra/cdp-validation-kit",
-  "version": "0.3.0",
+  "version": "0.5.0",
   "description": "Library for validating CDP data",
-  "main": "index.js",
+  "main": "src/validations.js",
   "scripts": {
+    "format": "prettier --write \"**/*.{cjs,js,json,md}\"",
+    "format:check": "prettier --check \"**/*.{cjs,js,json,md}\"",
+    "git:pre-commit-hook": "npm run format:check && npm run lint",
+    "lint": "eslint --cache --cache-strategy content \"**/*.{cjs,js}\"",
+    "lint:fix": "npm run lint -- --fix",
+    "postinstall": "npm run setup:husky",
     "release": "release-it",
-    "test": "vitest"
+    "setup:husky": "node -e \"try { (await import('husky')).default() } catch (e) { if (e.code !== 'ERR_MODULE_NOT_FOUND') throw e }\" --input-type module",
+    "test": "vitest --coverage"
   },
   "publishConfig": {
     "access": "public"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "author": "Defra DDTS",
+  "license": "OGL-UK-3.0",
   "type": "module",
   "dependencies": {
     "joi": "^17.13.3"
   },
   "devDependencies": {
     "release-it": "19.0.3"
-  },
-  "release-it": {
-    "increment": "minor",
-    "git": {
-      "commitMessage": "Released cdp-validation-kit ${version}",
-      "tagName": "cdp-validation-kit-${version}",
-      "requireCleanWorkingDir": false
-    }
   }
 }

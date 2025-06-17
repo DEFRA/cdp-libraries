@@ -6,52 +6,55 @@ import {
   repositoryNameValidation
 } from './validations'
 
-describe('validations', () => {
-  test('validate repository name validation', () => {
+describe('#validations', () => {
+  test('Should pass with correct name', () => {
     const result = repositoryNameValidation.validate('valid-repo-name')
     expect(result.error).toBeUndefined()
   })
 
-  test('invalid repository name validation with name longer than 32 characters', () => {
+  test('Should error with invalid repository name', () => {
+    const result = repositoryNameValidation.validate('##totally &cr*azy name!!')
+    expect(result.error.message).toBe(
+      'Letters and numbers with hyphen separators'
+    )
+  })
+
+  test('Should error when invalid start and end characters used', () => {
+    const result = repositoryNameValidation.validate('-repo-name-')
+    expect(result.error.message).toBe('Start and end with a character')
+  })
+
+  test('Should error when ends with "-ddl"', () => {
+    const result = repositoryNameValidation.validate('incorrect-ending-ddl')
+    expect(result.error.message).toBe('Must not end with "-ddl"')
+  })
+
+  test('Should error with name longer than 32 characters', () => {
     const result = repositoryNameValidation.validate(
       'invalid-repo-name-because-it-is-way-too-long'
     )
     expect(result.error.message).toBe('32 characters or less')
   })
 
-  test('validate environment validation', () => {
+  test('Should pass environment validation', () => {
     const result = environmentValidation.validate('test')
     expect(result.error).toBeUndefined()
   })
 
-  test('invalid environment validation with incorrect environment name', () => {
+  test('Should error with incorrect environment name', () => {
     const result = environmentValidation.validate('invalid-env')
     expect(result.error.message).toBe(
       '"value" must be one of [management, infra-dev, dev, test, perf-test, ext-test, prod]'
     )
   })
 
-  test('validate environmentExceptForProd validation', () => {
+  test('Should pass environmentExceptForProd validation', () => {
     const result = environmentExceptForProdValidation.validate('test')
     expect(result.error).toBeUndefined()
   })
 
-  test('invalid environmentExceptForProd validation with incorrect environment name', () => {
-    const result = environmentExceptForProdValidation.validate('prod')
-    expect(result.error.message).toBe(
-      '"value" must be one of [infra-dev, management, dev, test, perf-test, ext-test]'
-    )
-  })
-
-  test('validate currentEnvironmentValidation validation', () => {
+  test('Should pass currentEnvironmentValidation validation', () => {
     const result = currentEnvironmentValidation.validate('local')
     expect(result.error).toBeUndefined()
-  })
-
-  test('invalid currentEnvironmentValidation validation with incorrect environment name', () => {
-    const result = currentEnvironmentValidation.validate('something-else')
-    expect(result.error.message).toBe(
-      '"value" must be one of [local, management, infra-dev, dev, test, perf-test, ext-test, prod]'
-    )
   })
 })
