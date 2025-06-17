@@ -19,6 +19,13 @@
   "bugs": {
     "url": "https://github.com/DEFRA/cdp-libraries/issues"
   },
+  "keywords": [
+    "cdp",
+    "defra",
+    "validation",
+    "validation-kit",
+    "joi"
+  ],
   "main": "src/validations.js",
   "scripts": {
     "format": "prettier --write \"**/*.{cjs,js,json,md}\"",

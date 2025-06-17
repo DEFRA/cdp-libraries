@@ -19,6 +19,11 @@
   "bugs": {
     "url": "https://github.com/DEFRA/cdp-libraries/issues"
   },
+  "keywords": [
+    "hapi",
+    "defra",
+    "tracing"
+  ],
   "main": "src/tracing.js",
   "scripts": {
     "format": "prettier --write \"**/*.{cjs,js,json,md}\"",
