@@ -1,10 +1,12 @@
 # Hapi Tracing
 
-Hapi Tracing is a Hapi plugin to make selected headers available during the lifecycle of the request without having to manually pass them or the request object into every call.
-The main use-case for this is for propagating tracing headers, allowing them to be logged as well as forwarded on in other calls.
+Hapi Tracing is a Hapi plugin to make selected headers available during the lifecycle of the request without having to
+manually pass them or the request object into every call.
+The main use-case for this is for propagating tracing headers, allowing them to be logged as well as forwarded on in
+other calls.
 
-- [What this does do.](#what-this-does-do)
-- [What this does not do.](#what-this-does-not-do)
+- [What does this do](#what-does-this-do)
+- [What this does not do](#what-this-does-not-do)
 - [Installing](#installing)
 - [Usage](#usage)
   - [Register the plugin](#register-the-plugin)
@@ -13,16 +15,19 @@ The main use-case for this is for propagating tracing headers, allowing them to 
   - [Logging the header](#logging-the-header)
 - [Jest Transform Ignore Patterns](#jest-transform-ignore-patterns)
 
-## What this does do.
+## What does this do
 
 Hapi Tracing is registered as a plugin. A specific tracing header should be supplied via the plugin's options.
-Once registered if an HTTP request is received with a specific tracking header the value of the header is extracted, stored in [AsyncLocalStorage](https://nodejs.org/api/async_context.html) and made available throughout the duration of the request.
-A helper function `getTraceId()` provides access to the value of the tracking header without having to pass the request object across multiple calls.
+Once registered if an HTTP request is received with a specific tracking header the value of the header is extracted,
+stored in [AsyncLocalStorage](https://nodejs.org/api/async_context.html) and made available throughout the duration of
+the request.
+A helper function `getTraceId()` provides access to the value of the tracking header without having to pass the request
+object across multiple calls.
 
-## What this does not do.
+## What this does not do
 
-- Automatically forwards the trace ID to other HTTP calls.
-- Automatically logs the trace ID.
+- Automatically forwards the trace ID to other HTTP calls
+- Automatically logs the trace ID
 
 Built in support for this may be added in the future.
 
@@ -50,7 +55,8 @@ await server.register({
 })
 ```
 
-Once registered you will be able to call `getTraceId()` inside your controllers to return the value of the header if it has been passed in.
+Once registered you will be able to call `getTraceId()` inside your controllers to return the value of the header if it
+has been passed in.
 
 For example:
 
@@ -64,7 +70,8 @@ const healthController = {
 }
 ```
 
-The calls to `getTraceId()` don't have to originate from the controller. Any function called from the controller, directly or indirectly can use it.
+The calls to `getTraceId()` don't have to originate from the controller. Any function called from the controller,
+directly or indirectly can use it.
 
 ```js
 import { getTraceId } from '@defra/hapi-tracing'
@@ -89,12 +96,16 @@ const doSomethingElse = () => {
 
 ### Propagating headers.
 
-In order to track a request across multiple services you will need to forward the trace-id header on to other calls made as part of the request.
+In order to track a request across multiple services you will need to forward the trace-id header on to other calls made
+as part of the request.
 
-For this example we will be using node:fetch. Different HTTP clients may have different API's for settings headers but the concept should be the same.
+For this example we will be using node:fetch. Different HTTP clients may have different API's for settings headers but
+the concept should be the same.
 
-The `hapi-tracing` package include a `withTraceId` helper that takes the name of the tracing header and an object containing the existing headers.
-If the traceId has been set it returns the original header object with the traceId header and value added. If the traceId is not set then the original header object is return unmodified.
+The `hapi-tracing` package include a `withTraceId` helper that takes the name of the tracing header and an object
+containing the existing headers.
+If the traceId has been set it returns the original header object with the traceId header and value added. If the
+traceId is not set then the original header object is return unmodified.
 
 ```js
 import { withTraceId } from '@defra/hapi-tracing'
@@ -112,14 +123,14 @@ async function getSomething() {
 
 ### Logging the header
 
-Some loggers will automatically include the original HTTP request which will include tracing header as well as any other headers that are not redacted.
+Some loggers will automatically include the original HTTP request which will include tracing header as well as any other
+headers that are not redacted.
 For this example we will use Pino with the ECS formatter as our logger.
 
 ```js
 export const loggerOptions = {
   enabled: logConfig.enabled,
-  level: 'info',
-  // other setup
+  level: 'info', // other setup
   nesting: true,
   mixin: () => {
     const mixinValues = {}
@@ -140,11 +151,14 @@ This will set the traceId to appear in the `trace.id` field in the structure log
 
 ## Jest Transform Ignore Patterns
 
-Jest automatically transpiles all code it uses in its tests. This can cause issues when a dependency only supports ESM modules, and you use it in your tests. If this is the case you may need to add the following to your Jest configuration to prevent Jest transpiling the module with Babel in your tests.
+Jest automatically transpiles all code it uses in its tests. This can cause issues when a dependency only supports ESM
+modules, and you use it in your tests. If this is the case you may need to add the following to your Jest configuration
+to prevent Jest transpiling the module with Babel in your tests.
 For more detailed information have a read of https://jestjs.io/docs/configuration#transformignorepatterns-arraystring
 
 > [!TIP]
-> If you need to add this configuration, typically you will see the error `SyntaxError: Cannot use import statement outside a module` when running Jest tests.
+> If you need to add this configuration, typically you will see the error
+> `SyntaxError: Cannot use import statement outside a module` when running Jest tests.
 
 Add the following to your Jest configuration in `jest.config.js`:
 
