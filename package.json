@@ -1,25 +1,31 @@
 {
   "name": "@defra/cdp-libraries",
   "description": "A monorepo to hold shared cdp npm libraries",
+  "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "author": "Defra DDTS",
+  "license": "OGL-UK-3.0",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
   "homepage": "https://github.com/DEFRA/cdp-libraries",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/DEFRA/cdp-libraries.git"
   },
-  "author": "Defra DDTS",
-  "license": "OGL-UK-3.0",
-  "type": "module",
-  "private": true,
-  "publishConfig": {
-    "access": "public"
+  "bugs": {
+    "url": "https://github.com/DEFRA/cdp-libraries/issues"
   },
-  "workspaces": [
-    "packages/*"
-  ],
   "scripts": {
     "format": "prettier --write \"**/*.{cjs,js,json,md}\"",
     "format:check": "prettier --check \"**/*.{cjs,js,json,md}\"",
-    "git:pre-commit-hook": "npm run format:check && npm run lint",
+    "git:pre-commit-hook": "npm test && npm run format:check && npm run lint",
     "lint": "eslint --cache --cache-strategy content \"**/*.{cjs,js}\"",
     "lint:fix": "npm run lint -- --fix",
     "postinstall": "npm run setup:husky",
