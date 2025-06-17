@@ -3,8 +3,8 @@ name: Npm Release
 on:
   push:
     branches:
-#      - main
-       - CORE-450-blitz
+      - main
+
 jobs:
   release:
     runs-on: ubuntu-latest
