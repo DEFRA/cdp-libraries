@@ -1,10 +1,11 @@
 import Joi from 'joi'
+
+import { ecsCpuToMemoryOptionsMap } from './constants/ecs-cpu-to-memory-options-map.js'
+import { buildMemoryValidation } from './constants/build-memory-validation.js'
 import {
   environments,
   environmentsExceptForProd
-} from './constants/environments'
-import { ecsCpuToMemoryOptionsMap } from './constants/ecs-cpu-to-memory-options-map'
-import { buildMemoryValidation } from './constants/build-memory-validation'
+} from './constants/environments.js'
 
 const environmentValidation = Joi.string()
   .valid(...Object.values(environments))
