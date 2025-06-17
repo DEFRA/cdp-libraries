@@ -5,6 +5,12 @@ on:
     branches:
       - main
 
+permissions:
+  id-token: write
+  contents: write
+  pull-requests: write
+  actions: read
+
 env:
   cdp-gitbot-email: "147416134+cdp-github-action[bot]@users.noreply.github.com"
   cdp-gitbot-name: "cdp-github-action[bot]"
