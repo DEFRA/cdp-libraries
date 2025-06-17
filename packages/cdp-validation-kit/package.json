@@ -11,7 +11,7 @@
   },
   "author": "Defra DDTS",
   "license": "OGL-UK-3.0",
-  "homepage": "https://github.com/DEFRA/cdp-libraries/tree/main/packages/cdp-validation-kit#readme",
+  "homepage": "https://github.com/DEFRA/cdp-libraries/tree/main/packages/cdp-validation-kit",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/DEFRA/cdp-libraries.git"
