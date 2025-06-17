@@ -37,8 +37,7 @@
     "test": "vitest run --coverage"
   },
   "devDependencies": {
-    "@hapi/hapi": "^21.3.12",
-    "prettier": "3.4.2",
+    "@hapi/hapi": "21.3.12",
     "release-it": "19.0.3"
   }
 }

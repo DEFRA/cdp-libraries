@@ -39,7 +39,7 @@
     "test": "vitest run --coverage"
   },
   "dependencies": {
-    "joi": "^17.13.3"
+    "joi": "17.13.3"
   },
   "devDependencies": {
     "release-it": "19.0.3"
