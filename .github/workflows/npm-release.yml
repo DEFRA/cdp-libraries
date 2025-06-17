@@ -35,7 +35,7 @@ jobs:
       - name: Get token
         uses: DEFRA/cdp-build-action/get-github-token@stable
         with:
-          role_to_assume: arn:aws:iam::094954420758:role/app-config-role
+          role_to_assume: arn:aws:iam::094954420758:role/github-actions-role
           private_key_id: cdp/platform/gh_apps/DEFRA/cdp-gh-action/private-key
           app_id: 405317
           email: ${{ env.cdp-gitbot-email }}
