@@ -1,7 +1,7 @@
 {
-  "name": "@defra/cdp-validation-kit",
-  "version": "0.15.0",
-  "description": "Library for validating CDP data",
+  "name": "@defra/hapi-tracing",
+  "version": "1.0.0",
+  "description": "A hapi plugin for propagating trace id headers",
   "type": "module",
   "engines": {
     "node": ">=22"
@@ -11,7 +11,7 @@
   },
   "author": "Defra DDTS",
   "license": "OGL-UK-3.0",
-  "homepage": "https://github.com/DEFRA/cdp-libraries/tree/main/packages/cdp-validation-kit#readme",
+  "homepage": "https://github.com/DEFRA/cdp-libraries/tree/main/packages/hapi-tracing#readme",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/DEFRA/cdp-libraries.git"
@@ -19,7 +19,7 @@
   "bugs": {
     "url": "https://github.com/DEFRA/cdp-libraries/issues"
   },
-  "main": "src/validations.js",
+  "main": "src/tracing.js",
   "scripts": {
     "format": "prettier --write \"**/*.{cjs,js,json,md}\"",
     "format:check": "prettier --check \"**/*.{cjs,js,json,md}\"",
@@ -31,10 +31,9 @@
     "setup:husky": "node -e \"try { (await import('husky')).default() } catch (e) { if (e.code !== 'ERR_MODULE_NOT_FOUND') throw e }\" --input-type module",
     "test": "vitest run --coverage"
   },
-  "dependencies": {
-    "joi": "^17.13.3"
-  },
   "devDependencies": {
+    "@hapi/hapi": "^21.3.12",
+    "prettier": "3.4.2",
     "release-it": "19.0.3"
   }
 }
