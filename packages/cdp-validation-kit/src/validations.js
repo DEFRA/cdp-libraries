@@ -34,19 +34,23 @@ const entitySubTypeValidation = Joi.string()
 
 const displayNameValidation = Joi.string().required()
 
-const userWithIdValidation = Joi.object({
-  id: Joi.string().required(),
-  displayName: displayNameValidation
-})
+const userIdValidation = Joi.string().uuid().required()
 
-const teamValidation = Joi.object({
-  teamId: Joi.string().required(),
-  name: displayNameValidation
+const userWithIdValidation = Joi.object({
+  id: userIdValidation,
+  displayName: displayNameValidation
 })
 
 const userWithUserIdValidation = Joi.object({
-  userId: Joi.string().required(),
+  userId: userIdValidation,
   displayName: displayNameValidation
+})
+
+const teamIdValidation = Joi.string().uuid().required()
+
+const teamValidation = Joi.object({
+  teamId: teamIdValidation,
+  name: displayNameValidation
 })
 
 const validCpuValues = Object.keys(ecsCpuToMemoryOptionsMap).map((cpu) =>
@@ -130,8 +134,10 @@ export {
   repositoryNameValidation,
   runIdValidation,
   teamValidation,
+  teamIdValidation,
   templateBranchNameValidation,
   templateTypeValidation,
+  userIdValidation,
   userWithIdValidation,
   userWithUserIdValidation,
   versionValidation,
