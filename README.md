@@ -9,6 +9,7 @@ to simply create and manage CDP packages, ensuring consistency and ease of use a
   - [Setup](#setup)
 - [Getting Started](#getting-started)
 - [Global tooling](#global-tooling)
+- [Testing your changes in a consuming codebase](#testing-your-changes-in-a-consuming-codebase)
 - [Releasing](#releasing)
 - [Release it](#release-it)
 - [Configuration](#configuration)
