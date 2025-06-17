@@ -24,8 +24,8 @@ jobs:
 
       - name: Set git config
         run: |
-          git config user.name github-actions
-          git config user.email github-actions@github.com
+          git config user.name "147416134+cdp-github-action[bot]@users.noreply.github.com"
+          git config user.email "cdp-github-action[bot]"
 
       - run: npm run release
         env:
