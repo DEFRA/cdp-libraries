@@ -1,9 +1,95 @@
 # CDP Libraries
 
+A mono-repo containing libraries for the CDP (Core Delivery Platform) ecosystem. This mono-repo provides the ability
+to simply create and manage CDP packages, ensuring consistency and ease of use across different projects.
+
+- [Requirements](#requirements)
+  - [Node.js](#nodejs)
+- [Local development](#local-development)
+  - [Setup](#setup)
+- [Getting Started](#getting-started)
+- [Global tooling](#global-tooling)
+- [Releasing](#releasing)
 - [Release it](#release-it)
 - [Configuration](#configuration)
   - [Git Configuration](#git-configuration)
   - [NPM Configuration](#npm-configuration)
+
+## Requirements
+
+To get started with the CDP Libraries mono-repo, you need to have Node.js and npm installed on your machine.
+
+### Node.js
+
+Please install [Node.js](http://nodejs.org/) `>= v22` and [npm](https://nodejs.org/) `>= v9`.
+
+> [!TIP]
+> To install Node.js and npm Use Node Version Manager [nvm](https://github.com/creationix/nvm)
+
+To use the correct version of Node.js for this application, via nvm:
+
+```bash
+cd cdp-libraries
+nvm use
+```
+
+## Local development
+
+### Setup
+
+Install dependencies:
+
+```bash
+npm install
+```
+
+## Getting Started
+
+- Copy and rename an existing package in the `packages` directory to create a new package
+- If they exist, remove `coverage` and `node_modules` directories from the new package
+- Empty the `src` folder in the new package
+- Update the `README.md` file in the new package with relevant information about your package
+- Update the `.release-it.js` file in the root of the workspace to include your new package:
+  - Ensure that the `git` and `npm` configurations are correct for your package. See [Configuration](#configuration)
+    for more details
+- Update the `package.json` file in the new package with relevant information:
+  - Update the `name` field to a unique name for your package
+  - Update the `version` field to `0.0.1`
+  - Update the `description` field with a brief description of your package
+  - Update the `repository` field with the URL of your new package's readme
+- Now you have all you need to start developing your new package
+
+## Global tooling
+
+The following tools are available for free from the root of `cdp-libraries`. You do not need to install these in
+your `package.json` file, as they are already included in the root `package.json`:
+
+- `vitest` - for running tests
+- `neostandard` - for linting code
+- `release-it` - for managing releases
+- `prettier` - for code formatting
+- `husky` - for managing git hooks
+
+## Testing your changes in a consuming codebase
+
+To test your changes in this repo in a local consuming codebase, `npm link` is your friend here. Have a read
+of https://docs.npmjs.com/cli/v9/commands/npm-link
+
+## Releasing
+
+Releasing to `npm` and tagging on `GitHub` is done using the `release-it` tool, which is configured in the root of the
+workspace. This is super simple and all you need to do is:
+
+- Raise a PR with the changes you want to release
+- Wait for `status required checks` to pass
+- Get the PR reviewed and approved by at least one other developer
+- Get an approval from the `cdp-libraries` owners
+- Merge the PR into `main` branch
+- The `cdp-libraries` GitHub Action will automatically run the `release-it` tool, which will:
+  - Bump the version number in the `package.json` file
+  - Create a new tag in Git with the new version number
+  - Push the changes to the `main` branch
+  - Publish the package to npm
 
 ## Release it
 
