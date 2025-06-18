@@ -34,21 +34,10 @@
     "lint": "eslint --cache --cache-strategy content \"**/*.{cjs,js}\"",
     "lint:fix": "npm run lint -- --fix",
     "postinstall": "npm run setup:husky",
-    "release": "release-it --ci",
     "setup:husky": "node -e \"try { (await import('husky')).default() } catch (e) { if (e.code !== 'ERR_MODULE_NOT_FOUND') throw e }\" --input-type module",
     "test": "vitest run --coverage"
   },
   "dependencies": {
     "joi": "17.13.3"
-  },
-  "devDependencies": {
-    "release-it": "19.0.3"
-  },
-  "release-it": {
-    "git": {
-      "commitMessage": "Released cdp-validation-kit ${version}",
-      "tagName": "cdp-validation-kit-${version}",
-      "requireCleanWorkingDir": false
-    }
   }
 }
