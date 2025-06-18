@@ -1,5 +1,11 @@
 # @defra/hapi-tracing
 
+## 1.12.0
+
+### Minor Changes
+
+- b1ae705: Formattingx
+
 ## 1.11.0
 
 ### Minor Changes
