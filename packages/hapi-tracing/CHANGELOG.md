@@ -1,5 +1,11 @@
 # @defra/hapi-tracing
 
+## 1.21.0
+
+### Minor Changes
+
+- 87368bc: Add ci script to node bin
+
 ## 1.20.0
 
 ### Minor Changes

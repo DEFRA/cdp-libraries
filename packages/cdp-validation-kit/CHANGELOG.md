@@ -1,5 +1,11 @@
 # @defra/cdp-validation-kit
 
+## 0.34.0
+
+### Minor Changes
+
+- 87368bc: Add ci script to node bin
+
 ## 0.33.0
 
 ### Minor Changes
