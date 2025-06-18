@@ -28,11 +28,11 @@
     "format": "prettier --write \"**/*.{cjs,js,json,md}\"",
     "format:check": "prettier --check \"**/*.{cjs,js,json,md}\"",
     "git:pre-commit-hook": "npm test && npm run format:check && npm run lint",
+    "github:release": "npm run github:release --workspaces",
     "lint": "eslint --cache --cache-strategy content \"**/*.{cjs,js}\"",
     "lint:fix": "npm run lint -- --fix",
     "postinstall": "npm run setup:husky",
     "publish:changed": "changeset publish",
-    "release": "npm run release --workspaces",
     "setup:husky": "node -e \"try { (await import('husky')).default() } catch (e) { if (e.code !== 'ERR_MODULE_NOT_FOUND') throw e }\" --input-type module",
     "test": "npm run test --workspaces",
     "version:changed": "changeset version"
@@ -58,5 +58,8 @@
     "git": {
       "commit": false
     }
+  },
+  "bin": {
+    "github-release": "ci/release-it.sh"
   }
 }
