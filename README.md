@@ -11,10 +11,8 @@ to simply create and manage CDP packages, ensuring consistency and ease of use a
 - [Global tooling](#global-tooling)
 - [Testing your changes](#testing-your-changes)
 - [Releasing](#releasing)
+- [Changesets](#changesets)
 - [Release it](#release-it)
-- [Configuration](#configuration)
-  - [Git Configuration](#git-configuration)
-  - [NPM Configuration](#npm-configuration)
 
 ## Requirements
 
@@ -55,8 +53,8 @@ npm install
   - Update the `version` field to `0.0.1`
   - Update the `description` field with a brief description of your package
   - Update the `repository` field with the URL of your new package's readme
-  - Update the `release-it` object to include the new package. Ensure that the `git` and `npm` configurations are
-    correct for your package. See [Configuration](#configuration)
+  - Update the `release-it` object to include the new package. The config should be ok for you but you will need to use
+    your new package name
 - Now you have all you need to start developing your new package
 
 ## Global tooling
@@ -83,9 +81,9 @@ TL;DR: Releasing a new version of a package is as simple as running `npm run cha
 - Chooses correct bump for changes
 - CI does everything else. Versions, tags, releases and publishes
 
-Releasing to `npm` and tagging on `GitHub` is done using the [changeset](https://github.com/changesets/changesets)
-and [release-it](https://github.com/release-it/release-it) tools, which is configured in the root of the workspace.
-This is super simple and all you need to do is:
+Read on for detailed instructions. Releasing to `npm` and tagging on `GitHub` is done using
+the [changeset](https://github.com/changesets/changesets) and [release-it](https://github.com/release-it/release-it)
+tools, which is configured in the root of the workspace. This is super simple and all you need to do is:
 
 After you have commited your work and are ready to release a new version of your package:
 
@@ -96,28 +94,18 @@ After you have commited your work and are ready to release a new version of your
 - Get the PR reviewed and approved by at least one other developer
 - Get an approval from the `cdp-libraries` owners
 - Merge the PR into `main` branch
-- The `cdp-libraries` GitHub Action will automatically run the `release-it` tool, which will:
+- The `cdp-libraries` GitHub Action will automatically run the `changeset` and `release-it` tool, which will:
   - Bump the version number in the `package.json` file
-  - Create a new tag in Git with the new version number
+  - Create a new tag and release in GitHub with the new version number
   - Push the changes to the `main` branch
   - Publish the package to npm
+
+## Changesets
+
+This project uses [changeset](https://github.com/changesets/changesets) for managing versioning of packages. This is
+already set up to go and works on `CI` automatically.
 
 ## Release it
 
 This project uses [release-it](https://github.com/release-it) for managing releases. It automates the process of
-versioning, tagging, and publishing packages to npm.
-It is set up to go. However, if you wish to tweak it, you can do so by modifying the `.release-it.js` file in the root
-of workspace package.
-
-## Configuration
-
-For further information on how to configure `release-it` see
-the https://github.com/release-it/release-it/blob/main/docs/configuration.md
-
-### Git Configuration
-
-For further information around `git` config see https://github.com/release-it/release-it/blob/main/docs/git.md
-
-### NPM Configuration
-
-For further information around `npm` config see https://github.com/release-it/release-it/blob/main/docs/npm.md
+tagging and releasing to GitHub. It is set up to go.
