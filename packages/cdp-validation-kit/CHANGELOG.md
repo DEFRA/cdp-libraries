@@ -4,6 +4,12 @@
 
 ### Minor Changes
 
+- 0405494: Correct config options for release-itx
+
+## 0.27.0
+
+### Minor Changes
+
 - 259d4ae: Add release-it back in
 
 ## 0.26.0

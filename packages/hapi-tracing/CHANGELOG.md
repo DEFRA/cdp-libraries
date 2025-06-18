@@ -1,5 +1,11 @@
 # @defra/hapi-tracing
 
+## 1.14.0
+
+### Minor Changes
+
+- 0405494: Correct config options for release-itx
+
 ## 1.13.0
 
 ### Minor Changes
