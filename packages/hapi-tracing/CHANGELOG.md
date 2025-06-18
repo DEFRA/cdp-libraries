@@ -1,5 +1,11 @@
 # @defra/hapi-tracing
 
+## 1.13.0
+
+### Minor Changes
+
+- 259d4ae: Add release-it back in
+
 ## 1.12.0
 
 ### Minor Changes

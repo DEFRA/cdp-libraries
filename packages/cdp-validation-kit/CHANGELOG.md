@@ -1,5 +1,11 @@
 # @defra/cdp-validation-kit
 
+## 0.27.0
+
+### Minor Changes
+
+- 259d4ae: Add release-it back in
+
 ## 0.26.0
 
 ### Minor Changes
