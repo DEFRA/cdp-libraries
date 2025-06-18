@@ -41,11 +41,19 @@
     "release-it": "19.0.3"
   },
   "release-it": {
-    "npm": false,
+    "npm": {
+      "publish": false
+    },
+    "github": {
+      "release": true
+    },
     "git": {
       "commitMessage": "Released hapi-tracing ${version}",
       "tagName": "hapi-tracing-${version}",
-      "requireCleanWorkingDir": false
+      "requireCleanWorkingDir": false,
+      "commitArgs": [
+        "--no-verify"
+      ]
     }
   }
 }

@@ -45,11 +45,19 @@
     "release-it": "19.0.3"
   },
   "release-it": {
-    "npm": false,
+    "npm": {
+      "publish": false
+    },
+    "github": {
+      "release": true
+    },
     "git": {
       "commitMessage": "Released cdp-validation-kit ${version}",
       "tagName": "cdp-validation-kit-${version}",
-      "requireCleanWorkingDir": false
+      "requireCleanWorkingDir": false,
+      "commitArgs": [
+        "--no-verify"
+      ]
     }
   }
 }
