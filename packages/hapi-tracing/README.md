@@ -19,8 +19,7 @@ other calls.
 
 Hapi Tracing is registered as a plugin. A specific tracing header should be supplied via the plugin's options.
 Once registered if an HTTP request is received with a specific tracking header the value of the header is extracted,
-stored in [AsyncLocalStorage](https://nodejs.org/api/async_context.html) and made available throughout the duration of
-the request.
+stored in [AsyncLocalStorage](https://nodejs.org/api/async_context.html) and made available throughout the duration of the request.
 A helper function `getTraceId()` provides access to the value of the tracking header without having to pass the request
 object across multiple calls.
 
