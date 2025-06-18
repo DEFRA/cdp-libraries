@@ -77,9 +77,8 @@ TL;DR: Releasing a new version of a package is as simple as running `npm run cha
 - Chooses correct bump for changes
 - CI does everything else. Versions, tags, releases and publishes
 
-Releasing to `npm` and tagging on `GitHub` is done using the [changeset](https://github.com/changesets/changesets)
-and [release-it](https://github.com/release-it/release-it) tools, which is configured in the root of the workspace.
-This is super simple and all you need to do is:
+Releasing to `npm` is done using the [changeset](https://github.com/changesets/changesets) which is configured in the
+root of the workspace. This is super simple and all you need to do is:
 
 After you have commited your work and are ready to release a new version of your package:
 
