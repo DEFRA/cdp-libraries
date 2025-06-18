@@ -1,5 +1,11 @@
 # @defra/cdp-validation-kit
 
+## 0.33.0
+
+### Minor Changes
+
+- 4da079f: Add release-it ci script
+
 ## 0.32.0
 
 ### Minor Changes
