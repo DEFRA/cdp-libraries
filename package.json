@@ -60,6 +60,6 @@
     }
   },
   "bin": {
-    "github-release": "ci/release-it.sh"
+    "cdp-github-release": "ci/release-it.sh"
   }
 }
