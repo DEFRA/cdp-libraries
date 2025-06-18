@@ -1,5 +1,11 @@
 # @defra/cdp-validation-kit
 
+## 0.28.0
+
+### Minor Changes
+
+- 54d6d1a: Update rleease-it config
+
 ## 0.27.0
 
 ### Minor Changes

@@ -1,5 +1,11 @@
 # @defra/hapi-tracing
 
+## 1.15.0
+
+### Minor Changes
+
+- 54d6d1a: Update rleease-it config
+
 ## 1.14.0
 
 ### Minor Changes
