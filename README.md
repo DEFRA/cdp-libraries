@@ -36,7 +36,7 @@ nvm use
 
 ### Setup
 
-Install dependencies:
+Install all dependencies:
 
 ```bash
 npm install
