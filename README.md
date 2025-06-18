@@ -10,6 +10,7 @@ to simply create and manage CDP packages, ensuring consistency and ease of use a
 - [Getting Started](#getting-started)
 - [Global tooling](#global-tooling)
 - [Testing your changes](#testing-your-changes)
+- [Not releasing](#not-releasing)
 - [Releasing](#releasing)
 - [Changesets](#changesets)
 - [Release it](#release-it)
@@ -72,6 +73,16 @@ your `package.json` file, as they are already included in the root `package.json
 
 To test your changes in this repo in a local consuming codebase, `npm link` is your friend here. Have a read
 of https://docs.npmjs.com/cli/v9/commands/npm-link
+
+## Not releasing
+
+If you have changes you wish to commit but do not want to release a new version of the package, or tag and release the
+package on GitHub. You can simply just make your commits as normal and raise a PR. There is no need to create a
+changeset. This is usually documentation or items in the `root` that do not need to be published.
+
+> [!TIP]
+> For any changes in the `packages` directory, you should always create a changeset so they are released when your PR is
+> merged
 
 ## Releasing
 
