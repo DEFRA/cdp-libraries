@@ -53,10 +53,11 @@
       "publish": false
     },
     "github": {
-      "release": true
+      "release": true,
+      "releaseName": "Release cdp-libraries ${version}"
     },
     "git": {
-      "commitMessage": "Released cdp-libraries ${version}",
+      "commitMessage": "Tagged cdp-libraries ${version}",
       "tagName": "cdp-libraries-${version}",
       "requireCleanWorkingDir": false,
       "commitArgs": [
