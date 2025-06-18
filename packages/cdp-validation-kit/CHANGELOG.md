@@ -1,5 +1,11 @@
 # @defra/cdp-validation-kit
 
+## 0.32.0
+
+### Minor Changes
+
+- b02ecd9: Chore
+
 ## 0.31.0
 
 ### Minor Changes
