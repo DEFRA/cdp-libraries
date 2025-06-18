@@ -50,16 +50,12 @@
   },
   "release-it": {
     "version": false,
-    "npm": {
-      "publish": false
-    },
+    "npm": false,
     "git": {
-      "publish": false
+      "tag": false
     },
     "github": {
-      "commitMessage": "Released cdp-libraries ${version}",
-      "tagName": "cdp-libraries-${version}",
-      "requireCleanWorkingDir": false,
+      "releaseName": "Release cdp-libraries ${version}",
       "release": true
     }
   }
