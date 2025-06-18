@@ -43,11 +43,9 @@
   "release-it": {
     "npm": false,
     "git": {
-      "tag": false
-    },
-    "github": {
-      "releaseName": "Release hapi-tracing ${version}",
-      "release": true
+      "commitMessage": "Released hapi-tracing ${version}",
+      "tagName": "hapi-tracing-${version}",
+      "requireCleanWorkingDir": false
     }
   }
 }

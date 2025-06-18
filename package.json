@@ -49,14 +49,11 @@
     "vitest": "3.2.3"
   },
   "release-it": {
-    "version": false,
     "npm": false,
     "git": {
-      "tag": false
-    },
-    "github": {
-      "releaseName": "Release cdp-libraries ${version}",
-      "release": true
+      "commitMessage": "Released cdp-libraries ${version}",
+      "tagName": "cdp-libraries-${version}",
+      "requireCleanWorkingDir": false
     }
   }
 }

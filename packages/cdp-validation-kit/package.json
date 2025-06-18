@@ -47,11 +47,9 @@
   "release-it": {
     "npm": false,
     "git": {
-      "tag": false
-    },
-    "github": {
-      "releaseName": "Release cdp-validation-kit ${version}",
-      "release": true
+      "commitMessage": "Released cdp-validation-kit ${version}",
+      "tagName": "cdp-validation-kit-${version}",
+      "requireCleanWorkingDir": false
     }
   }
 }
