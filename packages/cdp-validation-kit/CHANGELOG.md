@@ -1,5 +1,11 @@
 # @defra/cdp-validation-kit
 
+## 0.31.0
+
+### Minor Changes
+
+- cd33589: Do not tag root
+
 ## 0.30.0
 
 ### Minor Changes

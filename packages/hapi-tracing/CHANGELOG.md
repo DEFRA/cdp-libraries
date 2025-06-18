@@ -1,5 +1,11 @@
 # @defra/hapi-tracing
 
+## 1.18.0
+
+### Minor Changes
+
+- cd33589: Do not tag root
+
 ## 1.17.0
 
 ### Minor Changes
