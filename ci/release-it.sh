@@ -2,13 +2,12 @@
 
 set -e
 
-pkg=$1
-name=$(basename "$pkg")
+name=$1
 
-version=$(jq -r '.version' "$pkg/package.json")
+version=$(jq -r '.version' "package.json")
 tag="${name}-${version}"
 
-echo "Processing $pkg ($tag)"
+echo "Processing $name ($tag) from: $(pwd)"
 
 if git rev-parse "$tag" >/dev/null 2>&1; then
   echo "Tag $tag already exists — skipping tagging & GitHub release."
