@@ -1,5 +1,11 @@
 # @defra/hapi-tracing
 
+## 1.17.0
+
+### Minor Changes
+
+- 0768dec: Tweak release-it config
+
 ## 1.16.0
 
 ### Minor Changes
