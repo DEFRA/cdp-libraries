@@ -1,5 +1,29 @@
 # @defra/cdp-validation-kit
 
+## 0.31.0
+
+### Minor Changes
+
+- cd33589: Do not tag root
+
+## 0.30.0
+
+### Minor Changes
+
+- 0768dec: Tweak release-it config
+
+## 0.29.0
+
+### Minor Changes
+
+- 6cd6cfc: Updates to release-it config
+
+## 0.28.0
+
+### Minor Changes
+
+- 54d6d1a: Update rleease-it config
+
 ## 0.27.0
 
 ### Minor Changes

@@ -1,6 +1,6 @@
 {
   "name": "@defra/hapi-tracing",
-  "version": "1.14.0",
+  "version": "1.18.0",
   "description": "A hapi plugin for propagating trace id headers",
   "type": "module",
   "engines": {
@@ -32,7 +32,7 @@
     "lint": "eslint --cache --cache-strategy content \"**/*.{cjs,js}\"",
     "lint:fix": "npm run lint -- --fix",
     "postinstall": "npm run setup:husky",
-    "release": "release-it",
+    "release": "release-it --no-increment",
     "setup:husky": "node -e \"try { (await import('husky')).default() } catch (e) { if (e.code !== 'ERR_MODULE_NOT_FOUND') throw e }\" --input-type module",
     "test": "vitest run --coverage"
   },
@@ -41,13 +41,20 @@
     "release-it": "19.0.3"
   },
   "release-it": {
-    "npm": false,
-    "git": {
-      "tag": false
+    "npm": {
+      "publish": false
     },
     "github": {
-      "releaseName": "Release hapi-tracing ${version}",
-      "release": true
+      "release": true,
+      "releaseName": "Released hapi-tracing ${version}"
+    },
+    "git": {
+      "commitMessage": "Tagged hapi-tracing ${version}",
+      "tagName": "hapi-tracing-${version}",
+      "requireCleanWorkingDir": false,
+      "commitArgs": [
+        "--no-verify"
+      ]
     }
   }
 }

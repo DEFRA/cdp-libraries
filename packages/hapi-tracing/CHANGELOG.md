@@ -1,5 +1,29 @@
 # @defra/hapi-tracing
 
+## 1.18.0
+
+### Minor Changes
+
+- cd33589: Do not tag root
+
+## 1.17.0
+
+### Minor Changes
+
+- 0768dec: Tweak release-it config
+
+## 1.16.0
+
+### Minor Changes
+
+- 6cd6cfc: Updates to release-it config
+
+## 1.15.0
+
+### Minor Changes
+
+- 54d6d1a: Update rleease-it config
+
 ## 1.14.0
 
 ### Minor Changes

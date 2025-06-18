@@ -32,7 +32,7 @@
     "lint:fix": "npm run lint -- --fix",
     "postinstall": "npm run setup:husky",
     "publish:changed": "changeset publish",
-    "release": "npm run release --workspaces && release-it --ci",
+    "release": "npm run release --workspaces",
     "setup:husky": "node -e \"try { (await import('husky')).default() } catch (e) { if (e.code !== 'ERR_MODULE_NOT_FOUND') throw e }\" --input-type module",
     "test": "npm run test --workspaces",
     "version:changed": "changeset version"
@@ -49,14 +49,14 @@
     "vitest": "3.2.3"
   },
   "release-it": {
-    "version": false,
-    "npm": false,
-    "git": {
-      "tag": false
+    "npm": {
+      "publish": false
     },
     "github": {
-      "releaseName": "Release cdp-libraries ${version}",
-      "release": true
+      "release": false
+    },
+    "git": {
+      "commit": false
     }
   }
 }
