@@ -23,19 +23,22 @@
     "url": "https://github.com/DEFRA/cdp-libraries/issues"
   },
   "scripts": {
+    "changeset": "changeset",
     "format": "prettier --write \"**/*.{cjs,js,json,md}\"",
     "format:check": "prettier --check \"**/*.{cjs,js,json,md}\"",
     "git:pre-commit-hook": "npm test && npm run format:check && npm run lint",
     "lint": "eslint --cache --cache-strategy content \"**/*.{cjs,js}\"",
     "lint:fix": "npm run lint -- --fix",
     "postinstall": "npm run setup:husky",
-    "release": "npm run release --workspaces && release-it",
-    "release:dry-run:cdp-validation-kit": "release-it --config packages/cdp-validation-kit/.release-it.js --cwd packages/cdp-validation-kit --dry-run",
-    "commit:dry-run:cdp-validation-kit": "release-it --increment=minor --ci --config packages/cdp-validation-kit/.release-it.js --cwd packages/cdp-validation-kit --no-git.push --no-npm.publish",
+    "publish:changed": "changeset publish",
+    "release": "release-it --ci",
     "setup:husky": "node -e \"try { (await import('husky')).default() } catch (e) { if (e.code !== 'ERR_MODULE_NOT_FOUND') throw e }\" --input-type module",
-    "test": "npm run test --workspaces"
+    "test": "npm run test --workspaces",
+    "version:changed": "changeset version"
   },
   "devDependencies": {
+    "@changesets/changelog-github": "0.5.1",
+    "@changesets/cli": "2.29.4",
     "@vitest/coverage-v8": "3.2.3",
     "eslint": "9.29.0",
     "husky": "9.1.7",
@@ -43,5 +46,18 @@
     "prettier": "3.5.3",
     "release-it": "19.0.3",
     "vitest": "3.2.3"
+  },
+  "release-it": {
+    "version": false,
+    "npm": {
+      "publish": false
+    },
+    "git": {
+      "publish": false,
+      "requireCleanWorkingDir": false
+    },
+    "github": {
+      "release": true
+    }
   }
 }

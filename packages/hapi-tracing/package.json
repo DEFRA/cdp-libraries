@@ -32,12 +32,18 @@
     "lint": "eslint --cache --cache-strategy content \"**/*.{cjs,js}\"",
     "lint:fix": "npm run lint -- --fix",
     "postinstall": "npm run setup:husky",
-    "release": "release-it",
     "setup:husky": "node -e \"try { (await import('husky')).default() } catch (e) { if (e.code !== 'ERR_MODULE_NOT_FOUND') throw e }\" --input-type module",
     "test": "vitest run --coverage"
   },
   "devDependencies": {
     "@hapi/hapi": "21.3.12",
     "release-it": "19.0.3"
+  },
+  "release-it": {
+    "git": {
+      "commitMessage": "Released hapi-tracing ${version}",
+      "tagName": "hapi-tracing-${version}",
+      "requireCleanWorkingDir": false
+    }
   }
 }

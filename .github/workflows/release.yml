@@ -1,9 +1,13 @@
-name: Npm Release
+name: Release
 
 on:
   push:
     branches:
       - main
+
+permissions:
+  contents: write
+  packages: write
 
 jobs:
   release:
@@ -22,13 +26,23 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Set git config
-        run: |
-          git config user.name github-actions
-          git config user.email github-actions@github.com
+      - name: Version changed packages
+        run: npm run version:changed
 
-      - run: npm run release
+      - name: Commit version bumps & push
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add .
+          git commit -m "ci: version packages [skip ci]" || echo "No changes to commit"
+          git push
+
+      - name: Create Git tag & GitHub Release
+        run: npm run release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Publish changed packages to npm
+        run: npm run publish:changed
+        env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }} # https://docs.github.com/en/actions/use-cases-and-examples/publishing-packages/publishing-nodejs-packages
