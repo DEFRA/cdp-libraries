@@ -1,6 +1,6 @@
 {
   "name": "@defra/hapi-tracing",
-  "version": "1.21.0",
+  "version": "1.22.0",
   "description": "A hapi plugin for propagating trace id headers",
   "type": "module",
   "engines": {

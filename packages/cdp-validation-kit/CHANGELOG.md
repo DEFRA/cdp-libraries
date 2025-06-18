@@ -1,5 +1,11 @@
 # @defra/cdp-validation-kit
 
+## 0.35.0
+
+### Minor Changes
+
+- 6690f51: Update custom script name
+
 ## 0.34.0
 
 ### Minor Changes

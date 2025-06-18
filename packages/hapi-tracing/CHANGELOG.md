@@ -1,5 +1,11 @@
 # @defra/hapi-tracing
 
+## 1.22.0
+
+### Minor Changes
+
+- 6690f51: Update custom script name
+
 ## 1.21.0
 
 ### Minor Changes
