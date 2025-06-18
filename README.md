@@ -50,14 +50,13 @@ npm install
 - If they exist, remove `coverage` and `node_modules` directories from the new package
 - Empty the `src` folder in the new package
 - Update the `README.md` file in the new package with relevant information about your package
-- Update the `.release-it.js` file in the root of the workspace to include your new package:
-  - Ensure that the `git` and `npm` configurations are correct for your package. See [Configuration](#configuration)
-    for more details
 - Update the `package.json` file in the new package with relevant information:
   - Update the `name` field to a unique name for your package
   - Update the `version` field to `0.0.1`
   - Update the `description` field with a brief description of your package
   - Update the `repository` field with the URL of your new package's readme
+  - Update the `release-it` object to include the new package. Ensure that the `git` and `npm` configurations are
+    correct for your package. See [Configuration](#configuration)
 - Now you have all you need to start developing your new package
 
 ## Global tooling
@@ -78,9 +77,20 @@ of https://docs.npmjs.com/cli/v9/commands/npm-link
 
 ## Releasing
 
-Releasing to `npm` and tagging on `GitHub` is done using the `release-it` tool, which is configured in the root of the
-workspace. This is super simple and all you need to do is:
+TL;DR: Releasing a new version of a package is as simple as running `npm run changeset` and merging a PR.
 
+- Developer writes changeset
+- Chooses correct bump for changes
+- CI does everything else. Versions, tags, releases and publishes
+
+Releasing to `npm` and tagging on `GitHub` is done using the [changeset](https://github.com/changesets/changesets)
+and [release-it](https://github.com/release-it/release-it) tools, which is configured in the root of the workspace.
+This is super simple and all you need to do is:
+
+After you have commited your work and are ready to release a new version of your package:
+
+- Run `npm run changeset` to create a new changeset
+- Commit the changeset file that was created in the `.changeset` directory
 - Raise a PR with the changes you want to release
 - Wait for `status required checks` to pass
 - Get the PR reviewed and approved by at least one other developer
