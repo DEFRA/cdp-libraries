@@ -1,5 +1,11 @@
 # @defra/cdp-validation-kit
 
+## 0.26.0
+
+### Minor Changes
+
+- 5d8f54b: Tidy up release-it workx
+
 ## 0.25.0
 
 ### Minor Changes

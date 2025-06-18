@@ -1,5 +1,11 @@
 # @defra/hapi-tracing
 
+## 1.11.0
+
+### Minor Changes
+
+- 5d8f54b: Tidy up release-it workx
+
 ## 1.10.0
 
 ### Minor Changes
