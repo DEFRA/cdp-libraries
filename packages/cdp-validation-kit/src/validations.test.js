@@ -21,7 +21,7 @@ describe('#validations', () => {
 
   test('Should error when invalid start and end characters used', () => {
     const result = repositoryNameValidation.validate('-repo-name-')
-    expect(result.error.message).toBe('Start and end with a character')
+    expect(result.error.message).toBe('Start and end with a letter or number')
   })
 
   test('Should error when ends with "-ddl"', () => {
