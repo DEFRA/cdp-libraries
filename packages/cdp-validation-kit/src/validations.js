@@ -84,7 +84,7 @@ const repositoryNameValidation = Joi.string()
     if (!/^[a-z0-9-]*$/.test(value)) {
       return helpers.message('Letters and numbers with hyphen separators')
     } else if (!/^[a-z0-9][a-z0-9-]*[a-z0-9]$/.test(value)) {
-      return helpers.message('Start and end with a character')
+      return helpers.message('Start and end with a letter or number')
     } else if (/.*-ddl$/.test(value)) {
       return helpers.message('Must not end with "-ddl"')
     } else {

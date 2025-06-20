@@ -7,7 +7,7 @@ to simply create and manage CDP packages, ensuring consistency and ease of use a
   - [Node.js](#nodejs)
 - [Local development](#local-development)
   - [Setup](#setup)
-- [Getting Started](#getting-started)
+- [Creating a new package](#creating-a-new-package)
 - [Global tooling](#global-tooling)
 - [Testing your changes](#testing-your-changes)
 - [Not releasing](#not-releasing)
@@ -43,7 +43,7 @@ Install all dependencies:
 npm install
 ```
 
-## Getting Started
+## Creating a new package
 
 - Copy and rename an existing package in the `packages` directory to create a new package
 - If they exist, remove `coverage` and `node_modules` directories from the new package
@@ -86,7 +86,7 @@ changeset. This is usually documentation or items in the `root` that do not need
 
 ## Releasing
 
-TL;DR: Releasing a new version of a package is as simple as running `npm run changeset` and merging a PR.
+TL;DR: Releasing a new version of a package is as simple as running `npm run changeset` in root directory and merging a PR.
 
 - Developer writes changeset
 - Chooses correct bump for changes
