@@ -1,5 +1,11 @@
 # @defra/cdp-validation-kit
 
+## 0.36.0
+
+### Minor Changes
+
+- 323be1c: Align validation message with PFE expectations
+
 ## 0.35.0
 
 ### Minor Changes
