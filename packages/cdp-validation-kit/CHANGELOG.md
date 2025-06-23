@@ -1,5 +1,11 @@
 # @defra/cdp-validation-kit
 
+## 0.37.0
+
+### Minor Changes
+
+- [`9c1b1a5`](https://github.com/DEFRA/cdp-libraries/commit/9c1b1a51d6d8b4494c9a4cde33e975723a8430c4) Thanks [@philsegal](https://github.com/philsegal)! - Add some tests to test changeset releases
+
 ## 0.36.0
 
 ### Minor Changes
