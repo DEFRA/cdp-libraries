@@ -53,7 +53,8 @@
       "publish": false
     },
     "github": {
-      "release": false
+      "release": false,
+      "releaseNotes": false
     },
     "git": {
       "commit": false
