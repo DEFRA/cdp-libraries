@@ -3,7 +3,8 @@ import {
   currentEnvironmentValidation,
   environmentExceptForProdValidation,
   environmentValidation,
-  repositoryNameValidation
+  repositoryNameValidation,
+  versionValidation
 } from './validations'
 
 describe('#validations', () => {
@@ -56,5 +57,17 @@ describe('#validations', () => {
   test('Should pass currentEnvironmentValidation validation', () => {
     const result = currentEnvironmentValidation.validate('local')
     expect(result.error).toBeUndefined()
+  })
+
+  test('Should pass versionValidation validation', () => {
+    const result = versionValidation.validate('0.1.2')
+    expect(result.error).toBeUndefined()
+  })
+
+  test('Should error with incorrect version', () => {
+    const result = versionValidation.validate('0.1-beta')
+    expect(result.error.message).toBe(
+      '"value" with value "0.1-beta" fails to match the required pattern: /^\\d+\\.\\d+\\.\\d+$/'
+    )
   })
 })
