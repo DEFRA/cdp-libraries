@@ -47,7 +47,8 @@
     },
     "github": {
       "release": true,
-      "releaseName": "Release cdp-validation-kit ${version}"
+      "releaseName": "Release cdp-validation-kit ${version}",
+      "releaseNotes": "echo ''"
     },
     "git": {
       "commitMessage": "Tagged cdp-validation-kit ${version}",
