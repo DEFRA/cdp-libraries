@@ -1,5 +1,11 @@
 # @defra/cdp-validation-kit
 
+## 0.38.0
+
+### Minor Changes
+
+- 55bc333: Bump to test release notes changes
+
 ## 0.37.0
 
 ### Minor Changes

@@ -1,5 +1,11 @@
 # @defra/hapi-tracing
 
+## 1.23.0
+
+### Minor Changes
+
+- 55bc333: Bump to test release notes changes
+
 ## 1.22.0
 
 ### Minor Changes
