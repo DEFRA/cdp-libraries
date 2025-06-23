@@ -1,5 +1,11 @@
 # @defra/cdp-validation-kit
 
+## 0.37.0
+
+### Minor Changes
+
+- 5af9d6a: Add some tests to test changeset releases
+
 ## 0.36.0
 
 ### Minor Changes
