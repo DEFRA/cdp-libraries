@@ -46,7 +46,8 @@
     },
     "github": {
       "release": true,
-      "releaseName": "Released hapi-tracing ${version}"
+      "releaseName": "Released hapi-tracing ${version}",
+      "releaseNotes": false
     },
     "git": {
       "commitMessage": "Tagged hapi-tracing ${version}",

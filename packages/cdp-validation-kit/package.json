@@ -41,16 +41,14 @@
   "dependencies": {
     "joi": "17.13.3"
   },
-  "devDependencies": {
-    "release-it": "19.0.3"
-  },
   "release-it": {
     "npm": {
       "publish": false
     },
     "github": {
       "release": true,
-      "releaseName": "Release cdp-validation-kit ${version}"
+      "releaseName": "Release cdp-validation-kit ${version}",
+      "releaseNotes": false
     },
     "git": {
       "commitMessage": "Tagged cdp-validation-kit ${version}",
