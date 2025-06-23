@@ -1,5 +1,11 @@
 # @defra/hapi-tracing
 
+## 1.25.0
+
+### Minor Changes
+
+- bfa5459: Bump version to try and disable release notes (they dont work with release-it and workspaces)
+
 ## 1.24.0
 
 ### Minor Changes

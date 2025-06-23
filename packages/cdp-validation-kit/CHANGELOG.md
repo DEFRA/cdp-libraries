@@ -1,5 +1,11 @@
 # @defra/cdp-validation-kit
 
+## 0.40.0
+
+### Minor Changes
+
+- bfa5459: Bump version to try and disable release notes (they dont work with release-it and workspaces)
+
 ## 0.39.0
 
 ### Minor Changes
