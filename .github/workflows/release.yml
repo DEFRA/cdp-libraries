@@ -32,6 +32,7 @@ jobs:
       - name: Version and Publish with Changesets (no PR)
         uses: changesets/action@v1
         with:
+          create: false
           version: npm run version:changed
           publish: npm run publish:changed
         env:
