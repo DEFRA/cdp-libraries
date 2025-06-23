@@ -53,7 +53,7 @@
     },
     "github": {
       "release": false,
-      "releaseNotes": false
+      "autoGenerate": true
     },
     "git": {
       "commit": false
