@@ -1,5 +1,11 @@
 # @defra/hapi-tracing
 
+## 1.24.0
+
+### Minor Changes
+
+- f8b0169: Get release notes working properly
+
 ## 1.23.0
 
 ### Minor Changes

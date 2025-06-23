@@ -1,5 +1,11 @@
 # @defra/cdp-validation-kit
 
+## 0.39.0
+
+### Minor Changes
+
+- f8b0169: Get release notes working properly
+
 ## 0.38.0
 
 ### Minor Changes
