@@ -1,5 +1,11 @@
 # @defra/cdp-validation-kit
 
+## 0.41.0
+
+### Minor Changes
+
+- 92606f0: Still trying...
+
 ## 0.40.0
 
 ### Minor Changes

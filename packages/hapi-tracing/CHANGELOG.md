@@ -1,5 +1,11 @@
 # @defra/hapi-tracing
 
+## 1.26.0
+
+### Minor Changes
+
+- 92606f0: Still trying...
+
 ## 1.25.0
 
 ### Minor Changes
