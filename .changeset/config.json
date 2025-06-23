@@ -7,8 +7,8 @@
     }
   ],
   "commit": true,
-  "linked": [],
   "access": "public",
   "baseBranch": "main",
-  "updateInternalDependencies": "minor"
+  "updateInternalDependencies": "minor",
+  "ignore": []
 }
