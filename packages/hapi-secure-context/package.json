@@ -1,0 +1,61 @@
+{
+  "name": "@defra/hapi-secure-context",
+  "version": "0.0.0",
+  "description": "A hapi plugin loading extra CA certs",
+  "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "author": "Defra DDTS",
+  "license": "OGL-UK-3.0",
+  "homepage": "https://github.com/DEFRA/cdp-libraries/tree/main/packages/hapi-secure-context#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DEFRA/cdp-libraries.git"
+  },
+  "bugs": {
+    "url": "https://github.com/DEFRA/cdp-libraries/issues"
+  },
+  "keywords": [
+    "hapi",
+    "defra",
+    "ssl"
+  ],
+  "main": "src/index.js",
+  "scripts": {
+    "format": "prettier --write \"**/*.{cjs,js,json,md}\"",
+    "format:check": "prettier --check \"**/*.{cjs,js,json,md}\"",
+    "git:pre-commit-hook": "npm run format:check && npm run lint",
+    "github:release": "npx cdp-github-release hapi-secure-context",
+    "lint": "eslint --cache --cache-strategy content \"**/*.{cjs,js}\"",
+    "lint:fix": "npm run lint -- --fix",
+    "postinstall": "npm run setup:husky",
+    "setup:husky": "node -e \"try { (await import('husky')).default() } catch (e) { if (e.code !== 'ERR_MODULE_NOT_FOUND') throw e }\" --input-type module",
+    "test": "vitest run --coverage"
+  },
+  "devDependencies": {
+    "@hapi/hapi": "21.3.12",
+    "release-it": "19.0.3"
+  },
+  "release-it": {
+    "npm": {
+      "publish": false
+    },
+    "github": {
+      "release": true,
+      "releaseName": "Released hapi-secure-context ${version}",
+      "releaseNotes": "echo ''"
+    },
+    "git": {
+      "commitMessage": "Tagged hapi-secure-context ${version}",
+      "tagName": "hapi-secure-context-${version}",
+      "requireCleanWorkingDir": false,
+      "commitArgs": [
+        "--no-verify"
+      ]
+    }
+  }
+}
