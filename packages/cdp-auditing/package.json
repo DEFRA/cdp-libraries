@@ -1,0 +1,64 @@
+{
+  "name": "@defra/cdp-auditing",
+  "version": "0.1.0",
+  "description": "A hapi plugin for sending audit messages to the CDP audit pipeline",
+  "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "author": "Defra DDTS",
+  "license": "OGL-UK-3.0",
+  "homepage": "https://github.com/DEFRA/cdp-libraries/tree/main/packages/cdp-auditing#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DEFRA/cdp-libraries.git"
+  },
+  "bugs": {
+    "url": "https://github.com/DEFRA/cdp-libraries/issues"
+  },
+  "keywords": [
+    "defra",
+    "audit",
+    "auditing"
+  ],
+  "main": "src/auditing.js",
+  "scripts": {
+    "format": "prettier --write \"**/*.{cjs,js,json,md}\"",
+    "format:check": "prettier --check \"**/*.{cjs,js,json,md}\"",
+    "git:pre-commit-hook": "npm run format:check && npm run lint",
+    "github:release": "npx cdp-github-release cdp-auditing",
+    "lint": "eslint --cache --cache-strategy content \"**/*.{cjs,js}\"",
+    "lint:fix": "npm run lint -- --fix",
+    "postinstall": "npm run setup:husky",
+    "setup:husky": "node -e \"try { (await import('husky')).default() } catch (e) { if (e.code !== 'ERR_MODULE_NOT_FOUND') throw e }\" --input-type module",
+    "test": "vitest run --coverage"
+  },
+  "dependencies": {
+    "pino": "9.5.0",
+    "joi": "17.13.3"
+  },
+  "devDependencies": {
+    "release-it": "19.0.3"
+  },
+  "release-it": {
+    "npm": {
+      "publish": false
+    },
+    "github": {
+      "release": true,
+      "releaseName": "Released cdp-auditing ${version}",
+      "releaseNotes": "echo ''"
+    },
+    "git": {
+      "commitMessage": "Tagged cdp-auditing ${version}",
+      "tagName": "cdp-auditing-${version}",
+      "requireCleanWorkingDir": false,
+      "commitArgs": [
+        "--no-verify"
+      ]
+    }
+  }
+}
