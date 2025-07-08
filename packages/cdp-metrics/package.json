@@ -1,0 +1,62 @@
+{
+  "name": "@defra/cdp-metrics",
+  "version": "0.0.1",
+  "description": "Library for custom metrics on the CDP platform",
+  "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "author": "Defra DDTS",
+  "license": "OGL-UK-3.0",
+  "homepage": "https://github.com/DEFRA/cdp-libraries/tree/main/packages/cdp-metrics#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DEFRA/cdp-libraries.git"
+  },
+  "bugs": {
+    "url": "https://github.com/DEFRA/cdp-libraries/issues"
+  },
+  "keywords": [
+    "cdp",
+    "defra",
+    "validation",
+    "validation-kit",
+    "joi"
+  ],
+  "main": "src/validations.js",
+  "scripts": {
+    "format": "prettier --write \"**/*.{cjs,js,json,md}\"",
+    "format:check": "prettier --check \"**/*.{cjs,js,json,md}\"",
+    "git:pre-commit-hook": "npm run format:check && npm run lint",
+    "github:release": "npx cdp-github-release cdp-metrics",
+    "lint": "eslint --cache --cache-strategy content \"**/*.{cjs,js}\"",
+    "lint:fix": "npm run lint -- --fix",
+    "postinstall": "npm run setup:husky",
+    "setup:husky": "node -e \"try { (await import('husky')).default() } catch (e) { if (e.code !== 'ERR_MODULE_NOT_FOUND') throw e }\" --input-type module",
+    "test": "vitest run --coverage"
+  },
+  "dependencies": {
+    "aws-embedded-metrics": "4.2.0"
+  },
+  "release-it": {
+    "npm": {
+      "publish": false
+    },
+    "github": {
+      "release": true,
+      "releaseName": "Release cdp-metrics ${version}",
+      "releaseNotes": "echo ''"
+    },
+    "git": {
+      "commitMessage": "Tagged cdp-metrics ${version}",
+      "tagName": "cdp-metrics-${version}",
+      "requireCleanWorkingDir": false,
+      "commitArgs": [
+        "--no-verify"
+      ]
+    }
+  }
+}
