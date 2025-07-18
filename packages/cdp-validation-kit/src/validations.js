@@ -26,7 +26,7 @@ const entityStatusValidation = Joi.string()
   .required()
 
 const entityTypeValidation = Joi.string()
-  .valid('Microservice', 'TestSuite', 'Repository')
+  .valid('Microservice', 'TestSuite', 'Repository', 'Prototype')
   .required()
 
 const entitySubTypeValidation = Joi.string()
