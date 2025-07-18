@@ -1,5 +1,11 @@
 # @defra/cdp-validation-kit
 
+## 0.42.0
+
+### Minor Changes
+
+- 0521cac: Add Prototype entity type
+
 ## 0.41.0
 
 ### Minor Changes
