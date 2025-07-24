@@ -5,14 +5,15 @@ import tls from 'node:tls'
 describe('#secure-context', () => {
   const originalSecureContext = tls.createSecureContext
 
-  const server = {
-    decorate: vi.fn()
-  }
+  let server
 
   beforeEach(() => {
     vi.resetAllMocks()
     vi.unstubAllEnvs()
     tls.createSecureContext = originalSecureContext
+    server = {
+      decorate: vi.fn()
+    }
   })
 
   test('it doesnt fail if no custom certs are set', () => {
@@ -39,6 +40,22 @@ describe('#secure-context', () => {
     expect(server.decorate).toHaveBeenCalledWith('server', 'customCACerts', {
       TRUSTSTORE_FOO: mockCert
     })
+  })
+
+  test('it loads custom ca-certs when set as environment variables when server.logger exists', () => {
+    vi.stubEnv('TRUSTSTORE_FOO', mockCertB64)
+    server.logger = { info: vi.fn() }
+    secureContext.plugin.register(server, {})
+    expect(server.decorate).toHaveBeenCalledWith(
+      'server',
+      'secureContext',
+      expect.any(Object)
+    )
+    expect(server.decorate).toHaveBeenCalledWith('server', 'customCACerts', {
+      TRUSTSTORE_FOO: mockCert
+    })
+
+    expect(server.logger.info).toHaveBeenCalled()
   })
 
   test('it ignores invalid truststore certs', () => {
