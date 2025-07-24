@@ -1,5 +1,4 @@
-const crypto = require('crypto')
-
+import * as crypto from 'node:crypto'
 /**
  * Get base64 certs from all environment variables starting with TRUSTSTORE_
  * @param {NodeJS.ProcessEnv} envs
