@@ -1,5 +1,11 @@
 # @defra/hapi-secure-context
 
+## 0.1.2
+
+### Patch Changes
+
+- 361c3be: Uses server.logger if available
+
 ## 0.1.1
 
 ### Patch Changes
