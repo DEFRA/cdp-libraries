@@ -14,7 +14,7 @@ export const secureContext = {
         server.logger.info(
           `Found ${customCaCerts.length} TRUSTSTORE_ certificates to install`
         )
-        customCaCerts.forEach((cert) =>
+        Object.values(customCaCerts).forEach((cert) =>
           server.logger.info(`Found custom cert: ${cert.subject}`)
         )
       }
@@ -30,7 +30,6 @@ export const secureContext = {
 }
 
 function patchSecureContext(customCaCerts) {
-  console.log(customCaCerts)
   const originalTlsCreateSecureContext = tls.createSecureContext
   const defaultCAs = tls.rootCertificates
 
