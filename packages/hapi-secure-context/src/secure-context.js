@@ -9,15 +9,11 @@ export const secureContext = {
   plugin: {
     name: 'secure-context',
     register(server, options) {
-      const customCaCerts = getTrustStoreCerts(process.env, options)
-      if (server.logger?.info) {
-        server.logger.info(
-          `Found ${customCaCerts.length} TRUSTSTORE_ certificates to install`
-        )
-        Object.values(customCaCerts).forEach((cert) =>
-          server.logger.info(`Found custom cert: ${cert.subject}`)
-        )
-      }
+      const customCaCerts = getTrustStoreCerts(
+        process.env,
+        options,
+        server.logger
+      )
 
       if (customCaCerts) {
         patchSecureContext(Object.values(customCaCerts).map((ca) => ca))
