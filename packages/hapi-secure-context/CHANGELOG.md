@@ -1,5 +1,11 @@
 # @defra/hapi-secure-context
 
+## 0.1.4
+
+### Patch Changes
+
+- fddc943: initial release
+
 ## 0.1.3
 
 ### Patch Changes
