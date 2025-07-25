@@ -1,5 +1,11 @@
 # @defra/hapi-secure-context
 
+## 0.1.3
+
+### Patch Changes
+
+- 852f28e: Logs cert subject
+
 ## 0.1.2
 
 ### Patch Changes
