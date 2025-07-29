@@ -40,6 +40,7 @@ export class MetricsHelper {
   endTimer(name) {
     const start = this.timers[name]
     if (start == null) {
+      getLogger()?.error(`Timer "${name}" was not started.`)
       throw new Error(`Timer "${name}" was not started.`)
     }
 
