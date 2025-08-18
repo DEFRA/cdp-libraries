@@ -1,7 +1,7 @@
 {
-  "name": "@defra/cdp-metrics",
+  "name": "@defra/catbox-dynamodb",
   "version": "0.0.1",
-  "description": "Library for custom metrics on the CDP platform",
+  "description": "A hapi plugin for providing a hapi/catbox dynamodb engine",
   "type": "module",
   "engines": {
     "node": ">=22"
@@ -11,7 +11,7 @@
   },
   "author": "Defra DDTS",
   "license": "OGL-UK-3.0",
-  "homepage": "https://github.com/DEFRA/cdp-libraries/tree/main/packages/cdp-metrics#readme",
+  "homepage": "https://github.com/DEFRA/cdp-libraries/tree/main/packages/catbox-dynamodb#readme",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/DEFRA/cdp-libraries.git"
@@ -20,25 +20,26 @@
     "url": "https://github.com/DEFRA/cdp-libraries/issues"
   },
   "keywords": [
-    "cdp",
+    "hapi",
     "defra",
-    "metrics",
-    "cloudwatch"
+    "catbox",
+    "dynamodb"
   ],
-  "main": "src/validations.js",
+  "main": "src/dynamodb.js",
   "scripts": {
     "format": "prettier --write \"**/*.{cjs,js,json,md}\"",
     "format:check": "prettier --check \"**/*.{cjs,js,json,md}\"",
     "git:pre-commit-hook": "npm run format:check && npm run lint",
-    "github:release": "npx cdp-github-release cdp-metrics",
+    "github:release": "npx cdp-github-release catbox-dynamodb",
     "lint": "eslint --cache --cache-strategy content \"**/*.{cjs,js}\"",
     "lint:fix": "npm run lint -- --fix",
     "postinstall": "npm run setup:husky",
     "setup:husky": "node -e \"try { (await import('husky')).default() } catch (e) { if (e.code !== 'ERR_MODULE_NOT_FOUND') throw e }\" --input-type module",
     "test": "vitest run --coverage"
   },
-  "dependencies": {
-    "aws-embedded-metrics": "4.2.0"
+  "devDependencies": {
+    "@hapi/hapi": "21.3.12",
+    "release-it": "19.0.3"
   },
   "release-it": {
     "npm": {
@@ -46,16 +47,21 @@
     },
     "github": {
       "release": true,
-      "releaseName": "Release cdp-metrics ${version}",
+      "releaseName": "Released catbox-dynamodb ${version}",
       "releaseNotes": "echo ''"
     },
     "git": {
-      "commitMessage": "Tagged cdp-metrics ${version}",
-      "tagName": "cdp-metrics-${version}",
+      "commitMessage": "Tagged catbox-dynamodb ${version}",
+      "tagName": "catbox-dynamodb-${version}",
       "requireCleanWorkingDir": false,
       "commitArgs": [
         "--no-verify"
       ]
     }
+  },
+  "dependencies": {
+    "@aws-sdk/client-dynamodb": "3.864.0",
+    "@aws-sdk/util-dynamodb": "3.864.0",
+    "@hapi/boom": "10.0.1"
   }
 }

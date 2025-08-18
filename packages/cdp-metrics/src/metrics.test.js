@@ -1,4 +1,4 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest'
+import { describe, test, expect, vi, beforeEach } from 'vitest'
 import * as metricsModule from './metrics.js'
 
 const mockHelperInstance = {
@@ -27,7 +27,7 @@ describe('#Exported metric functions', () => {
     vi.clearAllMocks()
   })
 
-  it('timer records async function duration', async () => {
+  test('timer records async function duration', async () => {
     const fn = vi.fn().mockResolvedValue('done')
 
     mockHelperInstance.timer.mockImplementationOnce(
@@ -42,7 +42,7 @@ describe('#Exported metric functions', () => {
     expect(result).toBe('done')
   })
 
-  it('counter sends metric with Count unit', async () => {
+  test('counter sends metric with Count unit', async () => {
     await metricsModule.counter('myCount', 5)
 
     expect(mockHelperInstance.putMetric).toHaveBeenCalledWith(
@@ -54,7 +54,7 @@ describe('#Exported metric functions', () => {
     expect(mockHelperInstance.flush).toHaveBeenCalled()
   })
 
-  it('gauge sends metric with None unit', async () => {
+  test('gauge sends metric with None unit', async () => {
     await metricsModule.gauge('myGauge', 42)
 
     expect(mockHelperInstance.putMetric).toHaveBeenCalledWith(
@@ -66,7 +66,7 @@ describe('#Exported metric functions', () => {
     expect(mockHelperInstance.flush).toHaveBeenCalled()
   })
 
-  it('byteSize sends metric with Bytes unit', async () => {
+  test('byteSize sends metric with Bytes unit', async () => {
     await metricsModule.byteSize('mySize', 2048)
 
     expect(mockHelperInstance.putMetric).toHaveBeenCalledWith(
@@ -78,7 +78,7 @@ describe('#Exported metric functions', () => {
     expect(mockHelperInstance.flush).toHaveBeenCalled()
   })
 
-  it('millis sends metric with Milliseconds unit', async () => {
+  test('millis sends metric with Milliseconds unit', async () => {
     await metricsModule.millis('myDuration', 300)
 
     expect(mockHelperInstance.putMetric).toHaveBeenCalledWith(
@@ -90,7 +90,7 @@ describe('#Exported metric functions', () => {
     expect(mockHelperInstance.flush).toHaveBeenCalled()
   })
 
-  it('timer handles exceptions without crashing', async () => {
+  test('timer handles exceptions without crashing', async () => {
     const error = new Error('test failure')
     mockHelperInstance.timer.mockRejectedValueOnce(error)
     const loggerSpy = vi.fn()
