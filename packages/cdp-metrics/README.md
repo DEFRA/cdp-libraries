@@ -37,7 +37,7 @@ It is advised you do this in your `package.json` to prevent accidentally turning
 }
 ```
 
-## ⚠️ Production
+## Production
 
 **Do not set AWS_EMF_ENVIRONMENT=Local**, or metrics will be silently discarded. AWS EMF will automatically emit to CloudWatch metrics ECS environments.
 
