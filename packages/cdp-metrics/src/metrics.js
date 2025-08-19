@@ -107,19 +107,75 @@ export async function millis(name, value, dimensions = {}) {
   }
 }
 
+/**
+ * Creates and returns an AWS Embedded Metrics logger instance with optional dimensions.
+ *
+ * This function initializes a new {@link MetricsHelper} internally and returns its
+ * `MetricsLogger`. The logger can then be used to emit custom CloudWatch metrics.
+ *
+ * @function getMetricsLogger
+ * @param {object} [dimensions={}] - Optional key/value pairs representing metric dimensions.
+ *                                   These dimensions will be applied to all metrics logged
+ *                                   with the returned logger.
+ *
+ * @returns {import('aws-embedded-metrics').MetricsLogger}
+ *          A configured AWS Embedded Metrics logger.
+ *
+ * @example
+ * // Create a metrics logger with a service dimension
+ * const logger = getMetricsLogger({ Service: 'Uploader' })
+ * logger.putMetric('FilesUploaded', 1, Unit.Count)
+ * await logger.flush()
+ */
+export function getMetricsLogger(dimensions = {}) {
+  const helper = new MetricsHelper(dimensions)
+  return helper.getMetricsLogger()
+}
+
+/**
+ * Logs a single custom metric to AWS CloudWatch using Embedded Metrics.
+ *
+ * This function initializes a new {@link MetricsHelper} internally and emits a single
+ * metric with the provided name, value, and unit.
+ *
+ * **Note: ** This function does not automatically flush the metrics.
+ * Ensure you call `logger.flush()` if you need metrics to appear in CloudWatch promptly.
+ *
+ * @function putMetrics
+ * @param {string} name - The name of the metric (e.g., "FilesUploaded").
+ * @param {number} value - The value to record for the metric.
+ * @param {import('aws-embedded-metrics').Unit} unit - The unit of the metric (e.g., `Unit.Count`, `Unit.Milliseconds`).
+ * @param {import('aws-embedded-metrics').StorageResolution} [resolution] -
+ *        Optional storage resolution (e.g., `StorageResolution.Standard` or `StorageResolution.High`).
+ * @param {object} [dimensions={}] - Optional key/value pairs representing metric dimensions.
+ *
+ * @returns {import('aws-embedded-metrics').MetricsLogger}
+ *          The metrics logger instance used to emit the metric.
+ *
+ * @example
+ * // Emit a metric with default dimensions
+ * putMetrics('ProcessingTime', 125, Unit.Milliseconds, StorageResolution.High)
+ */
+export function putMetrics(name, value, unit, resolution, dimensions = {}) {
+  const helper = new MetricsHelper(dimensions)
+  return helper.putMetric(name, value, unit, resolution)
+}
+
 class Metrics {
-  millis = millis
-  byteSize = byteSize
-  gauge = gauge
-  counter = counter
   timer = timer
+  counter = counter
+  gauge = gauge
+  byteSize = byteSize
+  millis = millis
+  getMetricsLogger = getMetricsLogger
+  putMetrics = putMetrics
 }
 
 export const metrics = {
   plugin: {
     name: 'metrics',
     version: '0.1.0',
-    register(server, options) {
+    register(server) {
       setLogger(server.logger)
       server.decorate('request', 'metrics', () => new Metrics())
       server.decorate('server', 'metrics', () => new Metrics())

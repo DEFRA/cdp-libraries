@@ -25,7 +25,11 @@
     "metrics",
     "cloudwatch"
   ],
-  "main": "src/validations.js",
+  "main": "src/metrics.js",
+  "exports": {
+    ".": "./src/metrics.js",
+    "./metrics-helper": "./src/metrics-helper.js"
+  },
   "scripts": {
     "format": "prettier --write \"**/*.{cjs,js,json,md}\"",
     "format:check": "prettier --check \"**/*.{cjs,js,json,md}\"",
