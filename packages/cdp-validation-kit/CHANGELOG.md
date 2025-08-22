@@ -1,5 +1,11 @@
 # @defra/cdp-validation-kit
 
+## 0.43.0
+
+### Minor Changes
+
+- df17b1b: Remove team/user uuid constraint
+
 ## 0.42.0
 
 ### Minor Changes
