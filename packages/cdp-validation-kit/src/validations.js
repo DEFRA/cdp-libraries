@@ -35,7 +35,7 @@ const entitySubTypeValidation = Joi.string()
 
 const displayNameValidation = Joi.string().required()
 
-const userIdValidation = Joi.string().uuid().required()
+const userIdValidation = Joi.string().required()
 
 const userWithIdValidation = Joi.object({
   id: userIdValidation,
@@ -47,7 +47,7 @@ const userWithUserIdValidation = Joi.object({
   displayName: displayNameValidation
 })
 
-const teamIdValidation = Joi.string().uuid().required()
+const teamIdValidation = Joi.string().required()
 
 const teamValidation = Joi.object({
   teamId: teamIdValidation,
