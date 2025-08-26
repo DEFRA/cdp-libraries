@@ -1,5 +1,11 @@
 # @defra/cdp-validation-kit
 
+## 0.45.0
+
+### Minor Changes
+
+- 1d19172: Tidy up and fix release-it version
+
 ## 0.44.0
 
 ### Minor Changes

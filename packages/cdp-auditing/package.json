@@ -1,6 +1,6 @@
 {
   "name": "@defra/cdp-auditing",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "A hapi plugin for sending audit messages to the CDP audit pipeline",
   "type": "module",
   "engines": {

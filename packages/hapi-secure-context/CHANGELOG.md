@@ -1,5 +1,11 @@
 # @defra/hapi-secure-context
 
+## 0.2.0
+
+### Minor Changes
+
+- 1d19172: Tidy up and fix release-it version
+
 ## 0.1.4
 
 ### Patch Changes

@@ -1,5 +1,11 @@
 # @defra/hapi-tracing
 
+## 1.27.0
+
+### Minor Changes
+
+- 1d19172: Tidy up and fix release-it version
+
 ## 1.26.0
 
 ### Minor Changes
