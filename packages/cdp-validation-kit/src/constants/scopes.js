@@ -7,7 +7,8 @@ const scopes = {
   restrictedTechPython: 'permission:restrictedTechPython',
   restrictedTechPostgres: 'permission:restrictedTechPostgres',
   canGrantProdAccess: 'permission:canGrantProdAccess',
-  prodAccess: 'permission:prodAccess'
+  prodAccess: 'permission:prodAccess',
+  testAsTenant: 'permission:testAsTenant'
 }
 
 export { scopes }
