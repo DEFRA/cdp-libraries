@@ -5,7 +5,9 @@ const scopes = {
   externalTest: 'permission:externalTest',
   breakGlass: 'permission:breakGlass',
   restrictedTechPython: 'permission:restrictedTechPython',
-  restrictedTechPostgres: 'permission:restrictedTechPostgres'
+  restrictedTechPostgres: 'permission:restrictedTechPostgres',
+  canGrantProdAccess: 'permission:canGrantProdAccess',
+  prodAccess: 'permission:prodAccess'
 }
 
 export { scopes }
