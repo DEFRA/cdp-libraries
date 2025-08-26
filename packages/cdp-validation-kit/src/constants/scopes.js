@@ -1,4 +1,4 @@
-const scopes = {
+export const scopes = {
   admin: 'permission:admin',
   tenant: 'permission:tenant',
   serviceOwner: 'permission:serviceOwner',
@@ -7,5 +7,3 @@ const scopes = {
   restrictedTechPython: 'permission:restrictedTechPython',
   restrictedTechPostgres: 'permission:restrictedTechPostgres'
 }
-
-export { scopes }
