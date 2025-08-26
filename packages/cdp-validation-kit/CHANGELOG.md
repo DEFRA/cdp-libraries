@@ -1,5 +1,11 @@
 # @defra/cdp-validation-kit
 
+## 0.48.0
+
+### Minor Changes
+
+- 506b760: Add testAsTenant scope
+
 ## 0.47.0
 
 ### Minor Changes
