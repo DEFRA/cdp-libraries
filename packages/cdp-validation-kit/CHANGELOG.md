@@ -1,5 +1,11 @@
 # @defra/cdp-validation-kit
 
+## 0.44.0
+
+### Minor Changes
+
+- 9c01883: Add scopes constants
+
 ## 0.43.0
 
 ### Minor Changes
