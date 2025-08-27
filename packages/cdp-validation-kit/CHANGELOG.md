@@ -1,5 +1,11 @@
 # @defra/cdp-validation-kit
 
+## 0.49.0
+
+### Minor Changes
+
+- 538a228: Add status-codes & entities constants
+
 ## 0.48.0
 
 ### Minor Changes
