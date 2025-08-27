@@ -1,5 +1,11 @@
 # @defra/cdp-validation-kit
 
+## 0.50.0
+
+### Minor Changes
+
+- 53cffbf: Bump joi
+
 ## 0.49.0
 
 ### Minor Changes
