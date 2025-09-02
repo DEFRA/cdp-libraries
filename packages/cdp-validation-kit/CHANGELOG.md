@@ -1,5 +1,12 @@
 # @defra/cdp-validation-kit
 
+## 0.51.0
+
+### Minor Changes
+
+- d374efe: Export nested constants at root
+  Add vitest globals
+
 ## 0.50.0
 
 ### Minor Changes

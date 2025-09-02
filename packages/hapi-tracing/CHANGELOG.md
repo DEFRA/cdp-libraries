@@ -1,5 +1,11 @@
 # @defra/hapi-tracing
 
+## 1.28.0
+
+### Minor Changes
+
+- d374efe: Add vitest globals
+
 ## 1.27.0
 
 ### Minor Changes

@@ -1,5 +1,11 @@
 # @defra/cdp-auditing
 
+## 0.3.0
+
+### Minor Changes
+
+- d374efe: Add vitest globals
+
 ## 0.2.0
 
 ### Minor Changes
