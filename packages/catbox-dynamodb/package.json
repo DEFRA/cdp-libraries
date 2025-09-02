@@ -46,8 +46,7 @@
     },
     "github": {
       "release": true,
-      "releaseName": "Released catbox-dynamodb ${version}",
-      "releaseNotes": "echo ''"
+      "releaseName": "Released catbox-dynamodb ${version}"
     },
     "git": {
       "commitMessage": "Tagged catbox-dynamodb ${version}",

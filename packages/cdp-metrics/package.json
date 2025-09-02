@@ -50,8 +50,7 @@
     },
     "github": {
       "release": true,
-      "releaseName": "Release cdp-metrics ${version}",
-      "releaseNotes": "echo ''"
+      "releaseName": "Release cdp-metrics ${version}"
     },
     "git": {
       "commitMessage": "Tagged cdp-metrics ${version}",

@@ -46,8 +46,7 @@
     },
     "github": {
       "release": true,
-      "releaseName": "Released cdp-auditing ${version}",
-      "releaseNotes": "echo ''"
+      "releaseName": "Released cdp-auditing ${version}"
     },
     "git": {
       "commitMessage": "Tagged cdp-auditing ${version}",

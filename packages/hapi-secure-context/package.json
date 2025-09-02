@@ -45,8 +45,7 @@
     },
     "github": {
       "release": true,
-      "releaseName": "Released hapi-secure-context ${version}",
-      "releaseNotes": "echo ''"
+      "releaseName": "Released hapi-secure-context ${version}"
     },
     "git": {
       "commitMessage": "Tagged hapi-secure-context ${version}",
