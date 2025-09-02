@@ -12,6 +12,7 @@ to simply create and manage CDP packages, ensuring consistency and ease of use a
 - [Testing your changes](#testing-your-changes)
 - [Not releasing](#not-releasing)
 - [Releasing](#releasing)
+- [Detailed instructions](#detailed-instructions)
 - [Changesets](#changesets)
 - [Release it](#release-it)
 
@@ -63,11 +64,14 @@ npm install
 The following tools are available for free from the root of `cdp-libraries`. You do not need to install these in
 your `package.json` file, as they are already included in the root `package.json`:
 
-- `vitest` - for running tests
-- `neostandard` - for linting code
-- `release-it` - for managing releases
-- `prettier` - for code formatting
-- `husky` - for managing git hooks
+| Tool          | Purpose                           |
+| ------------- | --------------------------------- |
+| `changesets`  | npm versioning and publishing     |
+| `husky`       | managing git hooks                |
+| `neostandard` | linting code                      |
+| `prettier`    | code formatting                   |
+| `release-it`  | managing GitHub releases and tags |
+| `vitest`      | running tests                     |
 
 ## Testing your changes
 
@@ -86,20 +90,25 @@ changeset. This is usually documentation or items in the `root` that do not need
 
 ## Releasing
 
-TL;DR: Releasing a new version of a package is as simple as running `npm run changeset` in root directory and merging a PR.
+TL;DR: Releasing a new version of a package is as simple as running `npm run changeset` in root directory and merging a
+PR.
 
-- Developer writes changeset
-- Chooses correct bump for changes
-- CI does everything else. Versions, tags, releases and publishes
+1. Commit your work
+1. `npm run changeset` and answer questions
+1. Push work and raise a PR
+1. Get PR reviewed and approved, then merge
+1. CI does everything else. Versions, tags, releases and publishes
 
-Read on for detailed instructions. Releasing to `npm` and tagging on `GitHub` is done using
-the [changeset](https://github.com/changesets/changesets) and [release-it](https://github.com/release-it/release-it)
-tools, which is configured in the root of the workspace. This is super simple and all you need to do is:
+## Detailed instructions
+
+Releasing to `npm` and tagging on `GitHub` is done using the [changeset](https://github.com/changesets/changesets)
+and [release-it](https://github.com/release-it/release-it) tools, which are
+configured in the root of the workspace. This is super simple and all you need to do is:
 
 After you have commited your work and are ready to release a new version of your package:
 
 - Run `npm run changeset` to create a new changeset
-- Commit the changeset file that was created in the `.changeset` directory
+- `git add .changeset` commit the changeset file that was created in the `.changeset` directory
 - Raise a PR with the changes you want to release
 - Wait for `status required checks` to pass
 - Get the PR reviewed and approved by at least one other developer
