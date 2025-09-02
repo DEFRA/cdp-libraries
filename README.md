@@ -72,7 +72,7 @@ your `package.json` file, as they are already included in the root `package.json
 ## Testing your changes
 
 To test your changes in this repo in a local consuming codebase, `npm link` is your friend here. Have a read
-of https://docs.npmjs.com/cli/v9/commands/npm-link
+of https://docs.npmjs.com/cli/v9/commands /npm-link
 
 ## Not releasing
 
