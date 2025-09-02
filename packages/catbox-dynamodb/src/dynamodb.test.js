@@ -1,11 +1,10 @@
-import { describe, test, expect, vi, beforeEach } from 'vitest'
+import { CatboxDynamoDB } from './dynamodb'
 import {
   DynamoDBClient,
   PutItemCommand,
   DeleteItemCommand,
   DescribeTableCommand
 } from '@aws-sdk/client-dynamodb'
-import { CatboxDynamoDB } from './dynamodb'
 
 vi.mock('@aws-sdk/client-dynamodb', () => {
   return {

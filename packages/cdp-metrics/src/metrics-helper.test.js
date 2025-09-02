@@ -1,4 +1,3 @@
-import { describe, test, expect, beforeEach, vi } from 'vitest'
 import { MetricsHelper } from './metrics-helper.js'
 
 // Mock the entire aws-embedded-metrics module
