@@ -86,7 +86,6 @@ request.metrics().timer('dbFetch', async () => fetchUsers())
 In your tests, mock the internal aws-embedded-metrics methods to verify emitted metrics:
 
 ```js
-import { vi } from 'vitest'
 import * as embedded from 'aws-embedded-metrics'
 
 vi.spyOn(embedded, 'createMetricsLogger').mockImplementation(() => ({

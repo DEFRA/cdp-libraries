@@ -1,8 +1,7 @@
-import { test, describe, expect, afterEach, beforeEach } from 'vitest'
-import { audit, enableAuditing, setAuditLogger } from './auditing.js'
-
-import { auditLoggerConfig } from './audit-logger-config.js'
 import pino from 'pino'
+
+import { audit, enableAuditing, setAuditLogger } from './auditing.js'
+import { auditLoggerConfig } from './audit-logger-config.js'
 
 export class TestPinoDestination {
   messages = []

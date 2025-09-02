@@ -1,6 +1,6 @@
-import { vi, beforeEach, expect, describe, test } from 'vitest'
-import { secureContext } from './secure-context.js'
 import tls from 'node:tls'
+
+import { secureContext } from './secure-context.js'
 
 describe('#secure-context', () => {
   const originalSecureContext = tls.createSecureContext

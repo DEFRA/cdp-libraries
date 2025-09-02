@@ -1,4 +1,3 @@
-import { describe, test, expect } from 'vitest'
 import { getTrustStoreCerts } from './get-trust-store-certs.js'
 
 describe('#getTrustStoreCerts', () => {

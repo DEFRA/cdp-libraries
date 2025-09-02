@@ -1,13 +1,13 @@
+/* @type {Record<string, string>} */
 const scopes = {
   admin: 'permission:admin',
-  tenant: 'permission:tenant',
-  serviceOwner: 'permission:serviceOwner',
-  externalTest: 'permission:externalTest',
   breakGlass: 'permission:breakGlass',
-  restrictedTechPython: 'permission:restrictedTechPython',
+  canGrantBreakGlass: 'permission:canGrantBreakGlass',
+  externalTest: 'permission:externalTest',
   restrictedTechPostgres: 'permission:restrictedTechPostgres',
-  canGrantProdAccess: 'permission:canGrantProdAccess',
-  prodAccess: 'permission:prodAccess',
+  restrictedTechPython: 'permission:restrictedTechPython',
+  serviceOwner: 'permission:serviceOwner',
+  tenant: 'permission:tenant',
   testAsTenant: 'permission:testAsTenant'
 }
 

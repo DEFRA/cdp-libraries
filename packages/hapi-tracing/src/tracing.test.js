@@ -1,4 +1,3 @@
-import { describe, test, expect, afterEach, beforeEach } from 'vitest'
 import { Server } from '@hapi/hapi'
 
 import { tracing, withTraceId } from './tracing.js'

@@ -7,6 +7,10 @@ import {
   environmentsExceptForProd
 } from './constants/environments.js'
 
+export { scopes } from './constants/scopes.js'
+export { statusCodes } from './constants/status-codes.js'
+export { entityTypes, entitySubTypes } from './constants/entities.js'
+
 const environmentValidation = Joi.string()
   .valid(...Object.values(environments))
   .required()
@@ -134,8 +138,8 @@ export {
   migrationVersionValidation,
   repositoryNameValidation,
   runIdValidation,
-  teamValidation,
   teamIdValidation,
+  teamValidation,
   templateBranchNameValidation,
   templateTypeValidation,
   userIdValidation,

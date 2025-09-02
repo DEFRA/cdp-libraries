@@ -1,4 +1,3 @@
-import { describe, test, expect, vi, beforeEach } from 'vitest'
 import * as metricsModule from './metrics.js'
 
 const mockHelperInstance = {
