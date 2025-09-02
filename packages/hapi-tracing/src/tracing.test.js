@@ -3,7 +3,7 @@ import { Server } from '@hapi/hapi'
 import { tracing, withTraceId } from './tracing.js'
 
 describe('#tracing and #withTraceId', () => {
-  const mockTraceId = 'mock-trace-id-123'
+  const mockTraceId = 'mock-trace-id-1234'
   let server
 
   beforeEach(async () => {
@@ -154,8 +154,8 @@ describe('#tracing and #withTraceId', () => {
           const result = withTraceId('x-trace-id', mockHeaders)
           expect(result).toEqual({
             existingHeader: 'value',
-            'x-cdp-request-id': 'mock-trace-id-123',
-            'x-trace-id': 'mock-trace-id-123'
+            'x-cdp-request-id': mockTraceId,
+            'x-trace-id': mockTraceId
           })
 
           return h.response({ message: 'success' }).code(200)
