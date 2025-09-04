@@ -53,6 +53,8 @@ const userWithUserIdValidation = Joi.object({
 
 const teamIdValidation = Joi.string().required()
 
+const teamIdsValidation = Joi.array().items(teamIdValidation).min(1).required()
+
 const teamValidation = Joi.object({
   teamId: teamIdValidation,
   name: displayNameValidation
@@ -139,6 +141,7 @@ export {
   repositoryNameValidation,
   runIdValidation,
   teamIdValidation,
+  teamIdsValidation,
   teamValidation,
   templateBranchNameValidation,
   templateTypeValidation,
