@@ -1,5 +1,11 @@
 # @defra/cdp-validation-kit
 
+## 0.53.0
+
+### Minor Changes
+
+- e76f520: Export environments
+
 ## 0.52.0
 
 ### Minor Changes
