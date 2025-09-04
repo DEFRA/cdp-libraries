@@ -1,5 +1,11 @@
 # @defra/cdp-validation-kit
 
+## 0.52.0
+
+### Minor Changes
+
+- f168cc0: Release as minor
+
 ## 0.51.1
 
 ### Patch Changes
