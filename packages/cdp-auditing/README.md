@@ -61,4 +61,4 @@ Auditing is basically just standard logger pre-configured to do the following:
 Services running on the CDP Platform are deployed with a log collection sidecar (FluentBit).
 
 The log sidecar filters messaged based on their `log.level` field. Messages with `"log.level": "audit"` are
-filtered out and send to the audit stream, while all other log levels are send to the OpenSearch pipeline.
+filtered out and send to the audit stream, while all other log levels are sent to the OpenSearch pipeline.
