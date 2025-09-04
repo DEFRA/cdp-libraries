@@ -133,6 +133,7 @@ export {
   entityValidation,
   environmentExceptForProdValidation,
   environmentValidation,
+  environments,
   instanceCountValidation,
   memoryValidation,
   migrationIdValidation,
