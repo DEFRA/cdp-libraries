@@ -1,5 +1,11 @@
 # @defra/cdp-validation-kit
 
+## 0.51.1
+
+### Patch Changes
+
+- c3fe854: Add teamIds validations
+
 ## 0.51.0
 
 ### Minor Changes
