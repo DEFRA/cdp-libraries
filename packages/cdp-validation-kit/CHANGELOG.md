@@ -1,5 +1,11 @@
 # @defra/cdp-validation-kit
 
+## 0.54.0
+
+### Minor Changes
+
+- 807858b: Bump joi version
+
 ## 0.53.0
 
 ### Minor Changes
