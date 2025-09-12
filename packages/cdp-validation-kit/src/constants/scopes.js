@@ -11,4 +11,6 @@ const scopes = {
   testAsTenant: 'permission:testAsTenant'
 }
 
-export { scopes }
+const kindsOfScope = ['user', 'team', 'member']
+
+export { scopes, kindsOfScope }
