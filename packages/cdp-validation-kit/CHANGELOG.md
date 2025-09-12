@@ -1,5 +1,11 @@
 # @defra/cdp-validation-kit
 
+## 0.56.0
+
+### Minor Changes
+
+- b26997f: Add full validation for scopeKind
+
 ## 0.55.0
 
 ### Minor Changes
