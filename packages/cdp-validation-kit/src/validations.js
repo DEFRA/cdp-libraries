@@ -1,5 +1,6 @@
 import Joi from 'joi'
 
+import { kindsOfScope } from './constants/scopes.js'
 import { ecsCpuToMemoryOptionsMap } from './constants/ecs-cpu-to-memory-options-map.js'
 import { buildMemoryValidation } from './constants/build-memory-validation.js'
 import {
@@ -122,6 +123,8 @@ const templateTypeValidation = Joi.string()
   .valid('frontend', 'backend')
   .required()
 
+const scopeKind = Joi.string().valid(...kindsOfScope)
+
 export {
   commitShaValidation,
   cpuValidation,
@@ -140,6 +143,7 @@ export {
   migrationVersionValidation,
   repositoryNameValidation,
   runIdValidation,
+  scopeKind,
   teamIdValidation,
   teamIdsValidation,
   teamValidation,
