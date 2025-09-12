@@ -123,7 +123,10 @@ const templateTypeValidation = Joi.string()
   .valid('frontend', 'backend')
   .required()
 
-const scopeKind = Joi.string().valid(...kindsOfScope)
+const scopeKind = Joi.array()
+  .items(Joi.string())
+  .has(Joi.string().valid(...kindsOfScope))
+  .required()
 
 export {
   commitShaValidation,
