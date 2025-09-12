@@ -1,5 +1,11 @@
 # @defra/cdp-validation-kit
 
+## 0.55.0
+
+### Minor Changes
+
+- 5487bc4: Add scope kind constants and validation
+
 ## 0.54.0
 
 ### Minor Changes
