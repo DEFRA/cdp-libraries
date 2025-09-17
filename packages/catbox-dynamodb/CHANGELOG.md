@@ -1,5 +1,11 @@
 # @defra/catbox-dynamodb
 
+## 0.3.0
+
+### Minor Changes
+
+- e96bfb9: Memoise successful call to describe DynamoDB table
+
 ## 0.2.0
 
 ### Minor Changes
