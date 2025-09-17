@@ -31,7 +31,6 @@ export class CatboxDynamoDB {
         this.isTableActive = response?.Table?.TableStatus === 'ACTIVE'
         return this.isTableActive
       } catch (err) {
-        console.log(err)
         if (err.name === 'ResourceNotFoundException') {
           this.logger?.error(err, `dynamodb table ${this.tableName} not found`)
           return false
