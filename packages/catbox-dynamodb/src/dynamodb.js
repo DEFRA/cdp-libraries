@@ -16,26 +16,29 @@ export class CatboxDynamoDB {
     this.defaultTtl = options.ttl ?? 3600_000 // 1 hour default
     this.logger = options.logger
     this.client = new DynamoDBClient(options.clientOptions ?? {})
+    this.isTableActive = false
   }
 
   async start() {}
   async stop() {}
 
   async isReady() {
-    this.logger?.error('in ready!!!!')
-    try {
-      await this.client.send(
-        new DescribeTableCommand({ TableName: this.tableName })
-      )
-      return true
-    } catch (err) {
-      if (err.name === 'ResourceNotFoundException') {
-        this.logger?.error(err, `dynamodb table ${this.tableName} not found`)
-        return false
+    if (!this.isTableActive) {
+      try {
+        const response = await this.client.send(
+          new DescribeTableCommand({ TableName: this.tableName })
+        )
+        this.isTableActive = response?.Table?.TableStatus === 'ACTIVE'
+        return this.isTableActive
+      } catch (err) {
+        console.log(err)
+        if (err.name === 'ResourceNotFoundException') {
+          this.logger?.error(err, `dynamodb table ${this.tableName} not found`)
+          return false
+        }
+        this.logger?.error(err)
+        throw err
       }
-      this.logger?.error(err)
-
-      throw err
     }
   }
 

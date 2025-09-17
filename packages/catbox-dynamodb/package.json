@@ -26,6 +26,9 @@
     "dynamodb"
   ],
   "main": "src/dynamodb.js",
+  "exports": {
+    ".": "./src/dynamodb.js"
+  },
   "scripts": {
     "format": "prettier --write \"**/*.{cjs,js,json,md}\"",
     "format:check": "prettier --check \"**/*.{cjs,js,json,md}\"",

@@ -51,7 +51,11 @@ describe('#CatboxDynamoDB', () => {
   })
 
   test('Should return true from isReady when table exists', async () => {
-    clientSend.mockResolvedValueOnce({})
+    clientSend.mockResolvedValueOnce({
+      Table: {
+        TableStatus: 'ACTIVE'
+      }
+    })
     const result = await engine.isReady()
     expect(result).toBe(true)
     expect(clientSend).toHaveBeenCalledWith(expect.any(DescribeTableCommand))
