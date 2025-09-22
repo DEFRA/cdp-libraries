@@ -1,0 +1,57 @@
+{
+  "name": "@defra/vite-file-matcher",
+  "version": "0.1.0",
+  "description": "A file matcher for use in vite tests",
+  "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "author": "Defra DDTS",
+  "license": "OGL-UK-3.0",
+  "homepage": "https://github.com/DEFRA/cdp-libraries/tree/main/packages/vite-file-matcher#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DEFRA/cdp-libraries.git"
+  },
+  "bugs": {
+    "url": "https://github.com/DEFRA/cdp-libraries/issues"
+  },
+  "keywords": [
+    "defra",
+    "vite",
+    "file-matcher"
+  ],
+  "main": "src/custom-snapshot-matcher.js",
+  "scripts": {
+    "format": "prettier --write \"**/*.{cjs,js,json,md}\"",
+    "format:check": "prettier --check \"**/*.{cjs,js,json,md}\"",
+    "git:pre-commit-hook": "npm run format:check && npm run lint",
+    "github:release": "npx cdp-github-release vite-file-matcher",
+    "lint": "eslint --cache --cache-strategy content \"**/*.{cjs,js}\"",
+    "lint:fix": "npm run lint -- --fix",
+    "postinstall": "npm run setup:husky",
+    "setup:husky": "node -e \"try { (await import('husky')).default() } catch (e) { if (e.code !== 'ERR_MODULE_NOT_FOUND') throw e }\" --input-type module",
+    "test": "vitest run --passWithNoTests --coverage=false"
+  },
+  "release-it": {
+    "npm": {
+      "publish": false
+    },
+    "github": {
+      "release": true,
+      "releaseName": "Released vite-file-matcher ${version}",
+      "releaseNotes": "echo ''"
+    },
+    "git": {
+      "commitMessage": "Tagged vite-file-matcher ${version}",
+      "tagName": "vite-file-matcher-${version}",
+      "requireCleanWorkingDir": false,
+      "commitArgs": [
+        "--no-verify"
+      ]
+    }
+  }
+}
