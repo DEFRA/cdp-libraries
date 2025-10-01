@@ -41,7 +41,7 @@
     "test": "vitest run --coverage"
   },
   "devDependencies": {
-    "@hapi/hapi": "21.3.12"
+    "@hapi/hapi": "21.4.3"
   },
   "release-it": {
     "npm": {
