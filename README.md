@@ -56,6 +56,7 @@ npm install
   - Update the `repository` field with the URL of your new package's readme
   - Update the `release-it` object to include the new package. The config should be ok for you but you will need to use
     your new package name
+- Update dependabot by running `node scripts/generate-dependabot.js`
 - Now you have all you need to start developing your new package
 
 ## Global tooling
