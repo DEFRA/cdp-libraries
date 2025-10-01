@@ -50,17 +50,16 @@ function blockFor(dir, name) {
     `      interval: "weekly"`,
     `    open-pull-requests-limit: 10`,
     `    versioning-strategy: increase`,
-    `    commit-message:`,
-    `      prefix: "deps"`,
-    `      include: "scope"`,
-    `    labels:`,
-    `      - "deps"`,
-    `      - "npm"`,
     `    groups:`,
     `      minor-and-patch:`,
     `        update-types:`,
     `          - "minor"`,
     `          - "patch"`,
+    `    cooldown:`,
+    `      default-days: 5`,
+    `      semver-major-days: 20`,
+    `      semver-minor-days: 7`,
+    `      semver-patch-days: 3`,
     `    # workspace: ${name}`
   ].join('\n')
 }
