@@ -28,8 +28,9 @@ function listWorkspaces() {
       try {
         const pkg = JSON.parse(readFileSync(pkgJson, 'utf8'))
         const dir = `/packages/${d.name}`
-        const name = pkg.name || d.name
-        entries.push({ dir, name })
+        const pkgname = pkg.name
+        const name = d.name
+        entries.push({ dir, pkgname, name })
       } catch {
         // skip non-packages
       }
@@ -41,7 +42,7 @@ function listWorkspaces() {
   return entries
 }
 
-function blockFor(dir, name) {
+function blockFor(dir, name, pkgname) {
   return [
     '',
     `  - package-ecosystem: "npm"`,
@@ -50,6 +51,8 @@ function blockFor(dir, name) {
     `      interval: "weekly"`,
     `    open-pull-requests-limit: 10`,
     `    versioning-strategy: increase`,
+    `    commit-message:`,
+    `      prefix: "${name}"`,
     `    groups:`,
     `      minor-and-patch:`,
     `        update-types:`,
@@ -60,14 +63,16 @@ function blockFor(dir, name) {
     `      semver-major-days: 20`,
     `      semver-minor-days: 7`,
     `      semver-patch-days: 3`,
-    `    # workspace: ${name}`
+    `    # workspace: ${pkgname}`
   ].join('\n')
 }
 
 function main() {
   const head = readYamlHead(dependabotPath, MARKER).trimEnd()
   const workspaces = listWorkspaces()
-  const blocks = workspaces.map((w) => blockFor(w.dir, w.name)).join('\n')
+  const blocks = workspaces
+    .map((w) => blockFor(w.dir, w.name, w.pkgname))
+    .join('\n')
   const out = `${head}${blocks}\n`
   writeFileSync(dependabotPath, out)
   console.log(
