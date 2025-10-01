@@ -4,8 +4,10 @@ import { kindsOfScope } from './constants/scopes.js'
 import { ecsCpuToMemoryOptionsMap } from './constants/ecs-cpu-to-memory-options-map.js'
 import { buildMemoryValidation } from './constants/build-memory-validation.js'
 import {
+  adminOnlyEnvironments,
   environments,
-  environmentsExceptForProd
+  environmentsExceptForProd,
+  orderedEnvironments
 } from './constants/environments.js'
 
 export { scopes } from './constants/scopes.js'
@@ -129,6 +131,7 @@ const scopeKind = Joi.array()
   .required()
 
 export {
+  adminOnlyEnvironments,
   commitShaValidation,
   cpuValidation,
   currentEnvironmentValidation,
@@ -144,6 +147,7 @@ export {
   memoryValidation,
   migrationIdValidation,
   migrationVersionValidation,
+  orderedEnvironments,
   repositoryNameValidation,
   runIdValidation,
   scopeKind,

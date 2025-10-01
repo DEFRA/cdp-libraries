@@ -8,6 +8,8 @@ const environments = {
   prod: 'prod'
 }
 
+const adminOnlyEnvironments = [environments.infraDev, environments.management]
+
 const orderedEnvironments = [
   environments.infraDev,
   environments.management,
@@ -27,4 +29,9 @@ const environmentsExceptForProd = [
   environments.extTest
 ]
 
-export { environments, environmentsExceptForProd, orderedEnvironments }
+export {
+  adminOnlyEnvironments,
+  environments,
+  environmentsExceptForProd,
+  orderedEnvironments
+}
