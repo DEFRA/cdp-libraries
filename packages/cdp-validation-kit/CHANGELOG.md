@@ -1,5 +1,11 @@
 # @defra/cdp-validation-kit
 
+## 0.57.0
+
+### Minor Changes
+
+- 6e89dd9: Add some environments helpers
+
 ## 0.56.0
 
 ### Minor Changes
