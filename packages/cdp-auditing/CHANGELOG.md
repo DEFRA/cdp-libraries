@@ -1,5 +1,11 @@
 # @defra/cdp-auditing
 
+## 0.4.0
+
+### Minor Changes
+
+- 8cbf0f5: Update pino dep
+
 ## 0.3.0
 
 ### Minor Changes
