@@ -1,5 +1,11 @@
 # @defra/cdp-validation-kit
 
+## 0.58.0
+
+### Minor Changes
+
+- 84cdea0: Make prototype subtype of microservice
+
 ## 0.57.0
 
 ### Minor Changes
