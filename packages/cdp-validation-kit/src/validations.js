@@ -9,6 +9,7 @@ import {
   environmentsExceptForProd,
   orderedEnvironments
 } from './constants/environments.js'
+import { entitySubTypes, entityTypes } from './constants/entities.js'
 
 export { scopes } from './constants/scopes.js'
 export { statusCodes } from './constants/status-codes.js'
@@ -33,11 +34,11 @@ const entityStatusValidation = Joi.string()
   .required()
 
 const entityTypeValidation = Joi.string()
-  .valid('Microservice', 'TestSuite', 'Repository', 'Prototype')
+  .valid(...Object.values(entityTypes))
   .required()
 
 const entitySubTypeValidation = Joi.string()
-  .valid('Frontend', 'Backend', 'Journey', 'Performance')
+  .valid(...Object.values(entitySubTypes))
   .optional()
 
 const displayNameValidation = Joi.string().required()
