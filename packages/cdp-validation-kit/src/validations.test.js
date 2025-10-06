@@ -1,5 +1,8 @@
 import {
   currentEnvironmentValidation,
+  entitySubTypes,
+  entitySubTypeValidation,
+  entityTypeValidation,
   environmentExceptForProdValidation,
   environmentValidation,
   repositoryNameValidation,
@@ -68,5 +71,17 @@ describe('#validations', () => {
     expect(result.error.message).toBe(
       '"value" with value "0.1-beta" fails to match the required pattern: /^\\d+\\.\\d+\\.\\d+$/'
     )
+  })
+
+  test('Should fail validation for prototype as entity type', () => {
+    const result = entityTypeValidation.validate(entitySubTypes.prototype)
+    expect(result.error.message).toBe(
+      '"value" must be one of [Microservice, Repository, TestSuite]'
+    )
+  })
+
+  test('Should pass validation for prototype as subType', () => {
+    const result = entitySubTypeValidation.validate(entitySubTypes.prototype)
+    expect(result.error).toBeUndefined()
   })
 })
