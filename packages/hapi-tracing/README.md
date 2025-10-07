@@ -13,7 +13,6 @@ other calls.
 - [Common Use-Cases](#common-use-cases)
   - [Propagating headers.](#propagating-headers)
   - [Logging the header](#logging-the-header)
-- [Jest Transform Ignore Patterns](#jest-transform-ignore-patterns)
 
 ## What does this do
 
@@ -147,25 +146,3 @@ const logger = pino(loggerOptions)
 ```
 
 This will set the traceId to appear in the `trace.id` field in the structure logs.
-
-## Jest Transform Ignore Patterns
-
-Jest automatically transpiles all code it uses in its tests. This can cause issues when a dependency only supports ESM
-modules, and you use it in your tests. If this is the case you may need to add the following to your Jest configuration
-to prevent Jest transpiling the module with Babel in your tests.
-For more detailed information have a read of https://jestjs.io/docs/configuration#transformignorepatterns-arraystring
-
-> [!TIP]
-> If you need to add this configuration, typically you will see the error
-> `SyntaxError: Cannot use import statement outside a module` when running Jest tests.
-
-Add the following to your Jest configuration in `jest.config.js`:
-
-```js
-transformIgnorePatterns: [
-  `node_modules/(?!${[
-    '@defra/hapi-tracing', // Dependency supports ESM only so we do not wish to transpile it in our tests. It's already ready to go
-    'node-fetch' // v3 of Node-fetch supports ESM only so we do not wish to transpile it in our tests. It's already ready to go
-  ].join('|')}/)`
-]
-```
