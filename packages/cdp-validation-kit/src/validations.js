@@ -10,6 +10,7 @@ import {
   orderedEnvironments
 } from './constants/environments.js'
 import { entitySubTypes, entityTypes } from './constants/entities.js'
+import { validation } from './helpers/validation-messages.js'
 
 export { scopes } from './constants/scopes.js'
 export { statusCodes } from './constants/status-codes.js'
@@ -131,6 +132,41 @@ const scopeKind = Joi.array()
   .has(Joi.string().valid(...kindsOfScope))
   .required()
 
+const profileValidation = Joi.string().empty('').optional()
+
+const envVarKeyValidation = Joi.string()
+  .pattern(/^\w*$/)
+  .pattern(/^[a-zA-Z0-9]\w*[a-zA-Z0-9]$/, {
+    name: 'startAndEndWithCharacter'
+  })
+  .min(1)
+  .max(512)
+  .required()
+  .messages({
+    'string.pattern.base':
+      'Any case letters and numbers with underscore separators',
+    'string.pattern.name': 'Start and end with a letter or number',
+    'string.min': validation.minCharacters(1),
+    'string.max': validation.maxCharacters(512),
+    'any.invalid': 'Key already exists',
+    'platform.invalid': 'Platform secrets cannot be changed',
+    'any.required': validation.enterValue,
+    'string.empty': validation.enterValue
+  })
+
+const envVarValueValidation = Joi.string()
+  .pattern(/^\S*$/)
+  .min(1)
+  .max(20000)
+  .required()
+  .messages({
+    'string.pattern.base': 'Should not include spaces',
+    'string.min': validation.minCharacters(1),
+    'string.max': validation.maxCharacters(20000),
+    'any.required': validation.enterValue,
+    'string.empty': validation.enterValue
+  })
+
 export {
   adminOnlyEnvironments,
   commitShaValidation,
@@ -144,11 +180,14 @@ export {
   environmentExceptForProdValidation,
   environmentValidation,
   environments,
+  envVarKeyValidation,
+  envVarValueValidation,
   instanceCountValidation,
   memoryValidation,
   migrationIdValidation,
   migrationVersionValidation,
   orderedEnvironments,
+  profileValidation,
   repositoryNameValidation,
   runIdValidation,
   scopeKind,
