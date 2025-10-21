@@ -1,5 +1,11 @@
 # @defra/cdp-validation-kit
 
+## 0.59.0
+
+### Minor Changes
+
+- b72a715: Add more validations
+
 ## 0.58.0
 
 ### Minor Changes
