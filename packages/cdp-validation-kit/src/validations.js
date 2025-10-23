@@ -132,7 +132,7 @@ const scopeKind = Joi.array()
   .has(Joi.string().valid(...kindsOfScope))
   .required()
 
-const profileValidation = Joi.string().empty('').optional()
+const profileValidation = Joi.string().empty([null, '']).optional()
 
 const envVarKeyValidation = Joi.string()
   .pattern(/^\w*$/)
