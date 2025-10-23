@@ -1,5 +1,11 @@
 # @defra/cdp-validation-kit
 
+## 0.60.0
+
+### Minor Changes
+
+- 9fa6841: Treat null as undefined
+
 ## 0.59.0
 
 ### Minor Changes
