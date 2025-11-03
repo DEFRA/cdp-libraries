@@ -1,5 +1,11 @@
 # @defra/cdp-validation-kit
 
+## 0.61.0
+
+### Minor Changes
+
+- 115bafa: Entity statuses
+
 ## 0.60.0
 
 ### Minor Changes
