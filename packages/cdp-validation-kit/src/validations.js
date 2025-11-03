@@ -9,7 +9,11 @@ import {
   environmentsExceptForProd,
   orderedEnvironments
 } from './constants/environments.js'
-import { entitySubTypes, entityTypes } from './constants/entities.js'
+import {
+  entityStatuses,
+  entitySubTypes,
+  entityTypes
+} from './constants/entities.js'
 import { validation } from './helpers/validation-messages.js'
 
 export { scopes } from './constants/scopes.js'
@@ -31,7 +35,7 @@ const currentEnvironmentValidation = Joi.string()
 const zoneValidation = Joi.string().valid('public', 'protected').required()
 
 const entityStatusValidation = Joi.string()
-  .valid('Creating', 'Created')
+  .valid(...Object.values(entityStatuses))
   .required()
 
 const entityTypeValidation = Joi.string()
