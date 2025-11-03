@@ -63,7 +63,7 @@
     "cdp-github-release": "ci/release-it.sh"
   },
   "dependencies": {
-    "ci-info": "4.3.0",
+    "ci-info": "4.3.1",
     "npm-check-updates": "18.3.1"
   }
 }
