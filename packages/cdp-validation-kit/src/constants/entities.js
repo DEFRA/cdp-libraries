@@ -12,4 +12,11 @@ const entitySubTypes = {
   journey: 'Journey'
 }
 
-export { entityTypes, entitySubTypes }
+const entityStatuses = {
+  created: 'Created',
+  creating: 'Creating',
+  decommissioned: 'Decommissioned',
+  decommissioning: 'Decommissioning'
+}
+
+export { entityTypes, entitySubTypes, entityStatuses }
