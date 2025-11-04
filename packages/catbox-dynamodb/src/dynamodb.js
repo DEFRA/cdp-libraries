@@ -17,6 +17,7 @@ export class CatboxDynamoDB {
     this.logger = options.logger
     this.client = new DynamoDBClient(options.clientOptions ?? {})
     this.isTableActive = false
+    this.consistentReads = options.consistentReads ?? true
   }
 
   async start() {}
@@ -55,7 +56,8 @@ export class CatboxDynamoDB {
     const { Item } = await this.client.send(
       new GetItemCommand({
         TableName: this.tableName,
-        Key: { id: { S: key.id } }
+        Key: { id: { S: key.id } },
+        ConsistentRead: this.consistentReads
       })
     )
 
