@@ -27,7 +27,8 @@ describe('#CatboxDynamoDB', () => {
     DynamoDBClient.mockImplementation(() => ({ send: clientSend }))
     engine = new CatboxDynamoDB({
       tableName: 'test-table',
-      ttl: 1000,
+      ttlInMillis: 1000,
+      clientOptions: {},
       logger: { error: vi.fn(), debug: vi.fn() }
     })
   })
@@ -81,12 +82,13 @@ describe('#CatboxDynamoDB', () => {
 
   test('Should return null when item is expired', async () => {
     const now = Date.now()
+    const nowSeconds = Math.floor(now / 1000)
     clientSend.mockResolvedValueOnce({
       Item: {
         id: { S: 'expired' },
         value: { S: '{}' },
         timestamp: { N: now.toString() },
-        expiresAt: { N: (now - 1000).toString() }
+        expiresAt: { N: (nowSeconds - 1).toString() }
       }
     })
     const result = await engine.get({ id: 'expired' })
@@ -95,12 +97,13 @@ describe('#CatboxDynamoDB', () => {
 
   test('Should parse and return cached item', async () => {
     const now = Date.now()
+    const nowSeconds = Math.floor(now / 1000)
     clientSend.mockResolvedValueOnce({
       Item: {
         id: { S: 'abc' },
         value: { S: '{"foo":"bar"}' },
         timestamp: { N: now.toString() },
-        expiresAt: { N: (now + 1000).toString() }
+        expiresAt: { N: (nowSeconds + 1).toString() }
       }
     })
     const result = await engine.get({ id: 'abc' })
@@ -111,12 +114,13 @@ describe('#CatboxDynamoDB', () => {
 
   test('Should fallback to raw string if value cannot be parsed', async () => {
     const now = Date.now()
+    const nowSeconds = Math.floor(now / 1000)
     clientSend.mockResolvedValueOnce({
       Item: {
         id: { S: 'raw' },
         value: { S: 'not-json' },
         timestamp: { N: now.toString() },
-        expiresAt: { N: (now + 1000).toString() }
+        expiresAt: { N: (nowSeconds + 1).toString() }
       }
     })
     const result = await engine.get({ id: 'raw' })
