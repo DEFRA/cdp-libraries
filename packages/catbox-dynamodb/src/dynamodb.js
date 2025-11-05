@@ -13,10 +13,11 @@ export class CatboxDynamoDB {
     }
 
     this.tableName = options.tableName
-    this.defaultTtl = options.ttl ?? 3600_000 // 1 hour default
+    this.defaultTtl = options.ttlInMillis ?? 3600_000 // 1 hour default
     this.logger = options.logger
     this.client = new DynamoDBClient(options.clientOptions ?? {})
     this.isTableActive = false
+    this.consistentReads = options.consistentReads ?? true
   }
 
   async start() {}
@@ -55,7 +56,8 @@ export class CatboxDynamoDB {
     const { Item } = await this.client.send(
       new GetItemCommand({
         TableName: this.tableName,
-        Key: { id: { S: key.id } }
+        Key: { id: { S: key.id } },
+        ConsistentRead: this.consistentReads
       })
     )
 
@@ -65,7 +67,7 @@ export class CatboxDynamoDB {
     }
 
     const now = Date.now()
-    const expiresAt = Number(Item.expiresAt.N)
+    const expiresAt = Number(Item.expiresAt.N) * 1000
 
     if (expiresAt <= now) {
       this.logger?.debug(`dynamodb item for key ${key.id} has expired`)
@@ -98,7 +100,7 @@ export class CatboxDynamoDB {
       throw new Error('TTL must be a positive number')
     }
 
-    const expiresAt = now + effectiveTtl
+    const expiresAt = Math.floor((now + effectiveTtl) / 1000)
 
     const command = new PutItemCommand({
       TableName: this.tableName,
