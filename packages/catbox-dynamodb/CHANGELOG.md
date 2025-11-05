@@ -1,5 +1,11 @@
 # @defra/catbox-dynamodb
 
+## 0.4.0
+
+### Minor Changes
+
+- 1ea271e: Default ConsistentReads to true + set expiresAt in seconds
+
 ## 0.3.0
 
 ### Minor Changes
