@@ -87,6 +87,10 @@ changeset. This is usually documentation or items in the `root` that do not need
 
 ## Releasing
 
+The GitHub release workflow is intended to authenticate with npm using OIDC Trusted Publishers.
+For the first release you may need to push the empty project manually using your own npm credentials for the project to be created an then enable OIDC.
+See the [docs](https://docs.npmjs.com/trusted-publishers) for information on how to set this up. 
+
 TL;DR: Releasing a new version of a package is as simple as running `npm run changeset` in root directory and merging a PR.
 
 - Developer writes changeset
