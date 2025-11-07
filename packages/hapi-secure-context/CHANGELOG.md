@@ -1,5 +1,11 @@
 # @defra/hapi-secure-context
 
+## 0.4.0
+
+### Minor Changes
+
+- e20b754: Dependency updates
+
 ## 0.3.0
 
 ### Minor Changes

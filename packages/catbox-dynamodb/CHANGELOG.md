@@ -1,5 +1,11 @@
 # @defra/catbox-dynamodb
 
+## 0.5.0
+
+### Minor Changes
+
+- e20b754: Dependency updates
+
 ## 0.4.0
 
 ### Minor Changes
