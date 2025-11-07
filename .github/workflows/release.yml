@@ -8,6 +8,7 @@ on:
 permissions:
   contents: write
   packages: write
+  id-token: write  # Required for OIDC
 
 jobs:
   release:
@@ -47,5 +48,3 @@ jobs:
 
       - name: Publish changed packages to npm
         run: npm run publish:changed
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }} # https://docs.github.com/en/actions/use-cases-and-examples/publishing-packages/publishing-nodejs-packages
