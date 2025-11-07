@@ -35,17 +35,18 @@
     "publish:changed": "changeset publish",
     "setup:husky": "node -e \"try { (await import('husky')).default() } catch (e) { if (e.code !== 'ERR_MODULE_NOT_FOUND') throw e }\" --input-type module",
     "test": "npm run test --workspaces",
-    "version:changed": "changeset version"
+    "version:changed": "changeset version",
+    "update:deps": "npx npm-check-updates --upgrade --deep"
   },
   "devDependencies": {
     "@changesets/changelog-github": "0.5.1",
     "@changesets/cli": "2.29.7",
-    "@vitest/coverage-v8": "3.2.4",
-    "eslint": "9.38.0",
+    "@vitest/coverage-v8": "4.0.8",
+    "eslint": "9.39.1",
     "husky": "9.1.7",
     "neostandard": "0.12.2",
     "prettier": "3.6.2",
-    "vitest": "3.2.4"
+    "vitest": "4.0.8"
   },
   "release-it": {
     "npm": {
@@ -63,7 +64,6 @@
     "cdp-github-release": "ci/release-it.sh"
   },
   "dependencies": {
-    "ci-info": "4.3.1",
-    "npm-check-updates": "18.3.1"
+    "ci-info": "4.3.1"
   }
 }
