@@ -35,7 +35,6 @@ jobs:
 
       - name: Publish changed packages to npm
         run: |
-          npm version
           npm install -g npm@latest
           npm run publish:changed
         
