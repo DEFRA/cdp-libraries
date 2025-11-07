@@ -33,6 +33,12 @@ jobs:
       - name: Version changed packages
         run: npm run version:changed
 
+      - name: Publish changed packages to npm
+        run: |
+          npm version
+          npm install -g npm@latest
+          npm run publish:changed
+        
       - name: Commit version bumps & push
         run: |
           git config user.name "github-actions[bot]"
@@ -46,5 +52,3 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Publish changed packages to npm
-        run: npm run publish:changed
