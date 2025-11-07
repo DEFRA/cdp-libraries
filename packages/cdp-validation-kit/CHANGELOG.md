@@ -1,5 +1,11 @@
 # @defra/cdp-validation-kit
 
+## 0.61.1
+
+### Patch Changes
+
+- 06dedb6: testing oidc
+
 ## 0.61.0
 
 ### Minor Changes
