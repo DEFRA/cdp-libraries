@@ -1,30 +1,24 @@
 import { CatboxDynamoDB } from './dynamodb'
 import {
-  DynamoDBClient,
   PutItemCommand,
   DeleteItemCommand,
   DescribeTableCommand
 } from '@aws-sdk/client-dynamodb'
 
-vi.mock('@aws-sdk/client-dynamodb', () => {
-  return {
-    DynamoDBClient: vi.fn().mockImplementation(() => ({
-      send: vi.fn()
-    })),
-    GetItemCommand: vi.fn(),
-    PutItemCommand: vi.fn(),
-    DeleteItemCommand: vi.fn(),
-    DescribeTableCommand: vi.fn()
-  }
-})
+vi.mock('@aws-sdk/client-dynamodb', () => ({
+  DynamoDBClient: vi.fn(function () {
+    this.send = vi.fn()
+  }),
+  GetItemCommand: vi.fn(),
+  PutItemCommand: vi.fn(),
+  DeleteItemCommand: vi.fn(),
+  DescribeTableCommand: vi.fn()
+}))
 
 describe('#CatboxDynamoDB', () => {
-  let clientSend
   let engine
 
   beforeEach(() => {
-    clientSend = vi.fn()
-    DynamoDBClient.mockImplementation(() => ({ send: clientSend }))
     engine = new CatboxDynamoDB({
       tableName: 'test-table',
       ttlInMillis: 1000,
@@ -52,30 +46,34 @@ describe('#CatboxDynamoDB', () => {
   })
 
   test('Should return true from isReady when table exists', async () => {
-    clientSend.mockResolvedValueOnce({
+    vi.mocked(engine.client.send).mockResolvedValueOnce({
       Table: {
         TableStatus: 'ACTIVE'
       }
     })
     const result = await engine.isReady()
     expect(result).toBe(true)
-    expect(clientSend).toHaveBeenCalledWith(expect.any(DescribeTableCommand))
+    expect(engine.client.send).toHaveBeenCalledWith(
+      expect.any(DescribeTableCommand)
+    )
   })
 
   test('Should return false from isReady when table does not exist', async () => {
-    clientSend.mockRejectedValueOnce({ name: 'ResourceNotFoundException' })
+    vi.mocked(engine.client.send).mockRejectedValueOnce({
+      name: 'ResourceNotFoundException'
+    })
     const result = await engine.isReady()
     expect(result).toBe(false)
   })
 
   test('Should throw error from isReady when unexpected error occurs', async () => {
     const error = new Error('boom')
-    clientSend.mockRejectedValueOnce(error)
+    vi.mocked(engine.client.send).mockRejectedValueOnce(error)
     await expect(engine.isReady()).rejects.toThrow('boom')
   })
 
   test('Should return null when get finds no item', async () => {
-    clientSend.mockResolvedValueOnce({ Item: undefined })
+    vi.mocked(engine.client.send).mockResolvedValueOnce({ Item: undefined })
     const result = await engine.get({ id: 'missing' })
     expect(result).toBeNull()
   })
@@ -83,7 +81,7 @@ describe('#CatboxDynamoDB', () => {
   test('Should return null when item is expired', async () => {
     const now = Date.now()
     const nowSeconds = Math.floor(now / 1000)
-    clientSend.mockResolvedValueOnce({
+    vi.mocked(engine.client.send).mockResolvedValueOnce({
       Item: {
         id: { S: 'expired' },
         value: { S: '{}' },
@@ -98,7 +96,7 @@ describe('#CatboxDynamoDB', () => {
   test('Should parse and return cached item', async () => {
     const now = Date.now()
     const nowSeconds = Math.floor(now / 1000)
-    clientSend.mockResolvedValueOnce({
+    vi.mocked(engine.client.send).mockResolvedValueOnce({
       Item: {
         id: { S: 'abc' },
         value: { S: '{"foo":"bar"}' },
@@ -115,7 +113,7 @@ describe('#CatboxDynamoDB', () => {
   test('Should fallback to raw string if value cannot be parsed', async () => {
     const now = Date.now()
     const nowSeconds = Math.floor(now / 1000)
-    clientSend.mockResolvedValueOnce({
+    vi.mocked(engine.client.send).mockResolvedValueOnce({
       Item: {
         id: { S: 'raw' },
         value: { S: 'not-json' },
@@ -134,7 +132,7 @@ describe('#CatboxDynamoDB', () => {
   })
 
   test('Should call DynamoDB PutItemCommand on set', async () => {
-    clientSend.mockResolvedValueOnce({})
+    vi.mocked(engine.client.send).mockResolvedValueOnce({})
     await engine.set({ id: 'good' }, { a: 1 }, 5000)
     expect(PutItemCommand).toHaveBeenCalledWith(
       expect.objectContaining({
@@ -147,7 +145,7 @@ describe('#CatboxDynamoDB', () => {
   })
 
   test('Should call DynamoDB DeleteItemCommand on drop', async () => {
-    clientSend.mockResolvedValueOnce({})
+    vi.mocked(engine.client.send).mockResolvedValueOnce({})
     await engine.drop({ id: 'gone' })
     expect(DeleteItemCommand).toHaveBeenCalledWith(
       expect.objectContaining({

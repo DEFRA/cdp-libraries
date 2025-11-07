@@ -10,6 +10,7 @@ to simply create and manage CDP packages, ensuring consistency and ease of use a
 - [Creating a new package](#creating-a-new-package)
 - [Global tooling](#global-tooling)
 - [Testing your changes](#testing-your-changes)
+- [Updating npm dependencies](#updating-npm-dependencies)
 - [Not releasing](#not-releasing)
 - [Releasing](#releasing)
 - [Changesets](#changesets)
@@ -75,6 +76,26 @@ your `package.json` file, as they are already included in the root `package.json
 To test your changes in this repo in a local consuming codebase, `npm link` is your friend here. Have a read
 of https://docs.npmjs.com/cli/v9/commands /npm-link
 
+## Updating npm dependencies
+
+To update npm dependencies in the root package and all packages, you can use the following command from the root of the
+mono-repo:
+
+```bash
+npm run update:deps
+```
+
+This will use [npm-check-updates](https://github.com/raineorshine/npm-check-updates) to update all dependencies to their
+latest versions.
+
+You then need to install these updates via:
+
+```bash
+npm install
+```
+
+and commit the changes and release as appropriate.
+
 ## Not releasing
 
 If you have changes you wish to commit but do not want to release a new version of the package, or tag and release the
@@ -88,10 +109,12 @@ changeset. This is usually documentation or items in the `root` that do not need
 ## Releasing
 
 The GitHub release workflow is intended to authenticate with npm using OIDC Trusted Publishers.
-For the first release you may need to push the empty project manually using your own npm credentials for the project to be created an then enable OIDC.
+For the first release you may need to push the empty project manually using your own npm credentials for the project to
+be created an then enable OIDC.
 See the [docs](https://docs.npmjs.com/trusted-publishers) for information on how to set this up.
 
-TL;DR: Releasing a new version of a package is as simple as running `npm run changeset` in root directory and merging a PR.
+TL;DR: Releasing a new version of a package is as simple as running `npm run changeset` in root directory and merging a
+PR.
 
 - Developer writes changeset
 - Chooses correct bump for changes

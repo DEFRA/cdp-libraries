@@ -6,20 +6,22 @@ const mockHelperInstance = {
   flush: vi.fn()
 }
 
-vi.mock('./metrics-helper.js', async () => {
-  return {
-    MetricsHelper: vi.fn(() => mockHelperInstance),
-    StorageResolution: {
-      Standard: 60
-    },
-    Unit: {
-      Count: 'Count',
-      None: 'None',
-      Bytes: 'Bytes',
-      Milliseconds: 'Milliseconds'
-    }
+vi.mock('./metrics-helper.js', () => ({
+  MetricsHelper: vi.fn(function () {
+    this.timer = mockHelperInstance.timer
+    this.putMetric = mockHelperInstance.putMetric
+    this.flush = mockHelperInstance.flush
+  }),
+  StorageResolution: {
+    Standard: 60
+  },
+  Unit: {
+    Count: 'Count',
+    None: 'None',
+    Bytes: 'Bytes',
+    Milliseconds: 'Milliseconds'
   }
-})
+}))
 
 describe('#Exported metric functions', () => {
   beforeEach(() => {
