@@ -42,7 +42,7 @@
     "test": "vitest run --coverage"
   },
   "dependencies": {
-    "aws-embedded-metrics": "4.2.0"
+    "aws-embedded-metrics": "4.2.1"
   },
   "release-it": {
     "npm": {
