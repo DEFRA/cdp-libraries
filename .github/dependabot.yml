@@ -23,6 +23,12 @@ updates:
       prefix: 'root'
     open-pull-requests-limit: 10
     versioning-strategy: increase
+    groups:
+      vitest:
+        patterns:
+          - 'vitest'
+          - 'vitest-*'
+          - '@vitest/*'
     cooldown:
       default-days: 5
       semver-major-days: 20
@@ -44,11 +50,6 @@ updates:
         update-types:
           - "minor"
           - "patch"
-      vitest:
-        patterns:
-          - 'vitest'
-          - 'vitest-*'
-          - '@vitest/*'
     cooldown:
       default-days: 5
       semver-major-days: 20
@@ -69,11 +70,6 @@ updates:
         update-types:
           - "minor"
           - "patch"
-      vitest:
-        patterns:
-          - 'vitest'
-          - 'vitest-*'
-          - '@vitest/*'
     cooldown:
       default-days: 5
       semver-major-days: 20
@@ -94,11 +90,6 @@ updates:
         update-types:
           - "minor"
           - "patch"
-      vitest:
-        patterns:
-          - 'vitest'
-          - 'vitest-*'
-          - '@vitest/*'
     cooldown:
       default-days: 5
       semver-major-days: 20
@@ -119,11 +110,6 @@ updates:
         update-types:
           - "minor"
           - "patch"
-      vitest:
-        patterns:
-          - 'vitest'
-          - 'vitest-*'
-          - '@vitest/*'
     cooldown:
       default-days: 5
       semver-major-days: 20
@@ -144,11 +130,6 @@ updates:
         update-types:
           - "minor"
           - "patch"
-      vitest:
-        patterns:
-          - 'vitest'
-          - 'vitest-*'
-          - '@vitest/*'
     cooldown:
       default-days: 5
       semver-major-days: 20
@@ -169,11 +150,6 @@ updates:
         update-types:
           - "minor"
           - "patch"
-      vitest:
-        patterns:
-          - 'vitest'
-          - 'vitest-*'
-          - '@vitest/*'
     cooldown:
       default-days: 5
       semver-major-days: 20
