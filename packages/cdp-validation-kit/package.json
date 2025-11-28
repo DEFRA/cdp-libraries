@@ -39,7 +39,7 @@
     "test": "vitest run --coverage"
   },
   "dependencies": {
-    "joi": "18.0.1"
+    "joi": "18.0.2"
   },
   "release-it": {
     "npm": {
