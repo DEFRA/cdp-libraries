@@ -22,14 +22,15 @@ function withTraceId(headerName, headers = {}) {
   return headers
 }
 /**
- * Wrap the request lifecycle in an asyncLocalStorage run call. This allows the
- * passed store to be available during the request lifecycle.
+ * Wrap the request cycle in an asyncLocalStorage run call. This allows the passed store to be available during the
+ * request lifecycle
  * @param { Request } request
+ * @param { '_lifecycle'|'_postCycle' } cycle
  * @param { Map<string, string> } store
  */
-function wrapLifecycle(request, store) {
-  const requestLifecycle = request._lifecycle.bind(request)
-  request._lifecycle = () => asyncLocalStorage.run(store, requestLifecycle)
+function wrapCycle(request, cycle, store) {
+  const requestCycle = request[cycle].bind(request)
+  request[cycle] = () => asyncLocalStorage.run(store, requestCycle)
 }
 
 /**
@@ -46,8 +47,11 @@ const tracing = {
           const store = new Map()
           const tracingHeader = options?.tracingHeader
           const traceId = request.headers[tracingHeader]
+
           store.set('traceId', traceId)
-          wrapLifecycle(request, store)
+          wrapCycle(request, '_lifecycle', store)
+          wrapCycle(request, '_postCycle', store)
+
           return h.continue
         })
       }

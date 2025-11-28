@@ -2,7 +2,7 @@ import { Server } from '@hapi/hapi'
 
 import { tracing, withTraceId } from './tracing.js'
 
-describe('#tracing and #withTraceId', () => {
+describe('#tracing Lifecycle and PostCycle #withTraceId', () => {
   const mockTraceId = 'mock-trace-id-123'
   let server
 
@@ -19,7 +19,7 @@ describe('#tracing and #withTraceId', () => {
     await server.stop({ timeout: 0 })
   })
 
-  describe('#tracing', () => {
+  describe('#tracing Lifecycle', () => {
     test('Should register the plugin', () => {
       expect(server.registrations).toEqual({
         tracing: {
@@ -51,6 +51,119 @@ describe('#tracing and #withTraceId', () => {
       const { result, statusCode } = await server.inject({
         method: 'GET',
         url: '/testing',
+        headers: { 'x-cdp-request-id': mockTraceId }
+      })
+
+      expect(result).toEqual({ message: 'success' })
+      expect(statusCode).toBe(200)
+    })
+
+    test('Expected traceId should exist within request lifecycle', async () => {
+      const serverRoute = '/testing/request-lifecycle'
+
+      expect.assertions(3)
+
+      server.route({
+        method: 'GET',
+        path: serverRoute,
+        handler: (request, h) => {
+          expect(request.getTraceId()).toBe(mockTraceId)
+
+          return h.response({ message: 'success' }).code(200)
+        }
+      })
+
+      const { result, statusCode } = await server.inject({
+        method: 'GET',
+        url: serverRoute,
+        headers: { 'x-cdp-request-id': mockTraceId }
+      })
+
+      expect(result).toEqual({ message: 'success' })
+      expect(statusCode).toBe(200)
+    })
+
+    test('Without auth, expected traceId should exist within all expected server extension points', async () => {
+      const serverRoute = '/testing/server-extension-points'
+      const serverExtensionExpectations = 5 * 2
+
+      expect.assertions(serverExtensionExpectations + 2)
+
+      const serverExtensionPointExpectations = (request, h) => {
+        expect(request.headers['x-cdp-request-id']).toBe(mockTraceId)
+        expect(request.getTraceId()).toBe(mockTraceId)
+
+        return h.continue
+      }
+
+      server.route({
+        options: {
+          ext: {
+            onPreAuth: { method: serverExtensionPointExpectations },
+            onCredentials: { method: serverExtensionPointExpectations }, // onCredentials extension not called due to no auth on this route
+            onPostAuth: { method: serverExtensionPointExpectations },
+            onPreHandler: { method: serverExtensionPointExpectations },
+            onPostHandler: { method: serverExtensionPointExpectations },
+            onPreResponse: { method: serverExtensionPointExpectations }
+          }
+        },
+        method: 'GET',
+        path: serverRoute,
+        handler: (request, h) => h.response({ message: 'success' }).code(200)
+      })
+
+      const { result, statusCode } = await server.inject({
+        method: 'GET',
+        url: serverRoute,
+        headers: { 'x-cdp-request-id': mockTraceId }
+      })
+
+      expect(result).toEqual({ message: 'success' })
+      expect(statusCode).toBe(200)
+    })
+
+    test('With auth, expected traceId should exist within all expected server extension points', async () => {
+      const serverRoute = '/testing/server-extension-points'
+      const serverExtensionExpectations = 6 * 2
+
+      expect.assertions(serverExtensionExpectations + 2)
+
+      const serverExtensionPointExpectations = (request, h) => {
+        expect(request.headers['x-cdp-request-id']).toBe(mockTraceId)
+        expect(request.getTraceId()).toBe(mockTraceId)
+
+        return h.continue
+      }
+
+      // Register a simple test auth scheme
+      server.auth.scheme('test', () => ({
+        authenticate: (request, h) =>
+          h.authenticated({ credentials: { username: 'testuser' } })
+      }))
+
+      server.auth.strategy('test-auth', 'test')
+      server.auth.default('test-auth')
+
+      server.route({
+        options: {
+          auth: { mode: 'required' },
+          ext: {
+            onPreAuth: { method: serverExtensionPointExpectations },
+            onCredentials: { method: serverExtensionPointExpectations }, // onCredentials extension called due to auth on this route
+            onPostAuth: { method: serverExtensionPointExpectations },
+            onPreHandler: { method: serverExtensionPointExpectations },
+            onPostHandler: { method: serverExtensionPointExpectations },
+            onPreResponse: { method: serverExtensionPointExpectations }
+          }
+        },
+        method: 'GET',
+        path: serverRoute,
+        handler: (request, h) => h.response({ message: 'success' }).code(200)
+      })
+
+      const { result, statusCode } = await server.inject({
+        method: 'GET',
+        url: serverRoute,
         headers: { 'x-cdp-request-id': mockTraceId }
       })
 
@@ -135,6 +248,108 @@ describe('#tracing and #withTraceId', () => {
         expect(result).toEqual({ message: 'success' })
         expect(statusCode).toBe(200)
       })
+    })
+  })
+
+  describe('#tracing PostCycle', () => {
+    test('Expected traceId should exist within request lifecycle', async () => {
+      const serverRoute = '/testing/request-post-cycle'
+
+      expect.assertions(3)
+
+      server.route({
+        method: 'GET',
+        path: serverRoute,
+        handler: (request, h) => {
+          expect(request.getTraceId()).toBe(mockTraceId)
+
+          return h.response({ message: 'success' }).code(200)
+        }
+      })
+
+      const { result, statusCode } = await server.inject({
+        method: 'GET',
+        url: serverRoute,
+        headers: { 'x-cdp-request-id': mockTraceId }
+      })
+
+      expect(result).toEqual({ message: 'success' })
+      expect(statusCode).toBe(200)
+    })
+
+    test('Expected traceId should exist within onPreResponse server extension point', async () => {
+      const serverRoute = '/testing/on-pre-response'
+
+      expect.assertions(4)
+
+      server.route({
+        options: {
+          ext: {
+            onPreResponse: {
+              method: (request, h) => {
+                expect(request.headers['x-cdp-request-id']).toBe(mockTraceId)
+                expect(request.getTraceId()).toBe(mockTraceId)
+
+                return h.continue
+              }
+            }
+          }
+        },
+        method: 'GET',
+        path: serverRoute,
+        handler: (request, h) => h.response({ message: 'success' }).code(200)
+      })
+
+      const { result, statusCode } = await server.inject({
+        method: 'GET',
+        url: serverRoute,
+        headers: { 'x-cdp-request-id': mockTraceId }
+      })
+
+      expect(result).toEqual({ message: 'success' })
+      expect(statusCode).toBe(200)
+    })
+
+    test('Expected traceId should exist within validation response', async () => {
+      const serverRoute = '/testing/validation-error/{id}'
+
+      expect.assertions(4)
+
+      server.route({
+        options: {
+          validate: {
+            params: () => {
+              throw new Error('Validation error')
+            },
+            failAction: (request, h, err) => {
+              expect(request.headers['x-cdp-request-id']).toBe(mockTraceId)
+              expect(request.getTraceId()).toBe(mockTraceId)
+
+              return err
+            }
+          }
+        },
+        method: 'GET',
+        path: serverRoute,
+        handler: (request, h) => h.response({ message: 'success' }).code(200)
+      })
+
+      const { result, statusCode } = await server.inject({
+        method: 'GET',
+        url: serverRoute,
+        headers: { 'x-cdp-request-id': mockTraceId }
+      })
+
+      expect(result).toEqual({
+        error: 'Bad Request',
+        message: 'Validation error',
+        statusCode: 400,
+        validation: {
+          keys: [],
+          source: 'params'
+        }
+      })
+      expect(statusCode).toBe(400)
     })
   })
 
