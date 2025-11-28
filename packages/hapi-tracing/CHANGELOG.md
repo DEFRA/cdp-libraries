@@ -1,5 +1,11 @@
 # @defra/hapi-tracing
 
+## 1.30.0
+
+### Minor Changes
+
+- 9c91cc7: Release \_postCycle tracing changes
+
 ## 1.29.0
 
 ### Minor Changes
