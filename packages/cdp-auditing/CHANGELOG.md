@@ -1,5 +1,11 @@
 # @defra/cdp-auditing
 
+## 0.6.0
+
+### Minor Changes
+
+- 6eb6057: Releasing dependabot updates
+
 ## 0.5.0
 
 ### Minor Changes

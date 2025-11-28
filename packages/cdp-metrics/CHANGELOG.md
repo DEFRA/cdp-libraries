@@ -1,5 +1,11 @@
 # @defra/cdp-metrics
 
+## 0.3.0
+
+### Minor Changes
+
+- 6eb6057: Releasing dependabot updates
+
 ## 0.2.0
 
 ### Minor Changes
