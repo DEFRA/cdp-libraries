@@ -10,7 +10,8 @@ to simply create and manage CDP packages, ensuring consistency and ease of use a
 - [Creating a new package](#creating-a-new-package)
 - [Global tooling](#global-tooling)
 - [Testing your changes](#testing-your-changes)
-- [Updating npm dependencies](#updating-npm-dependencies)
+- [Automatically updating npm dependencies with Dependabot](#automatically-updating-npm-dependencies-with-dependabot)
+- [Manually updating npm dependencies](#manually-updating-npm-dependencies)
 - [Not releasing](#not-releasing)
 - [Releasing](#releasing)
 - [Changesets](#changesets)
@@ -76,7 +77,18 @@ your `package.json` file, as they are already included in the root `package.json
 To test your changes in this repo in a local consuming codebase, `npm link` is your friend here. Have a read
 of https://docs.npmjs.com/cli/v9/commands /npm-link
 
-## Updating npm dependencies
+## Automatically updating npm dependencies with Dependabot
+
+Dependabot is configured to automatically create pull requests to update npm dependencies in the root package and all
+packages. These pull requests will be created automatically when new versions of dependencies are released and the
+specified cooldown period has passed.
+As a CDP developer you simply need to merge these pull requests when they have been created and have passed all
+required checks.
+
+Once the dependabot PR's have been merged you will need to release the packages that have had their dependencies
+updated. You can do this by creating a new changeset via `npm run changeset` and merging this PR.
+
+## Manually updating npm dependencies
 
 To update npm dependencies in the root package and all packages, you can use the following command from the root of the
 mono-repo:
