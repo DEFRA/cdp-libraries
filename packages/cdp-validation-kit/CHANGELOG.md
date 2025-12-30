@@ -1,5 +1,11 @@
 # @defra/cdp-validation-kit
 
+## 0.63.0
+
+### Minor Changes
+
+- e0a1448: Update to repositoryNameValidation to not allow multiple hyphens
+
 ## 0.62.0
 
 ### Minor Changes
