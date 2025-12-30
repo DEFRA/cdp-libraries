@@ -18,7 +18,28 @@ describe('#validations', () => {
   test('Should error with invalid repository name', () => {
     const result = repositoryNameValidation.validate('##totally &cr*azy name!!')
     expect(result.error.message).toBe(
-      'Letters and numbers with hyphen separators'
+      'Letters and numbers with single hyphen separators'
+    )
+  })
+
+  test('Should error with multiple hyphen separators', () => {
+    const result = repositoryNameValidation.validate('my--service')
+    expect(result.error.message).toBe(
+      'Letters and numbers with single hyphen separators'
+    )
+  })
+
+  test('Should error with underscores', () => {
+    const result = repositoryNameValidation.validate('my_service')
+    expect(result.error.message).toBe(
+      'Letters and numbers with single hyphen separators'
+    )
+  })
+
+  test('Should error with uppercase', () => {
+    const result = repositoryNameValidation.validate('MY-SERVICE')
+    expect(result.error.message).toBe(
+      'Letters and numbers with single hyphen separators'
     )
   })
 
