@@ -41,12 +41,12 @@
   "devDependencies": {
     "@changesets/changelog-github": "0.5.1",
     "@changesets/cli": "2.29.7",
-    "@vitest/coverage-v8": "4.0.13",
+    "@vitest/coverage-v8": "4.0.15",
     "eslint": "9.39.1",
     "husky": "9.1.7",
     "neostandard": "0.12.2",
     "prettier": "3.6.2",
-    "vitest": "4.0.13"
+    "vitest": "4.0.15"
   },
   "release-it": {
     "npm": {
