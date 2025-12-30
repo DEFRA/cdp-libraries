@@ -1,5 +1,11 @@
 # @defra/catbox-dynamodb
 
+## 0.7.0
+
+### Minor Changes
+
+- 29485d4: Bump catbox-dynamodb dependencies
+
 ## 0.6.0
 
 ### Minor Changes
