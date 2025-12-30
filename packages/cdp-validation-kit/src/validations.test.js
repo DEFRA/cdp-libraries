@@ -48,6 +48,13 @@ describe('#validations', () => {
     expect(result.error.message).toBe('Start and end with a letter or number')
   })
 
+  test('Should error when multiple invalid start and end characters used', () => {
+    const result = repositoryNameValidation.validate('--repo-name--')
+    expect(result.error.message).toBe(
+      'Letters and numbers with single hyphen separators'
+    )
+  })
+
   test('Should error when ends with "-ddl"', () => {
     const result = repositoryNameValidation.validate('incorrect-ending-ddl')
     expect(result.error.message).toBe('Must not end with "-ddl"')
