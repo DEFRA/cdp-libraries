@@ -63,7 +63,7 @@
   },
   "dependencies": {
     "@aws-sdk/client-dynamodb": "3.958.0",
-    "@aws-sdk/util-dynamodb": "3.958.0",
+    "@aws-sdk/util-dynamodb": "3.962.0",
     "@hapi/boom": "10.0.1"
   }
 }
