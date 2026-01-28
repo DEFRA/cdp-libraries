@@ -1,5 +1,11 @@
 # @defra/cdp-metrics
 
+## 0.4.0
+
+### Minor Changes
+
+- c310445: Use server & request decorated logger for metrics logs
+
 ## 0.3.0
 
 ### Minor Changes
