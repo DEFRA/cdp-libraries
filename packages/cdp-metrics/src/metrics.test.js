@@ -1,4 +1,4 @@
-import * as metricsModule from './metrics.js'
+import { Metrics } from './metrics.js'
 
 const mockHelperInstance = {
   timer: vi.fn(),
@@ -35,7 +35,7 @@ describe('#Exported metric functions', () => {
       async (_name, fn) => await fn()
     )
 
-    const result = await metricsModule.timer('myTimer', fn)
+    const result = await new Metrics().timer('myTimer', fn)
 
     expect(fn).toHaveBeenCalled()
     expect(mockHelperInstance.timer).toHaveBeenCalledWith('myTimer', fn)
@@ -44,7 +44,7 @@ describe('#Exported metric functions', () => {
   })
 
   test('counter sends metric with Count unit', async () => {
-    await metricsModule.counter('myCount', 5)
+    await new Metrics().counter('myCount', 5)
 
     expect(mockHelperInstance.putMetric).toHaveBeenCalledWith(
       'myCount',
@@ -56,7 +56,7 @@ describe('#Exported metric functions', () => {
   })
 
   test('gauge sends metric with None unit', async () => {
-    await metricsModule.gauge('myGauge', 42)
+    await new Metrics().gauge('myGauge', 42)
 
     expect(mockHelperInstance.putMetric).toHaveBeenCalledWith(
       'myGauge',
@@ -68,7 +68,7 @@ describe('#Exported metric functions', () => {
   })
 
   test('byteSize sends metric with Bytes unit', async () => {
-    await metricsModule.byteSize('mySize', 2048)
+    await new Metrics().byteSize('mySize', 2048)
 
     expect(mockHelperInstance.putMetric).toHaveBeenCalledWith(
       'mySize',
@@ -80,7 +80,7 @@ describe('#Exported metric functions', () => {
   })
 
   test('millis sends metric with Milliseconds unit', async () => {
-    await metricsModule.millis('myDuration', 300)
+    await new Metrics().millis('myDuration', 300)
 
     expect(mockHelperInstance.putMetric).toHaveBeenCalledWith(
       'myDuration',
@@ -95,9 +95,9 @@ describe('#Exported metric functions', () => {
     const error = new Error('test failure')
     mockHelperInstance.timer.mockRejectedValueOnce(error)
     const loggerSpy = vi.fn()
-    metricsModule.setLogger({ warn: loggerSpy })
+    const metrics = new Metrics({ warn: loggerSpy })
 
-    await metricsModule.timer('failTimer', async () => {})
+    await metrics.timer('failTimer', async () => {})
 
     expect(loggerSpy).toHaveBeenCalledWith(error)
   })
