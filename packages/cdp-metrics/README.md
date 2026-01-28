@@ -48,16 +48,19 @@ It is advised you do this in your `package.json` to prevent accidentally turning
 ```js
 import { counter, timer, millis, gauge, byteSize } from '@defra/cdp-metrics'
 
-await counter('processedItems', 5)
-await millis('dbQueryTime', 128)
-await gauge('inFlightJobs', 3)
-await byteSize('responseSize', 1024)
+const metrics = new Metrics()
+
+await metrics.counter('processedItems', 5)
+await metrics.millis('dbQueryTime', 128)
+await metrics.gauge('inFlightJobs', 3)
+await metrics.byteSize('responseSize', 1024)
 ```
 
 ### Timed Function
 
 ```js
-await timer('myHandlerTime', async () => {
+const metrics = new Metrics()
+await metrics.timer('myHandlerTime', async () => {
   // Do some async work
 })
 ```

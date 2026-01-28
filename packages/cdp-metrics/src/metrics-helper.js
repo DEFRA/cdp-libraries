@@ -3,7 +3,6 @@ import {
   StorageResolution,
   Unit
 } from 'aws-embedded-metrics'
-import { getLogger } from './metrics.js'
 
 /**
  * Helper class to manage AWS Embedded Metrics logging, timers, and counters.
@@ -12,8 +11,10 @@ export class MetricsHelper {
   /**
    * Creates a MetricsHelper instance.
    * @param {Record<string, string>} [dimensions={}] - Default dimensions to set on the metrics logger.
+   * @param {Object} [logger] - Optional logger.
    */
-  constructor(dimensions = {}) {
+  constructor(dimensions = {}, logger) {
+    this.logger = logger
     /** @type {Record<string, number>} */
     this.timers = {}
 
@@ -40,7 +41,7 @@ export class MetricsHelper {
   endTimer(name) {
     const start = this.timers[name]
     if (start == null) {
-      getLogger()?.error(`Timer "${name}" was not started.`)
+      this.logger?.error?.(`Timer "${name}" was not started.`)
       throw new Error(`Timer "${name}" was not started.`)
     }
 
@@ -55,7 +56,7 @@ export class MetricsHelper {
       delete this.timers[name]
       return metricsLogger
     } catch (e) {
-      getLogger()?.warn(e)
+      this.logger?.error?.warn(e)
     }
   }
 
