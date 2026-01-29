@@ -1,6 +1,6 @@
 {
   "name": "@defra/cdp-metrics",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "description": "Library for custom metrics on the CDP platform",
   "type": "module",
   "engines": {

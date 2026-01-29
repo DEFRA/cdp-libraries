@@ -1,5 +1,11 @@
 # @defra/cdp-metrics
 
+## 0.5.0
+
+### Minor Changes
+
+- b922fb4: Use server.logger for logging in metrics plugin
+
 ## 0.4.0
 
 ### Minor Changes
