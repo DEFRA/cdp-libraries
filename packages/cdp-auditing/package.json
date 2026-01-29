@@ -37,7 +37,7 @@
     "test": "vitest run --coverage"
   },
   "dependencies": {
-    "pino": "10.1.0",
+    "pino": "10.2.0",
     "joi": "18.0.2"
   },
   "release-it": {
