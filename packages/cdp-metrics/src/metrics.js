@@ -159,11 +159,14 @@ export const metrics = {
     version: '0.2.0',
     register(server) {
       server.decorate('request', 'metrics', function () {
-        return new Metrics(this.logger)
+        const logger = server.logger
+        return new Metrics(logger)
       })
 
       server.decorate('server', 'metrics', function () {
-        return new Metrics(this.logger)
+        // this is intentional as destructuring can lead to 'this' missing
+        const logger = server.logger
+        return new Metrics(logger)
       })
     }
   }
