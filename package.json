@@ -64,6 +64,6 @@
     "cdp-github-release": "ci/release-it.sh"
   },
   "dependencies": {
-    "ci-info": "4.3.1"
+    "ci-info": "4.4.0"
   }
 }
