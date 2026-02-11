@@ -1,5 +1,11 @@
 # @defra/catbox-dynamodb
 
+## 0.7.1
+
+### Patch Changes
+
+- 4656bb0: Bump AWS Client for DynamoDB
+
 ## 0.7.0
 
 ### Minor Changes
