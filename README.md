@@ -56,6 +56,7 @@ npm install
   - Update the `name` field to a unique name for your package
   - Update the `version` field to `0.0.1`
   - Update the `description` field with a brief description of your package
+  - Update the `main` field with the path to your entry point
   - Update the `repository` field with the URL of your new package's readme
   - Update the `release-it` object to include the new package. The config should be ok for you but you will need to use
     your new package name
