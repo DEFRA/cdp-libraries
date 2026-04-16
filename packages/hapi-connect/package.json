@@ -1,6 +1,6 @@
 {
   "name": "@defra/hapi-connect",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A hapi plugin to mount `connect` based middleware at a route",
   "type": "module",
   "engines": {
