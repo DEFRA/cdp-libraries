@@ -42,7 +42,7 @@
     "connect": "3.7.0"
   },
   "devDependencies": {
-    "@hapi/hapi": "21.4.4"
+    "@hapi/hapi": "21.4.8"
   },
   "release-it": {
     "npm": {
