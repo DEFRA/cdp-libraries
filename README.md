@@ -49,6 +49,7 @@ npm install
 
 - Copy and rename an existing package in the `packages` directory to create a new package
 - If they exist, remove `coverage` and `node_modules` directories from the new package
+- If it exists, remove the CHANGELOG.md
 - Empty the `src` folder in the new package
 - Update the `README.md` file in the new package with relevant information about your package
 - Update the `package.json` file in the new package with relevant information:
