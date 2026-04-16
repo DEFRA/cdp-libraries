@@ -36,6 +36,10 @@
     "setup:husky": "node -e \"try { (await import('husky')).default() } catch (e) { if (e.code !== 'ERR_MODULE_NOT_FOUND') throw e }\" --input-type module",
     "test": "vitest run --coverage"
   },
+  "dependencies": {
+    "@hapi/boom": "10.0.1",
+    "connect": "3.7.0"
+  },
   "devDependencies": {
     "@hapi/hapi": "21.4.4"
   },
