@@ -8,7 +8,6 @@ Hapi Connect is a Hapi plugin to mount [connect](https://github.com/senchalabs/c
 
 ## Usage
 
-
 ### Register the plugin
 
 As part of creating the server, register the hapi-connect plugin.
