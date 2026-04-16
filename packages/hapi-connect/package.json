@@ -24,7 +24,7 @@
     "defra",
     "tracing"
   ],
-  "main": "src/tracing.js",
+  "main": "src/connect.js",
   "scripts": {
     "format": "prettier --write \"**/*.{cjs,js,json,md}\"",
     "format:check": "prettier --check \"**/*.{cjs,js,json,md}\"",
