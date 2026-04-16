@@ -118,6 +118,46 @@ updates:
     # workspace: @defra/cdp-validation-kit
 
   - package-ecosystem: "npm"
+    directory: "/packages/hapi-auth-oidc"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 10
+    versioning-strategy: increase
+    commit-message:
+      prefix: "hapi-auth-oidc"
+    groups:
+      minor-and-patch:
+        update-types:
+          - "minor"
+          - "patch"
+    cooldown:
+      default-days: 5
+      semver-major-days: 20
+      semver-minor-days: 7
+      semver-patch-days: 3
+    # workspace: @defra/hapi-auth-oidc
+
+  - package-ecosystem: "npm"
+    directory: "/packages/hapi-connect"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 10
+    versioning-strategy: increase
+    commit-message:
+      prefix: "hapi-connect"
+    groups:
+      minor-and-patch:
+        update-types:
+          - "minor"
+          - "patch"
+    cooldown:
+      default-days: 5
+      semver-major-days: 20
+      semver-minor-days: 7
+      semver-patch-days: 3
+    # workspace: @defra/hapi-connect
+
+  - package-ecosystem: "npm"
     directory: "/packages/hapi-secure-context"
     schedule:
       interval: "weekly"
