@@ -1,6 +1,6 @@
 # Hapi Connect
 
-Hapi Connect is a Hapi plugin to mount [connect](https://github.com/senchalabs/connect#readme) based middleware at a route"
+Hapi Connect is a Hapi plugin to mount [connect](https://github.com/senchalabs/connect#readme) based middleware at a route.
 
 ## Installing
 
