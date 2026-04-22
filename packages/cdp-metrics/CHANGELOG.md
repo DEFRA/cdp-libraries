@@ -1,5 +1,11 @@
 # @defra/cdp-metrics
 
+## 0.6.0
+
+### Minor Changes
+
+- 5ad88fb: Update plugin to decorate metrics objects
+
 ## 0.5.0
 
 ### Minor Changes
