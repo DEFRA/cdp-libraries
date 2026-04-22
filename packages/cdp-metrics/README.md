@@ -48,7 +48,7 @@ It is advised you do this in your `package.json` to prevent accidentally turning
 ```js
 import { counter, timer, millis, gauge, byteSize } from '@defra/cdp-metrics'
 
-const metrics = new Metrics()
+const metrics = new Metrics(logger)
 
 await metrics.counter('processedItems', 5)
 await metrics.millis('dbQueryTime', 128)
@@ -56,10 +56,12 @@ await metrics.gauge('inFlightJobs', 3)
 await metrics.byteSize('responseSize', 1024)
 ```
 
+Metric calls can be fired without awaiting to avoid blocking execution.
+
 ### Timed Function
 
 ```js
-const metrics = new Metrics()
+const metrics = new Metrics(logger)
 await metrics.timer('myHandlerTime', async () => {
   // Do some async work
 })
@@ -80,13 +82,15 @@ import { metrics } from '@defra/cdp-metrics'
 
 await server.register(metrics)
 
-server.metrics().counter('startup', 1)
-request.metrics().timer('dbFetch', async () => fetchUsers())
+server.metrics.counter('startup', 1)
+request.metrics.timer('dbFetch', async () => fetchUsers())
 ```
 
 ## Testing
 
-In your tests, mock the internal aws-embedded-metrics methods to verify emitted metrics:
+You can use `AWS_EMF_ENVIRONMENT=Local` in your tests if you don't want metrics mocked.
+
+To mock the internal aws-embedded-metrics methods to verify emitted metrics:
 
 ```js
 import * as embedded from 'aws-embedded-metrics'
@@ -103,8 +107,6 @@ vi.spyOn(embedded, 'createMetricsLogger').mockImplementation(() => ({
 If any metric fails to emit, a warning is logged (if a logger is set). You can inject your own logger:
 
 ```js
-import { setLogger } from '@defra/cdp-metrics'
 import pino from 'pino'
-
-setLogger(pino())
+new Metrics(pino())
 ```
