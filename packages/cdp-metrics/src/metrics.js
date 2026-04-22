@@ -18,7 +18,11 @@ export class Metrics {
     try {
       const helper = new MetricsHelper(dimensions, this.logger)
       const result = await helper.timer(name, fn)
-      await helper.flush()
+      try {
+        await helper.flush()
+      } catch (e) {
+        this.logger?.warn?.(e)
+      }
       return result
     } catch (e) {
       this.logger?.warn?.(e)
@@ -156,18 +160,13 @@ export class Metrics {
 export const metrics = {
   plugin: {
     name: 'metrics',
-    version: '0.2.0',
+    version: '0.3.0',
     register(server) {
-      server.decorate('request', 'metrics', function () {
-        const logger = server.logger
-        return new Metrics(logger)
-      })
+      const logger = server.logger
+      const metrics = new Metrics(logger)
 
-      server.decorate('server', 'metrics', function () {
-        // this is intentional as destructuring can lead to 'this' missing
-        const logger = server.logger
-        return new Metrics(logger)
-      })
+      server.decorate('request', 'metrics', metrics)
+      server.decorate('server', 'metrics', metrics)
     }
   }
 }

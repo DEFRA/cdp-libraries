@@ -56,7 +56,7 @@ export class MetricsHelper {
       delete this.timers[name]
       return metricsLogger
     } catch (e) {
-      this.logger?.error?.warn(e)
+      this.logger?.warn?.(e)
     }
   }
 
