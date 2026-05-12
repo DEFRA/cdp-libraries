@@ -12,7 +12,7 @@ import assert from 'assert'
  * @param {Object} params
  * @param {string} params.refreshToken - JWT refresh token.
  * @param {string} params.accessToken - JWT access token.
- * @param {() => Promise<Object>} getOidcConfig - Async function that returns the OIDC client configuration.
+ * @param {(logger?: { info?: Function, warn?: Function, debug?: Function }) => Promise<import('openid-client').Configuration>} getOidcConfig
  * @param {number} [earlyRefreshMs=60000] - Time in ms before expiry to refresh early.
  * @param {string} [scope] - Optional scope for refresh.
  * @param {Object} [logger] - Optional logger with `info` and `warn` methods.

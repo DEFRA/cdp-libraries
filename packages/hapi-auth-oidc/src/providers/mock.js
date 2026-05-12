@@ -8,7 +8,9 @@ export class MockProvider {
     logger?.warn?.(
       `Using MOCK ${this.type} credential provider! This should NOT be used in real environments!`
     )
-    logger?.info?.(`Retrieving hardcoded token ${this.token}`)
+    logger?.info?.(
+      `Retrieving hardcoded oidc mock provider token ${this.token}`
+    )
     return this.token
   }
 }
