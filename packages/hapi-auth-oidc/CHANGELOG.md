@@ -1,5 +1,11 @@
 # @defra/hapi-auth-oidc
 
+## 0.3.0
+
+### Minor Changes
+
+- 6d68f3c: Add oidc form_post response_mode support
+
 ## 0.2.0
 
 ### Minor Changes
