@@ -1,5 +1,5 @@
 // Plugins
-export { HapiAuthOidcPlugin } from './plugins/hapi-auth-oidc.js'
+export { hapiAuthOidcPlugin } from './plugins/hapi-auth-oidc.js'
 
 // Providers
 export { CognitoTokenProvider } from './providers/cognito.js'

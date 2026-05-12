@@ -1,6 +1,6 @@
-import { describe, test, expect, vi, beforeEach } from 'vitest'
+import { beforeEach, describe, expect, test, vi } from 'vitest'
 import Boom from '@hapi/boom'
-import { HapiAuthOidcPlugin, asExternalUrl } from './hapi-auth-oidc.js'
+import { asExternalUrl, hapiAuthOidcPlugin } from './hapi-auth-oidc.js'
 import * as flow from '../oidc/flow.js'
 import * as refresh from '../oidc/refresh.js'
 import * as clientConfig from '../oidc/client-config.js'
@@ -33,7 +33,7 @@ describe('#HapiAuthOidcPlugin.register', () => {
   })
 
   test('Should register plugin and auth strategy', async () => {
-    await HapiAuthOidcPlugin.register(server, validOptions())
+    await hapiAuthOidcPlugin.register(server, validOptions())
 
     expect(server.state).toHaveBeenCalled()
     expect(server.auth.scheme).toHaveBeenCalledWith(
@@ -51,7 +51,7 @@ describe('#HapiAuthOidcPlugin.register', () => {
       accessToken: 'access'
     })
 
-    await HapiAuthOidcPlugin.register(server, validOptions())
+    await hapiAuthOidcPlugin.register(server, validOptions())
 
     const exposedFn = server.expose.mock.calls[0][1]
 
@@ -64,7 +64,7 @@ describe('#HapiAuthOidcPlugin.register', () => {
   })
 
   test('Should decorate request when refresh decoration is enabled', async () => {
-    await HapiAuthOidcPlugin.register(server, validOptions())
+    await hapiAuthOidcPlugin.register(server, validOptions())
 
     expect(server.decorate).toHaveBeenCalledWith(
       'request',
@@ -77,7 +77,7 @@ describe('#HapiAuthOidcPlugin.register', () => {
     const options = validOptions()
     options.oidc.enableRefreshDecoration = false
 
-    await HapiAuthOidcPlugin.register(server, options)
+    await hapiAuthOidcPlugin.register(server, options)
 
     expect(server.decorate).not.toHaveBeenCalled()
   })
@@ -90,7 +90,7 @@ describe('#HapiAuthOidcPlugin.register', () => {
       authenticate = factory().authenticate
     })
 
-    await HapiAuthOidcPlugin.register(server, validOptions())
+    await hapiAuthOidcPlugin.register(server, validOptions())
 
     const result = await authenticate(
       {
@@ -116,7 +116,7 @@ describe('#HapiAuthOidcPlugin.register', () => {
       authenticate = factory().authenticate
     })
 
-    await HapiAuthOidcPlugin.register(server, options)
+    await hapiAuthOidcPlugin.register(server, options)
 
     const fakeRequest = {
       query: {}, // triggers preLogin
@@ -143,7 +143,7 @@ describe('#HapiAuthOidcPlugin.register', () => {
       authenticate = factory().authenticate
     })
 
-    await HapiAuthOidcPlugin.register(server, options)
+    await hapiAuthOidcPlugin.register(server, options)
 
     const fakeRequest = {
       query: {}, // triggers preLogin
@@ -158,6 +158,60 @@ describe('#HapiAuthOidcPlugin.register', () => {
     expect(configArg.discoveryRequestOptions.execute).not.toContain(
       openid.allowInsecureRequests
     )
+  })
+
+  test('Should route form_post callback to postLogin', async () => {
+    flow.preLogin.mockResolvedValue({
+      isBoom: false
+    })
+
+    flow.postLogin.mockResolvedValue({
+      accessToken: 'access',
+      refreshToken: 'refresh',
+      idToken: 'id',
+      claims: {},
+      expiresIn: 3600
+    })
+
+    let authenticate
+    server.auth.scheme.mockImplementation((_name, factory) => {
+      authenticate = factory().authenticate
+    })
+
+    await hapiAuthOidcPlugin.register(server, validOptions())
+
+    const fakeRequest = {
+      method: 'post',
+      query: {},
+      payload: {
+        code: 'auth-code',
+        state: 'csrf-state'
+      },
+      state: {
+        'hapi-auth-oidc': {
+          codeVerifier: 'verifier',
+          state: 'csrf-state'
+        }
+      },
+      url: 'http://internal/callback',
+      logger: {}
+    }
+
+    const h = {
+      authenticated: vi.fn(({ credentials }) => ({ credentials })),
+      unstate: vi.fn()
+    }
+
+    await authenticate(fakeRequest, h)
+
+    expect(flow.preLogin).not.toHaveBeenCalled()
+    expect(flow.postLogin).toHaveBeenCalledWith(
+      expect.objectContaining({
+        codeVerifier: 'verifier',
+        state: 'csrf-state'
+      })
+    )
+    expect(h.unstate).toHaveBeenCalledWith('hapi-auth-oidc')
   })
 })
 
@@ -182,7 +236,7 @@ function validOptions() {
       discoveryUri: 'https://issuer/.well-known/openid-configuration',
       clientId: 'client-id',
       scope: 'openid',
-      loginCallbackUri: 'https://app/callback',
+      loginCallbackUri: '/callback',
       externalBaseUrl: 'https://external.example.com',
       authProvider: {
         type: 'client_secret',

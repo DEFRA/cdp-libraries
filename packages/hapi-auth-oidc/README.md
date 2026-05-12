@@ -137,20 +137,19 @@ const refreshedToken = await validateAndRefreshToken(
 ## Example Usage
 
 ```js
-import { config } from '../../../../config/config.js'
+import { config } from '../../../config/config.js'
 import {
   CognitoTokenProvider,
   HapiAuthOidcPlugin,
   MockProvider
-} from '../hapi-auth-oidc/index.js'
-import * as openid from 'openid-client'
+} from '@defra/hapi-auth-oidc'
 
 const authProvider = config.get('isProduction')
   ? new CognitoTokenProvider({
       poolId: config.get('azureFederatedCredentials.identityPoolId'),
       logins: { 'cdp-portal-frontend-aad-access': 'cdp-portal-frontend' }
     })
-  : new MockProvider()
+  : new MockProvider({})
 
 const oidcCookieConfig = config.get('hapi-auth-oidc.cookie')
 
@@ -162,7 +161,7 @@ export const AuthOidcPlugin = {
       clientId: config.get('azureClientId'),
       discoveryUri: config.get('oidcWellKnownConfigurationUrl'),
       authProvider,
-      useHttp: config.get('auth.Mock'),
+      useHttp: config.get('isProduction'),
       loginCallbackUri: config.get('appBaseUrl') + '/auth/callback',
       scope: `api://${config.get('azureClientId')}/cdp.user openid profile email offline_access user.read`,
       externalBaseUrl: config.get('appBaseUrl')

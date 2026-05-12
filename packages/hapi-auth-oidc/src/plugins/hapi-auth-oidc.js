@@ -5,13 +5,14 @@ import { validateAndRefreshToken } from '../oidc/refresh.js'
 import * as Hoek from '@hapi/hoek'
 import { createOidcConfig } from '../oidc/client-config.js'
 import * as openid from 'openid-client'
+import { URL } from 'node:url'
 
 /**
  * Hapi plugin providing OIDC authentication with PKCE support.
  * Handles pre-login (redirect to OIDC provider) and post-login (callback) flows.
  * Optionally decorates requests with a token validation and refresh method.
  */
-export const HapiAuthOidcPlugin = {
+export const hapiAuthOidcPlugin = {
   name: 'hapi-auth-oidc',
   /**
    * Registers the plugin with a Hapi server.
@@ -22,7 +23,9 @@ export const HapiAuthOidcPlugin = {
    * @param {Object} options.oidc - OIDC configuration object
    * @param {Function} options.oidc.getOidcConfig - Async function returning OIDC client config
    * @param {string} options.oidc.scope - Default scope for token requests
-   * @param {string} options.oidc.loginCallbackUri - Redirect URI for post-login
+   * @param {string} options.oidc.loginCallbackUri - Relative redirect URI for post-login e.g. /auth/callback
+   * @param {string} options.oidc.responseMode - OIDC response mode controlling how the auth response is returned to
+   * the redirect URI. If null, response_mode is omitted as a parameters in the auth request.
    * @param {string} options.oidc.externalBaseUrl - Base URL for server to build absolute URLs
    * @param {string} [options.oidc.defaultPostLoginUri='/'] - Default URI to redirect after login
    * @param {boolean} [options.oidc.enableRefreshDecoration=true] - Whether to decorate request with token refresh method
@@ -67,7 +70,9 @@ export const HapiAuthOidcPlugin = {
 
           const oidcConfig = await getOidcConfig(logger)
 
-          const isPreLogin = !request.query.code
+          const authCode = request.query.code ?? request.payload?.code
+          const isPreLogin = !authCode
+
           if (isPreLogin) {
             try {
               return await preLogin({
@@ -82,17 +87,28 @@ export const HapiAuthOidcPlugin = {
             }
           }
           try {
-            const state = request.state[cookie]
+            const record = request.state[cookie]
 
-            const codeVerifier = state?.codeVerifier
-            const nonce = state?.nonce
+            const codeVerifier = record?.codeVerifier
+            const nonce = record?.nonce
+            const state = record?.state
 
             // `currentUrl` must match the full external url, including hostname.
             const currentUrl = asExternalUrl(request.url, externalBaseUrl)
 
+            // support form_post
+            if (request.method.toUpperCase() === 'POST' && request.payload) {
+              for (const [key, value] of Object.entries(request.payload)) {
+                if (typeof value === 'string') {
+                  currentUrl.searchParams.set(key, value)
+                }
+              }
+            }
+
             const credentials = await postLogin({
               codeVerifier,
               nonce,
+              state,
               oidcConfig,
               currentUrl,
               logger
@@ -109,20 +125,21 @@ export const HapiAuthOidcPlugin = {
     })
 
     server.auth.strategy(strategyName, 'hapi-auth-oidc')
-    server.expose(
-      'validateAndRefreshToken',
-      async function ({ refreshToken, accessToken }) {
-        return validateAndRefreshToken(
-          { refreshToken, accessToken },
-          getOidcConfig,
-          earlyRefreshMs,
-          scope,
-          server.logger
-        )
-      }
-    )
 
     if (enableRefreshDecoration) {
+      server.expose(
+        'validateAndRefreshToken',
+        async function ({ refreshToken, accessToken }) {
+          return validateAndRefreshToken(
+            { refreshToken, accessToken },
+            getOidcConfig,
+            earlyRefreshMs,
+            scope,
+            server.logger
+          )
+        }
+      )
+
       server.decorate(
         'request',
         'validateAndRefreshToken',
@@ -178,7 +195,11 @@ const schema = Joi.object({
       .required(),
     discoveryRequestOptions: Joi.object().default({}),
     scope: Joi.string().required(),
-    loginCallbackUri: Joi.string().uri().required(),
+    loginCallbackUri: Joi.string().uri({ relativeOnly: true }).required(),
+    responseMode: Joi.string()
+      .valid('query', 'form_post', 'fragment')
+      .allow(null)
+      .default('form_post'),
     externalBaseUrl: Joi.string().uri().required(),
     defaultPostLoginUri: Joi.string().uri().optional().default('/'),
     enableRefreshDecoration: Joi.boolean().default(true),

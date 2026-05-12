@@ -14,6 +14,7 @@ describe('#preLogin', () => {
     vi.spyOn(openid, 'calculatePKCECodeChallenge').mockResolvedValue(
       'challenge'
     )
+    vi.spyOn(openid, 'randomState').mockReturnValue('state')
     vi.spyOn(openid, 'buildAuthorizationUrl').mockReturnValue(
       new URL('https://issuer/authorize')
     )
@@ -37,7 +38,8 @@ describe('#preLogin', () => {
     const opts = {
       cookie: 'oidc',
       oidc: {
-        loginCallbackUri: 'https://app/callback',
+        loginCallbackUri: '/callback',
+        externalBaseUrl: 'https://app',
         scope: 'openid'
       }
     }
@@ -46,7 +48,8 @@ describe('#preLogin', () => {
 
     expect(h.redirect).toHaveBeenCalledWith('https://issuer/authorize')
     expect(h.state).toHaveBeenCalledWith('oidc', {
-      codeVerifier: 'verifier'
+      codeVerifier: 'verifier',
+      state: 'state'
     })
     expect(h.takeover).toHaveBeenCalled()
   })
@@ -57,6 +60,7 @@ describe('#preLogin', () => {
       'challenge'
     )
     vi.spyOn(openid, 'randomNonce').mockReturnValue('nonce')
+    vi.spyOn(openid, 'randomState').mockReturnValue('state')
     vi.spyOn(openid, 'buildAuthorizationUrl').mockReturnValue(
       new URL('https://issuer/authorize')
     )
@@ -89,7 +93,8 @@ describe('#preLogin', () => {
 
     expect(h.state).toHaveBeenCalledWith('oidc', {
       codeVerifier: 'verifier',
-      nonce: 'nonce'
+      nonce: 'nonce',
+      state: 'state'
     })
   })
 })
