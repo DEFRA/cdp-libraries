@@ -1,5 +1,11 @@
 # @defra/hapi-auth-oidc
 
+## 0.4.0
+
+### Minor Changes
+
+- 49416a6: Add proxy env support to Cognito Provider
+
 ## 0.3.0
 
 ### Minor Changes
