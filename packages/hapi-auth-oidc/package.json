@@ -46,8 +46,8 @@
     "@hapi/jwt": "3.2.3",
     "aws-sdk-v3-proxy": "2.2.0",
     "date-fns": "4.1.0",
-    "openid-client": "6.8.2",
-    "qs": "6.14.2"
+    "openid-client": "6.8.4",
+    "qs": "6.15.1"
   },
   "release-it": {
     "npm": {
