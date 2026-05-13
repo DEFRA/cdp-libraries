@@ -3,6 +3,7 @@ import {
   CognitoIdentityClient,
   GetOpenIdTokenForDeveloperIdentityCommand
 } from '@aws-sdk/client-cognito-identity'
+import { addProxyToClient } from 'aws-sdk-v3-proxy'
 
 /**
  * Provides a federated Cognito token for a given identity pool.
@@ -30,7 +31,9 @@ export class CognitoTokenProvider {
   constructor({
     poolId,
     logins = {},
-    cognitoClient = new CognitoIdentityClient(),
+    cognitoClient = addProxyToClient(new CognitoIdentityClient(), {
+      throwOnNoProxy: false
+    }),
     earlyRefreshMs = 0
   }) {
     if (!poolId) throw new Error('poolId is required')
@@ -119,11 +122,7 @@ export class CognitoTokenProvider {
    */
   #tokenHasExpired(token, earlyRefreshMs, logger) {
     try {
-      logger?.info?.(`encoded token: ${token}`)
       const decoded = jwt.token.decode(token)
-      logger?.info?.(
-        `now: ${Date.now() + earlyRefreshMs}, decoded token: ${JSON.stringify(decoded)}`
-      )
       jwt.token.verifyTime(decoded, { now: Date.now() + earlyRefreshMs })
       return false
     } catch (e) {
