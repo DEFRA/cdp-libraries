@@ -1,5 +1,11 @@
 # @defra/hapi-auth-oidc
 
+## 0.5.0
+
+### Minor Changes
+
+- 156c3e1: Refactor!: remove auth scheme and add oidc utilities
+
 ## 0.4.0
 
 ### Minor Changes
