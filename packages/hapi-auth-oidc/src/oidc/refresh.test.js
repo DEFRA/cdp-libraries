@@ -1,26 +1,25 @@
 import * as openid from 'openid-client'
 import Jwt from '@hapi/jwt'
 import { describe, test, expect, vi, beforeEach } from 'vitest'
-import { validateAndRefreshToken, refreshToken } from './refresh'
+import { ensureValidToken, refreshToken } from './refresh'
 
 vi.mock('openid-client')
 vi.mock('@hapi/jwt')
 
-describe('#validateAndRefreshToken', () => {
+describe('#ensureValidToken', () => {
   beforeEach(() => {
     vi.clearAllMocks()
   })
 
-  test('Should return nothing when access token is still valid', async () => {
+  test('Should return existing token when access token is still valid', async () => {
     vi.spyOn(Jwt.token, 'decode').mockReturnValue({ name: 'user' })
     vi.spyOn(Jwt.token, 'verifyTime').mockImplementation(() => {})
 
-    const result = await validateAndRefreshToken(
-      { accessToken: 'access', refreshToken: 'refresh' },
-      vi.fn()
-    )
+    const token = { accessToken: 'access', refreshToken: 'refresh' }
+    const { token: result, refreshed } = await ensureValidToken(token, vi.fn())
 
-    expect(result).toBeUndefined()
+    expect(refreshed).toBeFalsy()
+    expect(result).toBe(token)
   })
 
   test('Should refresh token when access token is expiring', async () => {
@@ -36,7 +35,7 @@ describe('#validateAndRefreshToken', () => {
 
     const getOidcConfig = vi.fn().mockResolvedValue({})
 
-    const result = await validateAndRefreshToken(
+    const { token: result } = await ensureValidToken(
       { accessToken: 'access', refreshToken: 'refresh' },
       getOidcConfig
     )
@@ -59,7 +58,7 @@ describe('#validateAndRefreshToken', () => {
     const getOidcConfig = vi.fn().mockResolvedValue({})
 
     await expect(
-      validateAndRefreshToken(
+      ensureValidToken(
         { accessToken: 'access', refreshToken: 'refresh' },
         getOidcConfig
       )

@@ -104,7 +104,7 @@ export async function postLogin({
     refresh_token: refreshToken,
     id_token: idToken
   } = token
-  const claims = token.claims()
-  const expiresIn = token.expiresIn()
+  const claims = token.claims?.()
+  const expiresIn = token.expiresIn?.()
   return { accessToken, refreshToken, idToken, claims, expiresIn }
 }

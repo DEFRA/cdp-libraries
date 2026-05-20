@@ -10,4 +10,4 @@ export { createOidcConfig } from './oidc/client-config.js'
 
 // OIDC flows
 export { preLogin, postLogin } from './oidc/flow.js'
-export { validateAndRefreshToken, refreshToken } from './oidc/refresh.js'
+export { ensureValidToken, refreshToken } from './oidc/refresh.js'

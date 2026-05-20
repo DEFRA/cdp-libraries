@@ -5,48 +5,55 @@ import assert from 'assert'
 /**
  * Validates an access token and refreshes it if it is about to expire.
  *
- * - Returns a normalised token object if the token is refreshed.
- * - Returns `undefined` if the token is still valid and does not need refresh.
- * - Throws an error if token refresh fails.
+ * If the token is still valid, returns the original token object.
+ * If the token is near expiry, refreshes and returns a new token object.
+ * Throws an error if token refresh fails.
  *
- * @param {Object} params
- * @param {string} params.refreshToken - JWT refresh token.
- * @param {string} params.accessToken - JWT access token.
+ * @param {{refreshToken: string, accessToken: string }} token - Current token set.
  * @param {(logger?: { info?: Function, warn?: Function, debug?: Function }) => Promise<import('openid-client').Configuration>} getOidcConfig
- * @param {number} [earlyRefreshMs=60000] - Time in ms before expiry to refresh early.
+ * @param {number} [earlyRefreshMs=60000] - Time in ms before expiry to trigger refresh.
  * @param {string} [scope] - Optional scope for refresh.
- * @param {Object} [logger] - Optional logger with `info` and `warn` methods.
+ * @param {{ info?: Function, warn?: Function, debug?: Function }} [logger]
  *
  * @returns {Promise<{
- *   accessToken: string,
- *   refreshToken: string,
- *   idToken?: string,
- *   claims?: Record<string, any>,
- *   expiresIn?: number
- * } | undefined>} The refreshed token object, or `undefined` if no refresh was needed.
+ *   token: { accessToken: string,
+ *            refreshToken: string,
+ *            idToken?: string,
+ *            claims?: Record<string, any>,
+ *            expiresIn?: number },
+ *   refreshed: boolean
+ * }>} The original token if still valid, or a refreshed token object.
  *
  * @throws {Error} If token refresh fails.
  */
-export async function validateAndRefreshToken(
-  { refreshToken: jwtRefreshToken, accessToken },
+export async function ensureValidToken(
+  token,
   getOidcConfig,
   earlyRefreshMs = 60_000,
   scope,
   logger
 ) {
+  const { refreshToken: jwtRefreshToken, accessToken } = token
   const decoded = Jwt.token.decode(accessToken)
   try {
     Jwt.token.verifyTime(decoded, { now: Date.now() + earlyRefreshMs })
+    return { token, refreshed: false }
   } catch {
     logger?.info?.(
       `Token for user ${decoded?.name} expiring, attempting to refresh`
     )
-    try {
-      return await refreshToken(jwtRefreshToken, getOidcConfig, scope, logger)
-    } catch (e) {
-      logger?.warn?.(e, e.message)
-      throw e
-    }
+  }
+  try {
+    const refreshedToken = await refreshToken(
+      jwtRefreshToken,
+      getOidcConfig,
+      scope,
+      logger
+    )
+    return { token: refreshedToken, refreshed: true }
+  } catch (e) {
+    logger?.warn?.(e, e.message)
+    throw e
   }
 }
 

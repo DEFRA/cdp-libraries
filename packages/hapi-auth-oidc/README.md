@@ -4,12 +4,13 @@ A Hapi.js plugin providing OpenID Connect (OIDC) authentication with PKCE suppor
 
 ## Features
 
-- Pre-login redirect to OIDC provider with PKCE support
-- Post-login handling with token validation
+- login redirect to OIDC provider with PKCE support
+- Auth callback handling with token validation
 - Automatic access token refresh with configurable early refresh window
 - Federated token support via Cognito Identity Pools
-- Optional request decoration to validate and refresh tokens
+- request decoration ensureValidToken, login and handle callbacks
 - Mock OIDC provider for development and testing environments
+- form_post and query auth callback support
 - Fully configurable cookie options
 
 ## Installation
@@ -31,7 +32,7 @@ import {
   MockProvider,
   preLogin,
   postLogin,
-  validateAndRefreshToken
+  ensureValidToken
 } from '@defra/hapi-auth-oidc'
 ```
 
@@ -52,26 +53,19 @@ import { AuthOidcPlugin } from './auth-oidc.js'
 const server = Hapi.server({ port: 3000 })
 
 await server.register(AuthOidcPlugin)
-server.auth.strategy('azure-oidc', 'hapi-auth-oidc')
 ```
 
 ### Decorating requests
-
-If `enableRefreshDecoration` is true (default), requests are decorated with `validateAndRefreshToken`:
 
 ```js
 server.route({
   method: 'GET',
   path: '/protected',
   handler: async (request, h) => {
-    const token = await request.validateAndRefreshToken({
-      accessToken: request.auth.credentials.accessToken,
-      refreshToken: request.auth.credentials.refreshToken
-    })
+    const { token, refreshed } = await request.ensureValidToken(
+      request.auth.credentials
+    )
     return { token }
-  },
-  options: {
-    auth: 'azure-oidc'
   }
 })
 ```
@@ -81,9 +75,9 @@ server.route({
 Standalone usage:
 
 ```js
-import { validateAndRefreshToken } from '@defra/hapi-auth-oidc'
+import { ensureValidToken } from '@defra/hapi-auth-oidc'
 
-const refreshedToken = await validateAndRefreshToken(
+const refreshedToken = await ensureValidToken(
   { accessToken, refreshToken },
   getOidcConfig,
   60000,
@@ -96,7 +90,6 @@ const refreshedToken = await validateAndRefreshToken(
 
 ### Plugin options
 
-- `strategyName` - Name of the Hapi auth strategy (default: `'hapi-auth-oidc'`)
 - `oidc` - OIDC configuration object:
   - `clientId` - OIDC client ID
   - `discoveryUri` - URL for OIDC discovery document
@@ -106,7 +99,6 @@ const refreshedToken = await validateAndRefreshToken(
   - `scope` - Space-separated string of scopes
   - `externalBaseUrl` - Base URL used to construct absolute callback URLs
   - `defaultPostLoginUri` - Redirect URI after login if not otherwise specified (default: `'/'`)
-  - `enableRefreshDecoration` - Whether to decorate requests with `validateAndRefreshToken` (default: true)
   - `earlyRefreshMs` - Milliseconds before token expiry to refresh early (default: 60000)
 
 - `cookieOptions` - Cookie options for Iron encryption and security
@@ -156,7 +148,6 @@ const oidcCookieConfig = config.get('hapi-auth-oidc.cookie')
 export const AuthOidcPlugin = {
   plugin: HapiAuthOidcPlugin,
   options: {
-    strategyName: 'azure-oidc',
     oidc: {
       clientId: config.get('azureClientId'),
       discoveryUri: config.get('oidcWellKnownConfigurationUrl'),
