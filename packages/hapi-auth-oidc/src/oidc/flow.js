@@ -25,7 +25,7 @@ export async function preLogin({ oidcConfig, opts, h, logger }) {
 
   const params = {
     redirect_uri: new URL(loginCallbackUri, externalBaseUrl).toString(),
-    scope: scope,
+    scope,
     code_challenge: codeChallenge,
     code_challenge_method: 'S256',
     state,
