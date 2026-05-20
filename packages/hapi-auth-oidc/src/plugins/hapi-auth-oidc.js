@@ -1,7 +1,7 @@
 import Joi from 'joi'
 import Boom from '@hapi/boom'
 import { postLogin, preLogin } from '../oidc/flow.js'
-import { validateAndRefreshToken } from '../oidc/refresh.js'
+import * as refresh from '../oidc/refresh.js'
 import * as Hoek from '@hapi/hoek'
 import { createOidcConfig } from '../oidc/client-config.js'
 import * as openid from 'openid-client'
@@ -35,15 +35,9 @@ export const hapiAuthOidcPlugin = {
    */
   register: async function (server, options) {
     const opts = Joi.attempt(Hoek.clone(options), schema)
-    const { oidc, cookie, cookieOptions, strategyName } = opts
-    const {
-      discoveryUri,
-      clientId,
-      externalBaseUrl,
-      enableRefreshDecoration,
-      earlyRefreshMs,
-      scope
-    } = oidc
+    const { oidc, cookie, cookieOptions } = opts
+    const { discoveryUri, clientId, externalBaseUrl, earlyRefreshMs, scope } =
+      oidc
 
     const discoveryRequestOptions = {
       ...(oidc.discoveryRequestOptions || {}),
@@ -63,97 +57,89 @@ export const hapiAuthOidcPlugin = {
       })
 
     server.state(cookie, cookieOptions)
-    server.auth.scheme('hapi-auth-oidc', () => {
-      return {
-        authenticate: async (request, h) => {
-          const { logger } = request
 
-          const oidcConfig = await getOidcConfig(logger)
-
-          const authCode = request.query.code ?? request.payload?.code
-          const isPreLogin = !authCode
-
-          if (isPreLogin) {
-            try {
-              return await preLogin({
-                oidcConfig,
-                opts,
-                h,
-                logger
-              })
-            } catch (e) {
-              logger?.error?.(e, 'PreLogin Federated login failed')
-              return Boom.unauthorized(e)
-            }
-          }
-          try {
-            const record = request.state[cookie]
-
-            const codeVerifier = record?.codeVerifier
-            const nonce = record?.nonce
-            const state = record?.state
-
-            // `currentUrl` must match the full external url, including hostname.
-            const currentUrl = asExternalUrl(request.url, externalBaseUrl)
-
-            // support form_post
-            if (request.method.toUpperCase() === 'POST' && request.payload) {
-              for (const [key, value] of Object.entries(request.payload)) {
-                if (typeof value === 'string') {
-                  currentUrl.searchParams.set(key, value)
-                }
-              }
-            }
-
-            const credentials = await postLogin({
-              codeVerifier,
-              nonce,
-              state,
-              oidcConfig,
-              currentUrl,
-              logger
-            })
-            h.unstate(cookie)
-
-            return h.authenticated({ credentials })
-          } catch (e) {
-            logger?.error?.(e, `Post login failed:\n${JSON.stringify(e)}`)
-            return Boom.unauthorized(e)
-          }
-        }
+    const login = async function (request, h) {
+      const logger = request?.logger ?? server?.logger
+      const oidcConfig = await getOidcConfig(logger)
+      try {
+        return await preLogin({
+          oidcConfig,
+          opts,
+          h,
+          logger
+        })
+      } catch (e) {
+        logger?.error?.(e, 'PreLogin Federated login failed')
+        return Boom.unauthorized(e)
       }
-    })
+    }
 
-    server.auth.strategy(strategyName, 'hapi-auth-oidc')
+    const callback = async function (request, h) {
+      const logger = request?.logger ?? server?.logger
+      const oidcConfig = await getOidcConfig(logger)
+      try {
+        const record = request.state[cookie]
+        const codeVerifier = record?.codeVerifier
+        const nonce = record?.nonce
+        const state = record?.state
 
-    if (enableRefreshDecoration) {
-      server.expose(
-        'validateAndRefreshToken',
-        async function ({ refreshToken, accessToken }) {
-          return validateAndRefreshToken(
-            { refreshToken, accessToken },
-            getOidcConfig,
-            earlyRefreshMs,
-            scope,
-            server.logger
-          )
+        // `currentUrl` must match the full external url, including hostname.
+        const currentUrl = asExternalUrl(request.url, externalBaseUrl)
+
+        // support form_post
+        if (request.method.toUpperCase() === 'POST' && request.payload) {
+          for (const [key, value] of Object.entries(request.payload)) {
+            if (typeof value === 'string') {
+              currentUrl.searchParams.set(key, value)
+            }
+          }
         }
-      )
 
-      server.decorate(
-        'request',
-        'validateAndRefreshToken',
-        async function ({ refreshToken, accessToken }) {
-          return validateAndRefreshToken(
-            { refreshToken, accessToken },
-            getOidcConfig,
-            earlyRefreshMs,
-            scope,
-            this.logger
-          )
-        }
+        const credentials = await postLogin({
+          codeVerifier,
+          nonce,
+          state,
+          oidcConfig,
+          currentUrl,
+          logger
+        })
+        h.unstate(cookie)
+
+        return credentials
+      } catch (e) {
+        logger?.error?.(e, `Post login failed`)
+        return Boom.unauthorized(e)
+      }
+    }
+
+    const ensureValidToken = async function (request, token) {
+      const logger = request?.logger ?? server?.logger
+      return refresh.ensureValidToken(
+        token,
+        getOidcConfig,
+        earlyRefreshMs,
+        scope,
+        logger
       )
     }
+
+    server.expose('oidc', {
+      login,
+      callback,
+      ensureValidToken
+    })
+
+    server.decorate('request', 'login', async function (h) {
+      return server.plugins['hapi-auth-oidc'].oidc.login(this, h)
+    })
+
+    server.decorate('request', 'callback', async function (h) {
+      return server.plugins['hapi-auth-oidc'].oidc.callback(this, h)
+    })
+
+    server.decorate('request', 'ensureValidToken', async function (token) {
+      return server.plugins['hapi-auth-oidc'].oidc.ensureValidToken(this, token)
+    })
   }
 }
 
@@ -182,7 +168,6 @@ export function asExternalUrl(url, external) {
 }
 
 const schema = Joi.object({
-  strategyName: Joi.string().default('hapi-auth-oidc'),
   oidc: Joi.object({
     discoveryUri: Joi.string().uri().required(),
     clientId: Joi.string().required(),
@@ -202,11 +187,9 @@ const schema = Joi.object({
       .default('form_post'),
     externalBaseUrl: Joi.string().uri().required(),
     defaultPostLoginUri: Joi.string().uri().optional().default('/'),
-    enableRefreshDecoration: Joi.boolean().default(true),
     earlyRefreshMs: Joi.number().integer().min(0).default(60_000)
   }).required(),
   cookie: Joi.string()
-    .min(32)
     .default('hapi-auth-oidc')
     .description('Name of the cookie'),
   cookieOptions: Joi.object({

@@ -25,7 +25,7 @@ export async function preLogin({ oidcConfig, opts, h, logger }) {
 
   const params = {
     redirect_uri: new URL(loginCallbackUri, externalBaseUrl).toString(),
-    scope: scope,
+    scope,
     code_challenge: codeChallenge,
     code_challenge_method: 'S256',
     state,
@@ -104,7 +104,7 @@ export async function postLogin({
     refresh_token: refreshToken,
     id_token: idToken
   } = token
-  const claims = token.claims()
-  const expiresIn = token.expiresIn()
+  const claims = token.claims?.()
+  const expiresIn = token.expiresIn?.()
   return { accessToken, refreshToken, idToken, claims, expiresIn }
 }

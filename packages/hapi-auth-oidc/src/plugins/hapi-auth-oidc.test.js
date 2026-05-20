@@ -1,3 +1,4 @@
+import Hapi from '@hapi/hapi'
 import { beforeEach, describe, expect, test, vi } from 'vitest'
 import Boom from '@hapi/boom'
 import { asExternalUrl, hapiAuthOidcPlugin } from './hapi-auth-oidc.js'
@@ -6,97 +7,119 @@ import * as refresh from '../oidc/refresh.js'
 import * as clientConfig from '../oidc/client-config.js'
 import * as openid from 'openid-client'
 
-vi.mock('../oidc/flow.js')
-vi.mock('../oidc/refresh.js')
-vi.mock('../oidc/client-config.js')
-vi.mock('openid-client')
+vi.mock('../oidc/flow.js', () => ({
+  preLogin: vi.fn(),
+  postLogin: vi.fn()
+}))
 
-describe('#HapiAuthOidcPlugin.register', () => {
+vi.mock('../oidc/refresh.js', () => ({
+  ensureValidToken: vi.fn()
+}))
+
+vi.mock('../oidc/client-config.js', () => ({
+  createOidcConfig: vi.fn()
+}))
+
+vi.mock('openid-client', () => ({
+  allowInsecureRequests: vi.fn()
+}))
+
+describe('#HapiAuthOidcPlugin', () => {
   let server
 
   beforeEach(() => {
     vi.clearAllMocks()
-
-    server = {
-      state: vi.fn(),
-      expose: vi.fn(),
-      decorate: vi.fn(),
-      logger: {},
-      auth: {
-        scheme: vi.fn(),
-        strategy: vi.fn()
-      }
-    }
+    server = Hapi.server()
 
     clientConfig.createOidcConfig.mockResolvedValue({})
     openid.allowInsecureRequests.mockImplementation(() => {})
   })
 
-  test('Should register plugin and auth strategy', async () => {
-    await hapiAuthOidcPlugin.register(server, validOptions())
+  test('Should register plugin', async () => {
+    await server.register({
+      plugin: hapiAuthOidcPlugin,
+      options: validOptions()
+    })
 
-    expect(server.state).toHaveBeenCalled()
-    expect(server.auth.scheme).toHaveBeenCalledWith(
-      'hapi-auth-oidc',
+    expect(server.plugins['hapi-auth-oidc']).toBeDefined()
+
+    expect(server.plugins['hapi-auth-oidc'].oidc.login).toEqual(
       expect.any(Function)
     )
-    expect(server.auth.strategy).toHaveBeenCalledWith(
-      'hapi-auth-oidc',
-      'hapi-auth-oidc'
+    expect(server.plugins['hapi-auth-oidc'].oidc.callback).toEqual(
+      expect.any(Function)
     )
-  })
-
-  test('Should expose validateAndRefreshToken', async () => {
-    refresh.validateAndRefreshToken.mockResolvedValue({
-      accessToken: 'access'
-    })
-
-    await hapiAuthOidcPlugin.register(server, validOptions())
-
-    const exposedFn = server.expose.mock.calls[0][1]
-
-    const result = await exposedFn({
-      refreshToken: 'refresh',
-      accessToken: 'access'
-    })
-
-    expect(result.accessToken).toBe('access')
-  })
-
-  test('Should decorate request when refresh decoration is enabled', async () => {
-    await hapiAuthOidcPlugin.register(server, validOptions())
-
-    expect(server.decorate).toHaveBeenCalledWith(
-      'request',
-      'validateAndRefreshToken',
+    expect(server.plugins['hapi-auth-oidc'].oidc.ensureValidToken).toEqual(
       expect.any(Function)
     )
   })
 
-  test('Should not decorate request when refresh decoration is disabled', async () => {
-    const options = validOptions()
-    options.oidc.enableRefreshDecoration = false
+  test('Should expose ensureValidToken', async () => {
+    refresh.ensureValidToken.mockResolvedValue({
+      token: { accessToken: 'access' },
+      refreshed: true
+    })
 
-    await hapiAuthOidcPlugin.register(server, options)
+    await server.register({
+      plugin: hapiAuthOidcPlugin,
+      options: validOptions()
+    })
 
-    expect(server.decorate).not.toHaveBeenCalled()
+    const exposedFn = server.plugins['hapi-auth-oidc'].oidc.ensureValidToken
+
+    const result = await exposedFn(
+      {},
+      {
+        refreshToken: 'refresh',
+        accessToken: 'access'
+      }
+    )
+
+    expect(result.token.accessToken).toBe('access')
+    expect(result.refreshed).toBe(true)
+  })
+
+  test('Should decorate request', async () => {
+    await server.register({
+      plugin: hapiAuthOidcPlugin,
+      options: validOptions()
+    })
+
+    server.route({
+      method: 'GET',
+      path: '/test',
+      handler: (request) => ({
+        hasEnsureValidToken: typeof request.ensureValidToken === 'function',
+        hasOidcLogin: typeof request.login === 'function',
+        hasOidcCallback: typeof request.callback === 'function'
+      })
+    })
+
+    const res = await server.inject('/test')
+
+    expect(res.statusCode).toBe(200)
+    expect(JSON.parse(res.payload)).toEqual({
+      hasEnsureValidToken: true,
+      hasOidcLogin: true,
+      hasOidcCallback: true
+    })
   })
 
   test('Should return Boom unauthorized when preLogin throws', async () => {
     flow.preLogin.mockRejectedValue(new Error('prelogin failed'))
 
-    let authenticate
-    server.auth.scheme.mockImplementation((_name, factory) => {
-      authenticate = factory().authenticate
+    await server.register({
+      plugin: hapiAuthOidcPlugin,
+      options: validOptions()
     })
 
-    await hapiAuthOidcPlugin.register(server, validOptions())
+    const login = server.plugins['hapi-auth-oidc'].oidc.login
 
-    const result = await authenticate(
+    const result = await login(
       {
         query: {},
         state: {},
-        url: 'http://internal/login',
+        url: new URL('http://internal/login'),
         logger: {}
       },
       {}
@@ -111,21 +134,24 @@ describe('#HapiAuthOidcPlugin.register', () => {
     options.oidc.useHttp = true
     options.oidc.discoveryRequestOptions = { execute: [] }
 
-    let authenticate
-    server.auth.scheme.mockImplementation((_name, factory) => {
-      authenticate = factory().authenticate
+    flow.preLogin.mockResolvedValue({})
+
+    await server.register({
+      plugin: hapiAuthOidcPlugin,
+      options
     })
 
-    await hapiAuthOidcPlugin.register(server, options)
+    const login = server.plugins['hapi-auth-oidc'].oidc.login
 
-    const fakeRequest = {
-      query: {}, // triggers preLogin
-      state: {},
-      url: 'http://internal/path',
-      logger: {}
-    }
-
-    await authenticate(fakeRequest, {})
+    await login(
+      {
+        query: {},
+        state: {},
+        url: new URL('http://internal/path'),
+        logger: {}
+      },
+      {}
+    )
 
     const configArg = clientConfig.createOidcConfig.mock.calls[0][0]
     expect(configArg.discoveryRequestOptions.execute).toContain(
@@ -138,21 +164,24 @@ describe('#HapiAuthOidcPlugin.register', () => {
     options.oidc.useHttp = false
     options.oidc.discoveryRequestOptions = { execute: [] }
 
-    let authenticate
-    server.auth.scheme.mockImplementation((_name, factory) => {
-      authenticate = factory().authenticate
+    flow.preLogin.mockResolvedValue({})
+
+    await server.register({
+      plugin: hapiAuthOidcPlugin,
+      options
     })
 
-    await hapiAuthOidcPlugin.register(server, options)
+    const login = server.plugins['hapi-auth-oidc'].oidc.login
 
-    const fakeRequest = {
-      query: {}, // triggers preLogin
-      state: {},
-      url: 'http://internal/path',
-      logger: {}
-    }
-
-    await authenticate(fakeRequest, {})
+    await login(
+      {
+        query: {},
+        state: {},
+        url: new URL('http://internal/path'),
+        logger: {}
+      },
+      {}
+    )
 
     const configArg = clientConfig.createOidcConfig.mock.calls[0][0]
     expect(configArg.discoveryRequestOptions.execute).not.toContain(
@@ -160,49 +189,105 @@ describe('#HapiAuthOidcPlugin.register', () => {
     )
   })
 
-  test('Should route form_post callback to postLogin', async () => {
-    flow.preLogin.mockResolvedValue({
-      isBoom: false
-    })
-
-    flow.postLogin.mockResolvedValue({
+  test('Should support route query callbacks to postLogin', async () => {
+    const credentials = {
       accessToken: 'access',
       refreshToken: 'refresh',
       idToken: 'id',
       claims: {},
       expiresIn: 3600
-    })
-
-    let authenticate
-    server.auth.scheme.mockImplementation((_name, factory) => {
-      authenticate = factory().authenticate
-    })
-
-    await hapiAuthOidcPlugin.register(server, validOptions())
-
-    const fakeRequest = {
-      method: 'post',
-      query: {},
-      payload: {
-        code: 'auth-code',
-        state: 'csrf-state'
-      },
-      state: {
-        'hapi-auth-oidc': {
-          codeVerifier: 'verifier',
-          state: 'csrf-state'
-        }
-      },
-      url: 'http://internal/callback',
-      logger: {}
     }
 
+    flow.postLogin.mockResolvedValue(credentials)
+
+    await server.register({
+      plugin: hapiAuthOidcPlugin,
+      options: validOptions()
+    })
+
+    const callback = server.plugins['hapi-auth-oidc'].oidc.callback
+
     const h = {
-      authenticated: vi.fn(({ credentials }) => ({ credentials })),
       unstate: vi.fn()
     }
 
-    await authenticate(fakeRequest, h)
+    const result = await callback(
+      {
+        method: 'get',
+        query: {
+          code: 'auth-code',
+          state: 'csrf-state'
+        },
+        payload: undefined,
+        state: {
+          'hapi-auth-oidc': {
+            codeVerifier: 'verifier',
+            state: 'csrf-state',
+            nonce: 'nonce'
+          }
+        },
+        url: 'http://internal/callback',
+        logger: {}
+      },
+      h
+    )
+
+    expect(flow.preLogin).not.toHaveBeenCalled()
+
+    expect(flow.postLogin).toHaveBeenCalledWith(
+      expect.objectContaining({
+        codeVerifier: 'verifier',
+        state: 'csrf-state',
+        currentUrl: expect.anything()
+      })
+    )
+
+    expect(h.unstate).toHaveBeenCalledWith('hapi-auth-oidc')
+    expect(result).toEqual(credentials)
+  })
+
+  test('Should route form_post callback to postLogin', async () => {
+    const credentials = {
+      accessToken: 'access',
+      refreshToken: 'refresh',
+      idToken: 'id',
+      claims: {},
+      expiresIn: 3600
+    }
+
+    flow.postLogin.mockResolvedValue(credentials)
+
+    await server.register({
+      plugin: hapiAuthOidcPlugin,
+      options: validOptions()
+    })
+
+    const callback = server.plugins['hapi-auth-oidc'].oidc.callback
+
+    const h = {
+      unstate: vi.fn()
+    }
+
+    const result = await callback(
+      {
+        method: 'post',
+        query: {},
+        payload: {
+          code: 'auth-code',
+          state: 'csrf-state'
+        },
+        state: {
+          'hapi-auth-oidc': {
+            codeVerifier: 'verifier',
+            state: 'csrf-state',
+            nonce: 'nonce'
+          }
+        },
+        url: 'http://internal/callback',
+        logger: {}
+      },
+      h
+    )
 
     expect(flow.preLogin).not.toHaveBeenCalled()
     expect(flow.postLogin).toHaveBeenCalledWith(
@@ -212,6 +297,7 @@ describe('#HapiAuthOidcPlugin.register', () => {
       })
     )
     expect(h.unstate).toHaveBeenCalledWith('hapi-auth-oidc')
+    expect(result).toEqual(credentials)
   })
 })
 
@@ -243,6 +329,7 @@ function validOptions() {
         getCredentials: vi.fn(async (_logger) => {})
       }
     },
+    cookie: 'hapi-auth-oidc',
     cookieOptions: {
       password: 'x'.repeat(32)
     }
