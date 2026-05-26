@@ -57,7 +57,6 @@ export class CognitoTokenProvider {
     const result = await this.cognitoClient.send(command)
 
     if (result) {
-      logger?.info?.(`Result: ${JSON.stringify(result)}`)
       logger?.info?.(`Cognito token issued identityId: ${result.IdentityId}`)
     }
 

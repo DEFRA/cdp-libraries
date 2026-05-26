@@ -70,7 +70,7 @@ export const hapiAuthOidcPlugin = {
         })
       } catch (e) {
         logger?.error?.(e, 'PreLogin Federated login failed')
-        return Boom.unauthorized(e)
+        throw Boom.unauthorized(e.message)
       }
     }
 
@@ -108,7 +108,7 @@ export const hapiAuthOidcPlugin = {
         return credentials
       } catch (e) {
         logger?.error?.(e, `Post login failed`)
-        return Boom.unauthorized(e)
+        throw Boom.unauthorized(e.message)
       }
     }
 
@@ -210,7 +210,7 @@ const schema = Joi.object({
       .description('Cookie not accessible via client-side JS'),
     isSameSite: Joi.string()
       .valid('Strict', 'Lax', 'None')
-      .default('Lax')
+      .default('None')
       .description('SameSite cookie policy'),
     ttl: Joi.number()
       .integer()
