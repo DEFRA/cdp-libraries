@@ -1,6 +1,5 @@
 import Hapi from '@hapi/hapi'
 import { beforeEach, describe, expect, test, vi } from 'vitest'
-import Boom from '@hapi/boom'
 import { asExternalUrl, hapiAuthOidcPlugin } from './hapi-auth-oidc.js'
 import * as flow from '../oidc/flow.js'
 import * as refresh from '../oidc/refresh.js'
@@ -105,7 +104,7 @@ describe('#HapiAuthOidcPlugin', () => {
     })
   })
 
-  test('Should return Boom unauthorized when preLogin throws', async () => {
+  test('Should throw Boom unauthorized when preLogin throws', async () => {
     flow.preLogin.mockRejectedValue(new Error('prelogin failed'))
 
     await server.register({
@@ -115,18 +114,22 @@ describe('#HapiAuthOidcPlugin', () => {
 
     const login = server.plugins['hapi-auth-oidc'].oidc.login
 
-    const result = await login(
-      {
-        query: {},
-        state: {},
-        url: new URL('http://internal/login'),
-        logger: {}
-      },
-      {}
-    )
-
-    expect(Boom.isBoom(result)).toBe(true)
-    expect(result.output.statusCode).toBe(401)
+    await expect(
+      login(
+        {
+          query: {},
+          state: {},
+          url: new URL('http://internal/login'),
+          logger: {}
+        },
+        {}
+      )
+    ).rejects.toMatchObject({
+      isBoom: true,
+      output: {
+        statusCode: 401
+      }
+    })
   })
 
   test('Should merge allowInsecureRequests when useHttp is true', async () => {
