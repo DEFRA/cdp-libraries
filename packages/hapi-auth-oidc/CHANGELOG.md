@@ -1,5 +1,11 @@
 # @defra/hapi-auth-oidc
 
+## 0.5.1
+
+### Patch Changes
+
+- d08b602: Throw Boom unauthorized errors & default sameSite to None
+
 ## 0.5.0
 
 ### Minor Changes
