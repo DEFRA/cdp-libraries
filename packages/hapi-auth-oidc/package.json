@@ -41,13 +41,13 @@
     "test": "vitest run --coverage"
   },
   "dependencies": {
-    "@aws-sdk/client-cognito-identity": "3.1044.0",
+    "@aws-sdk/client-cognito-identity": "3.1050.0",
     "@hapi/boom": "10.0.1",
     "@hapi/hoek": "11.0.7",
     "@hapi/jwt": "3.2.3",
     "joi": "18.2.1",
     "aws-sdk-v3-proxy": "2.2.0",
-    "openid-client": "6.8.2"
+    "openid-client": "6.8.4"
   },
   "devDependencies": {
     "@hapi/hapi": "21.4.9"
