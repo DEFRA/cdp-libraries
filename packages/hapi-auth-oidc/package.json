@@ -42,12 +42,15 @@
   },
   "dependencies": {
     "@aws-sdk/client-cognito-identity": "3.1044.0",
+    "@hapi/boom": "10.0.1",
     "@hapi/hoek": "11.0.7",
     "@hapi/jwt": "3.2.3",
+    "joi": "18.2.1",
     "aws-sdk-v3-proxy": "2.2.0",
-    "date-fns": "4.1.0",
-    "openid-client": "6.8.2",
-    "qs": "6.14.2"
+    "openid-client": "6.8.2"
+  },
+  "devDependencies": {
+    "@hapi/hapi": "21.4.9"
   },
   "release-it": {
     "npm": {
