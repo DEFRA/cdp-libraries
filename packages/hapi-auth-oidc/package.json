@@ -1,6 +1,6 @@
 {
   "name": "@defra/hapi-auth-oidc",
-  "version": "0.5.1",
+  "version": "0.5.2",
   "description": "A lightweight Node.js library for authentication using OIDC tokens and hapi server integration.",
   "type": "module",
   "engines": {

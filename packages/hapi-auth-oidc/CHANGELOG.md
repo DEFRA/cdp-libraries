@@ -1,5 +1,11 @@
 # @defra/hapi-auth-oidc
 
+## 0.5.2
+
+### Patch Changes
+
+- dee84af: Update dependencies
+
 ## 0.5.1
 
 ### Patch Changes

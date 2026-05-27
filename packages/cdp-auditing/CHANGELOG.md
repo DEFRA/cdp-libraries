@@ -1,5 +1,11 @@
 # @defra/cdp-auditing
 
+## 0.6.1
+
+### Patch Changes
+
+- dee84af: Update dependencies
+
 ## 0.6.0
 
 ### Minor Changes
