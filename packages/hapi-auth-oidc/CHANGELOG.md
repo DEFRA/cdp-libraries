@@ -1,5 +1,11 @@
 # @defra/hapi-auth-oidc
 
+## 0.5.3
+
+### Patch Changes
+
+- 76c4c38: Add Web Identity STS Token provider
+
 ## 0.5.2
 
 ### Patch Changes
