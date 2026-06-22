@@ -4,6 +4,7 @@ export { hapiAuthOidcPlugin } from './plugins/hapi-auth-oidc.js'
 // Providers
 export { CognitoTokenProvider } from './providers/cognito.js'
 export { MockProvider } from './providers/mock.js'
+export { WebIdentityTokenProvider } from './providers/web-identity.js'
 
 // OIDC Configuration
 export { createOidcConfig } from './oidc/client-config.js'
