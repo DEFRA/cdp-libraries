@@ -1,5 +1,11 @@
 # @defra/hapi-auth-oidc
 
+## 0.5.4
+
+### Patch Changes
+
+- ebd54ca: Export WebIdentityTokenProvider
+
 ## 0.5.3
 
 ### Patch Changes
