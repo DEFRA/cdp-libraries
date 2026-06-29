@@ -97,7 +97,10 @@ export class CognitoTokenProvider {
             return this.#token
           }
         } catch (err) {
-          logger?.error?.('[Cognito] refresh failed', err)
+          logger?.error?.(
+            err,
+            `[Cognito] refresh failed. Error: ${err.message}`
+          )
           return this.#token
         } finally {
           this.#refreshPromise = null
@@ -124,8 +127,8 @@ export class CognitoTokenProvider {
       const decoded = jwt.token.decode(token)
       jwt.token.verifyTime(decoded, { now: Date.now() + earlyRefreshMs })
       return false
-    } catch (e) {
-      logger?.info?.(`token validation error: ${e}`)
+    } catch (err) {
+      logger?.info?.(err, `[Cognito] token validation error: ${err.message}`)
       return true
     }
   }

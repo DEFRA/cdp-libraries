@@ -73,10 +73,6 @@ export class WebIdentityTokenProvider {
    * @returns {Promise<string>} A valid JWT token.
    */
   async getCredentials(logger) {
-    console.error(this.#token)
-    console.error(
-      !this.#tokenHasExpired(this.#token, this.earlyRefreshMs, logger)
-    )
     if (
       this.#token &&
       !this.#tokenHasExpired(this.#token, this.earlyRefreshMs, logger)
@@ -102,7 +98,10 @@ export class WebIdentityTokenProvider {
 
           return this.#token
         } catch (err) {
-          logger?.error?.('[Web Identity] refresh failed', err)
+          logger?.error?.(
+            err,
+            `[Web Identity] refresh failed. Error: ${err.message}`
+          )
           return this.#token
         } finally {
           this.#refreshPromise = null
@@ -130,7 +129,10 @@ export class WebIdentityTokenProvider {
       jwt.token.verifyTime(decoded, { now: Date.now() + earlyRefreshMs })
       return false
     } catch (err) {
-      logger?.info?.(`[Web Identity] token validation error: ${err.message}`)
+      logger?.info?.(
+        err,
+        `[Web Identity] token validation error: ${err.message}`
+      )
       return true
     }
   }
