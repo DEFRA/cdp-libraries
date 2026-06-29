@@ -1,5 +1,11 @@
 # @defra/hapi-auth-oidc
 
+## 0.5.5
+
+### Patch Changes
+
+- 4f105d8: Improve error logging
+
 ## 0.5.4
 
 ### Patch Changes
