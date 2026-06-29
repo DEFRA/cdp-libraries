@@ -40,7 +40,7 @@
     "update:deps": "npx npm-check-updates --upgrade --deep"
   },
   "devDependencies": {
-    "@changesets/changelog-github": "0.5.2",
+    "@changesets/changelog-github": "0.7.0",
     "@changesets/cli": "2.29.8",
     "@vitest/coverage-v8": "4.1.8",
     "eslint": "9.39.2",
