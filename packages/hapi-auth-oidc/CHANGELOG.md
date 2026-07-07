@@ -1,5 +1,11 @@
 # @defra/hapi-auth-oidc
 
+## 0.5.6
+
+### Patch Changes
+
+- 8b09acf: Improve oauth4webapi error logging
+
 ## 0.5.5
 
 ### Patch Changes
