@@ -69,7 +69,11 @@ export const hapiAuthOidcPlugin = {
           logger
         })
       } catch (e) {
-        logger?.error?.(e, 'PreLogin Federated login failed')
+        const details = errorDetails(e)
+        logger?.error?.(
+          e,
+          `PreLogin Federated login failed${details ? `: ${details}` : ''}`
+        )
         throw Boom.unauthorized(e.message)
       }
     }
@@ -107,7 +111,8 @@ export const hapiAuthOidcPlugin = {
 
         return credentials
       } catch (e) {
-        logger?.error?.(e, `Post login failed`)
+        const details = errorDetails(e)
+        logger?.error?.(e, `Post login failed${details ? `: ${details}` : ''}`)
         throw Boom.unauthorized(e.message)
       }
     }
@@ -141,6 +146,20 @@ export const hapiAuthOidcPlugin = {
       return server.plugins['hapi-auth-oidc'].oidc.ensureValidToken(this, token)
     })
   }
+}
+
+function errorDetails(err) {
+  if (!err || typeof err !== 'object') {
+    return ''
+  }
+
+  return [
+    err.error,
+    err.error_description,
+    err.status ? `HTTP ${err.status}` : undefined
+  ]
+    .filter(Boolean)
+    .join(' - ')
 }
 
 /**
