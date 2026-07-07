@@ -16,7 +16,7 @@ export class WebIdentityTokenProvider {
    * Creates a new CognitoTokenProvider instance.
    *
    * @param {Object} params
-   * @param {string} params.audience - Audience value configured in the Entra ID federated credential.
+   * @param {string[]} [params.audience] - Audience values configured in the Entra ID federated credential.
    * @param {string} [params.signingAlgorithm='RS256'] - Optional JWT signing algorithm.
    * @param {STSClient} [params.stsClient] - Optional STS client.
    * @param {number} [params.durationSeconds=300] - Requested token lifetime.
