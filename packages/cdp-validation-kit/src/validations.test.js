@@ -94,10 +94,32 @@ describe('#validations', () => {
     expect(result.error).toBeUndefined()
   })
 
+  test('Should pass prerelease versionValidation', () => {
+    const result = versionValidation.validate('1.2.3-rc.1')
+    expect(result.error).toBeUndefined()
+  })
+
+  test('Should pass build metadata versionValidation', () => {
+    const result = versionValidation.validate('1.2.3+build.1')
+    expect(result.error).toBeUndefined()
+  })
+
+  test('Should pass prerelease and build metadata versionValidation', () => {
+    const result = versionValidation.validate('1.2.3-rc.1+build.1')
+    expect(result.error).toBeUndefined()
+  })
+
   test('Should error with incorrect version', () => {
     const result = versionValidation.validate('0.1-beta')
     expect(result.error.message).toBe(
-      '"value" with value "0.1-beta" fails to match the required pattern: /^\\d+\\.\\d+\\.\\d+$/'
+      '"value" with value "0.1-beta" fails to match the required pattern: /^v?\\d+\\.\\d+\\.\\d+(-[0-9A-Za-z-]+(\\.[0-9A-Za-z-]+)*)?(\\+[0-9A-Za-z-]+(\\.[0-9A-Za-z-]+)*)?$/'
+    )
+  })
+
+  test('Should error with short version', () => {
+    const result = versionValidation.validate('1.2')
+    expect(result.error.message).toBe(
+      '"value" with value "1.2" fails to match the required pattern: /^v?\\d+\\.\\d+\\.\\d+(-[0-9A-Za-z-]+(\\.[0-9A-Za-z-]+)*)?(\\+[0-9A-Za-z-]+(\\.[0-9A-Za-z-]+)*)?$/'
     )
   })
 

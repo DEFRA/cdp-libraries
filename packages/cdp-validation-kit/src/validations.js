@@ -75,7 +75,9 @@ const validCpuValues = Object.keys(ecsCpuToMemoryOptionsMap).map((cpu) =>
 const memoryValidation = buildMemoryValidation().required()
 
 const versionValidation = Joi.string()
-  .pattern(/^\d+\.\d+\.\d+$/)
+  .pattern(
+    /^v?\d+\.\d+\.\d+(-[0-9A-Za-z-]+(\.[0-9A-Za-z-]+)*)?(\+[0-9A-Za-z-]+(\.[0-9A-Za-z-]+)*)?$/
+  )
   .required()
 
 const instanceCountValidation = Joi.number().min(0).max(10).required()
