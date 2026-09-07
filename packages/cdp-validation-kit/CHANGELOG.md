@@ -1,5 +1,11 @@
 # @defra/cdp-validation-kit
 
+## 0.64.0
+
+### Minor Changes
+
+- 45c150a: Relax version validation to support SemVer v2 prerelease and build metadata suffixes (e.g. 1.2.3-rc.1, 1.2.3+build.5)
+
 ## 0.63.0
 
 ### Minor Changes
