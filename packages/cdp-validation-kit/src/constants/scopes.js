@@ -1,5 +1,5 @@
 /* @type {Record<string, string>} */
-const scopes = {
+export const scopes = {
   admin: 'permission:admin',
   breakGlass: 'permission:breakGlass',
   canGrantBreakGlass: 'permission:canGrantBreakGlass',
@@ -11,6 +11,4 @@ const scopes = {
   testAsTenant: 'permission:testAsTenant'
 }
 
-const kindsOfScope = ['user', 'team', 'member']
-
-export { scopes, kindsOfScope }
+export const kindsOfScope = ['user', 'team', 'member']

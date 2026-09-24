@@ -1,4 +1,4 @@
-const environments = {
+export const environments = {
   management: 'management',
   infraDev: 'infra-dev',
   dev: 'dev',
@@ -8,9 +8,7 @@ const environments = {
   prod: 'prod'
 }
 
-const adminOnlyEnvironments = [environments.infraDev, environments.management]
-
-const orderedEnvironments = [
+export const orderedEnvironments = [
   environments.infraDev,
   environments.management,
   environments.dev,
@@ -20,7 +18,7 @@ const orderedEnvironments = [
   environments.prod
 ]
 
-const environmentsExceptForProd = [
+export const environmentsExceptForProd = [
   environments.infraDev,
   environments.management,
   environments.dev,
@@ -29,9 +27,36 @@ const environmentsExceptForProd = [
   environments.extTest
 ]
 
-export {
-  adminOnlyEnvironments,
-  environments,
-  environmentsExceptForProd,
-  orderedEnvironments
-}
+export const prototypeEnvironments = [
+  environments.infraDev,
+  environments.dev,
+  environments.extTest
+]
+
+export const performanceEnvironments = [
+  environments.infraDev,
+  environments.management,
+  environments.perfTest
+]
+
+export const environmentsExceptInfraDev = [
+  environments.management,
+  environments.dev,
+  environments.test,
+  environments.perfTest,
+  environments.extTest,
+  environments.prod
+]
+
+export const adminOnlyEnvironments = [
+  environments.infraDev,
+  environments.management
+]
+
+export const nonAdminEnvironments = [
+  environments.dev,
+  environments.test,
+  environments.perfTest,
+  environments.extTest,
+  environments.prod
+]

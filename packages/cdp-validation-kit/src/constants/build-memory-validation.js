@@ -5,7 +5,7 @@ import { ecsCpuToMemoryOptionsMap } from './ecs-cpu-to-memory-options-map.js'
  *
  * @returns {Joi.NumberSchema<number>}
  */
-function buildMemoryValidation() {
+export function buildMemoryValidation() {
   return Object.keys(ecsCpuToMemoryOptionsMap).reduce((joiNumber, cpu) => {
     const validMemoryValues = ecsCpuToMemoryOptionsMap[cpu]?.map(
       ({ value }) => value
@@ -17,5 +17,3 @@ function buildMemoryValidation() {
     })
   }, Joi.number())
 }
-
-export { buildMemoryValidation }
