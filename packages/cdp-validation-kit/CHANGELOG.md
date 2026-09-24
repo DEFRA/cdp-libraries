@@ -1,5 +1,11 @@
 # @defra/cdp-validation-kit
 
+## 0.65.0
+
+### Minor Changes
+
+- 1435cf5: Add reusable validation options
+
 ## 0.64.0
 
 ### Minor Changes
