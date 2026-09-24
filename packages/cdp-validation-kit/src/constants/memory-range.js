@@ -1,4 +1,4 @@
-function memoryRange(start, end, increment = 1) {
+export function memoryRange(start, end, increment = 1) {
   const range = []
 
   for (let index = start; index <= end; index += increment) {
@@ -7,5 +7,3 @@ function memoryRange(start, end, increment = 1) {
 
   return range
 }
-
-export { memoryRange }

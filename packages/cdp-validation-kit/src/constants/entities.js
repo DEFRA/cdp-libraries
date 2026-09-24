@@ -1,10 +1,10 @@
-const entityTypes = {
+export const entityTypes = {
   microservice: 'Microservice',
   repository: 'Repository',
   testSuite: 'TestSuite'
 }
 
-const entitySubTypes = {
+export const entitySubTypes = {
   frontend: 'Frontend',
   backend: 'Backend',
   prototype: 'Prototype',
@@ -12,11 +12,9 @@ const entitySubTypes = {
   journey: 'Journey'
 }
 
-const entityStatuses = {
+export const entityStatuses = {
   created: 'Created',
   creating: 'Creating',
   decommissioned: 'Decommissioned',
   decommissioning: 'Decommissioning'
 }
-
-export { entityTypes, entitySubTypes, entityStatuses }

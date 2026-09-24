@@ -1,7 +1,8 @@
 import { memoryRange } from './memory-range.js'
+import { entitySubTypes } from './entities.js'
 // Based on: https://docs.aws.amazon.com/AmazonECS/latest/developerguide/fargate-tasks-services.html
 
-const ecsCpuToMemoryOptionsMap = {
+export const ecsCpuToMemoryOptionsMap = {
   512: memoryRange(1, 4),
   1024: memoryRange(2, 8),
   2048: memoryRange(4, 16),
@@ -9,4 +10,13 @@ const ecsCpuToMemoryOptionsMap = {
   8192: memoryRange(16, 60, 4)
 }
 
-export { ecsCpuToMemoryOptionsMap }
+export const prototypeCpuToMemoryOptionsMap = {
+  512: memoryRange(1, 2),
+  1024: memoryRange(2, 3)
+}
+
+export function getCpuToMemoryOptions(subtype) {
+  return subtype === entitySubTypes.prototype
+    ? prototypeCpuToMemoryOptionsMap
+    : ecsCpuToMemoryOptionsMap
+}
