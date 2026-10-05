@@ -1,5 +1,11 @@
 # @defra/hapi-secure-context
 
+## 0.4.1
+
+### Patch Changes
+
+- 309be11: Update dependencies
+
 ## 0.4.0
 
 ### Minor Changes

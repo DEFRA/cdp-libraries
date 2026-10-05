@@ -1,5 +1,15 @@
 # @defra/hapi-auth-oidc
 
+## 0.6.0
+
+### Minor Changes
+
+- 9669c5f: Refresh web identity credentials before session expiry
+
+### Patch Changes
+
+- 309be11: Update dependencies
+
 ## 0.5.6
 
 ### Patch Changes

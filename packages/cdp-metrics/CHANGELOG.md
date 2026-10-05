@@ -1,5 +1,11 @@
 # @defra/cdp-metrics
 
+## 0.6.1
+
+### Patch Changes
+
+- 309be11: Update dependencies
+
 ## 0.6.0
 
 ### Minor Changes

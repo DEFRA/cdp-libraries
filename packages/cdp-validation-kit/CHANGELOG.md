@@ -1,5 +1,11 @@
 # @defra/cdp-validation-kit
 
+## 0.65.1
+
+### Patch Changes
+
+- 309be11: Update dependencies
+
 ## 0.65.0
 
 ### Minor Changes

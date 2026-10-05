@@ -1,5 +1,11 @@
 # @defra/catbox-dynamodb
 
+## 0.7.3
+
+### Patch Changes
+
+- 309be11: Update dependencies
+
 ## 0.7.2
 
 ### Patch Changes
