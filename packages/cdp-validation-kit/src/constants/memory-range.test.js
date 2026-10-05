@@ -1,4 +1,5 @@
 import { memoryRange } from './memory-range'
+import { describe, expect, test } from 'vitest'
 
 describe('#memoryRange', () => {
   test('Memory range should be as expected', () => {

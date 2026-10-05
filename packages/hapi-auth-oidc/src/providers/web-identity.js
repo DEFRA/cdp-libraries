@@ -11,6 +11,7 @@ import jwt from '@hapi/jwt'
 export class WebIdentityTokenProvider {
   #token = null
   #refreshPromise = null
+  #providerId = null
 
   /**
    * Creates a new CognitoTokenProvider instance.
@@ -27,7 +28,8 @@ export class WebIdentityTokenProvider {
     signingAlgorithm = 'RS256',
     stsClient = new STSClient(),
     durationSeconds = 300,
-    earlyRefreshMs = 0
+    earlyRefreshMs = 0,
+    safetyMarginSeconds = 10
   }) {
     if (!audience) {
       throw new Error('audience is required')
@@ -39,25 +41,31 @@ export class WebIdentityTokenProvider {
     this.durationSeconds = durationSeconds
     this.earlyRefreshMs = earlyRefreshMs
     this.type = 'federated'
+    this.#providerId = crypto.randomUUID()
+    this.safetyMarginSeconds = safetyMarginSeconds
   }
 
   /**
    * Requests a new Web Identity token from AWS STS.
    *
    * @private
+   * @param {number} durationSeconds - Requested token lifetime.
    * @param {Object} [logger]
    * @returns {Promise<string>}
    */
-  async #request(logger) {
+  async #request(durationSeconds, logger) {
     const command = new GetWebIdentityTokenCommand({
       Audience: this.audience,
       SigningAlgorithm: this.signingAlgorithm,
-      DurationSeconds: this.durationSeconds
+      DurationSeconds: durationSeconds
     })
 
     const result = await this.stsClient.send(command)
 
-    logger?.info?.('[Web Identity] token issued')
+    logger?.info?.(
+      { event: { reference: this.#providerId } },
+      '[Web Identity] token issued'
+    )
 
     return result.WebIdentityToken
   }
@@ -81,17 +89,42 @@ export class WebIdentityTokenProvider {
     }
 
     if (!this.#refreshPromise) {
-      logger?.info?.('[Web Identity] creating refreshPromise')
+      logger?.info?.(
+        { event: { reference: this.#providerId } },
+        '[Web Identity] creating refreshPromise'
+      )
 
       this.#refreshPromise = (async () => {
         try {
-          const token = await this.#request(logger)
+          const credentials = await this.stsClient.config.credentials({
+            forceRefresh: true
+          })
+
+          const remainingMs = credentials.expiration.getTime() - Date.now()
+
+          const durationSeconds = Math.min(
+            this.durationSeconds,
+            Math.floor(remainingMs / 1000) - this.safetyMarginSeconds
+          )
+
+          if (durationSeconds < this.durationSeconds) {
+            logger?.warn?.(
+              { event: { reference: this.#providerId } },
+              `[Web Identity] parent AWS session has ${remainingMs} millis remaining`
+            )
+          }
+
+          const token = await this.#request(durationSeconds, logger)
 
           if (token) {
             this.#token = token
-            logger?.info?.('[Web Identity] token cached successfully')
+            logger?.info?.(
+              { event: { reference: this.#providerId } },
+              '[Web Identity] token cached successfully'
+            )
           } else {
             logger?.warn?.(
+              { event: { reference: this.#providerId } },
               '[Web Identity] received empty token, keeping previous token'
             )
           }
@@ -99,7 +132,7 @@ export class WebIdentityTokenProvider {
           return this.#token
         } catch (err) {
           logger?.error?.(
-            err,
+            { event: { reference: this.#providerId }, err },
             `[Web Identity] refresh failed. Error: ${err.message}`
           )
           return this.#token
@@ -108,7 +141,10 @@ export class WebIdentityTokenProvider {
         }
       })()
     } else {
-      logger?.info?.('[Web Identity] awaiting existing refreshPromise')
+      logger?.info?.(
+        { event: { reference: this.#providerId } },
+        '[Web Identity] awaiting existing refreshPromise'
+      )
     }
 
     return this.#refreshPromise
@@ -130,7 +166,7 @@ export class WebIdentityTokenProvider {
       return false
     } catch (err) {
       logger?.info?.(
-        err,
+        { event: { reference: this.#providerId }, err },
         `[Web Identity] token validation error: ${err.message}`
       )
       return true

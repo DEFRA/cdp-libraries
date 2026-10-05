@@ -1,21 +1,31 @@
-import { beforeEach, describe, expect, test, vi } from 'vitest'
+import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
 import { WebIdentityTokenProvider } from './web-identity.js'
 
 vi.mock('@aws-sdk/client-sts', () => {
   const sendMock = vi.fn()
+  const credentialsMock = vi.fn()
+
   return {
     STSClient: class {
       send = sendMock
+      config = {
+        credentials: credentialsMock
+      }
     },
-    GetWebIdentityTokenCommand: vi.fn(),
+    GetWebIdentityTokenCommand: class {
+      constructor(input) {
+        this.input = input
+      }
+    },
     __esModule: true,
-    __mocks: { sendMock }
+    __mocks: { sendMock, credentialsMock }
   }
 })
 
 vi.mock('@hapi/jwt', () => {
   const decodeMock = vi.fn()
   const verifyTimeMock = vi.fn()
+
   return {
     token: {
       decode: decodeMock,
@@ -28,9 +38,16 @@ vi.mock('@hapi/jwt', () => {
 
 describe('#WebIdentityTokenProvider', () => {
   let provider
-  let sendMock, decodeMock, verifyTimeMock
+  let sendMock
+  let decodeMock
+  let verifyTimeMock
+  let credentialsMock
+
+  const now = new Date('2026-10-01T12:00:00.000Z')
 
   beforeEach(async () => {
+    vi.useFakeTimers()
+    vi.setSystemTime(now)
     vi.clearAllMocks()
 
     provider = new WebIdentityTokenProvider({
@@ -40,19 +57,17 @@ describe('#WebIdentityTokenProvider', () => {
 
     const stsModule = await import('@aws-sdk/client-sts')
     sendMock = stsModule.__mocks.sendMock
+    credentialsMock = stsModule.__mocks.credentialsMock
 
     const jwtModule = await import('@hapi/jwt')
     decodeMock = jwtModule.__mocks.decodeMock
     verifyTimeMock = jwtModule.__mocks.verifyTimeMock
-  })
 
-  test('refreshes token when cached token is expired', async () => {
-    sendMock.mockResolvedValueOnce({
-      WebIdentityToken: 'token-1'
-    })
-
-    sendMock.mockResolvedValueOnce({
-      WebIdentityToken: 'token-2'
+    credentialsMock.mockResolvedValue({
+      accessKeyId: 'access-key',
+      secretAccessKey: 'secret-key',
+      sessionToken: 'session-token',
+      expiration: new Date('2026-10-02T13:00:00.000Z')
     })
 
     decodeMock.mockReturnValue({
@@ -60,18 +75,24 @@ describe('#WebIdentityTokenProvider', () => {
     })
 
     verifyTimeMock.mockReturnValue(undefined)
+  })
+
+  afterEach(() => {
+    vi.useRealTimers()
+  })
+
+  test('refreshes token when cached token is expired', async () => {
+    sendMock
+      .mockResolvedValueOnce({ WebIdentityToken: 'token-1' })
+      .mockResolvedValueOnce({ WebIdentityToken: 'token-2' })
 
     const first = await provider.getCredentials()
 
     expect(first).toBe('token-1')
 
-    decodeMock.mockImplementation((token) => {
-      if (token === 'token-1') {
-        return { exp: 0 }
-      }
-
-      return { exp: Date.now() / 1000 + 60 }
-    })
+    decodeMock.mockImplementation((token) =>
+      token === 'token-1' ? { exp: 0 } : { exp: Date.now() / 1000 + 60 }
+    )
 
     verifyTimeMock.mockImplementation((decoded) => {
       if (decoded.exp === 0) {
@@ -85,16 +106,83 @@ describe('#WebIdentityTokenProvider', () => {
     expect(sendMock).toHaveBeenCalledTimes(2)
   })
 
+  test('requests the configured duration when the parent session has sufficient lifetime', async () => {
+    provider = new WebIdentityTokenProvider({
+      audience: 'api://test',
+      durationSeconds: 300,
+      safetyMarginSeconds: 10
+    })
+
+    credentialsMock.mockResolvedValue({
+      accessKeyId: 'access-key',
+      secretAccessKey: 'secret-key',
+      sessionToken: 'session-token',
+      expiration: new Date('2026-10-02T13:00:00.000Z')
+    })
+
+    sendMock.mockResolvedValueOnce({
+      WebIdentityToken: 'token-1'
+    })
+
+    await provider.getCredentials()
+
+    const command = sendMock.mock.calls[0][0]
+
+    expect(command.input.DurationSeconds).toBe(300)
+  })
+
+  test('reduces the requested duration when the parent session expires sooner', async () => {
+    provider = new WebIdentityTokenProvider({
+      audience: 'api://test',
+      durationSeconds: 300,
+      safetyMarginSeconds: 10
+    })
+
+    credentialsMock.mockResolvedValue({
+      accessKeyId: 'access-key',
+      secretAccessKey: 'secret-key',
+      sessionToken: 'session-token',
+      expiration: new Date('2026-10-01T12:02:00.000Z')
+    })
+
+    sendMock.mockResolvedValueOnce({
+      WebIdentityToken: 'token-1'
+    })
+
+    await provider.getCredentials()
+
+    const command = sendMock.mock.calls[0][0]
+
+    expect(command.input.DurationSeconds).toBe(110)
+  })
+
+  test('subtracts the safety margin from the remaining parent session lifetime', async () => {
+    provider = new WebIdentityTokenProvider({
+      audience: 'api://test',
+      durationSeconds: 300,
+      safetyMarginSeconds: 10
+    })
+
+    credentialsMock.mockResolvedValue({
+      accessKeyId: 'access-key',
+      secretAccessKey: 'secret-key',
+      sessionToken: 'session-token',
+      expiration: new Date('2026-10-01T12:01:05.000Z')
+    })
+
+    sendMock.mockResolvedValueOnce({
+      WebIdentityToken: 'token-1'
+    })
+
+    await provider.getCredentials()
+
+    const command = sendMock.mock.calls[0][0]
+
+    expect(command.input.DurationSeconds).toBe(55)
+  })
+
   test('handles undefined token from refresh gracefully', async () => {
     sendMock.mockResolvedValueOnce(undefined)
-
-    decodeMock.mockReturnValue({
-      exp: 0
-    })
-
-    verifyTimeMock.mockImplementation(() => {
-      throw new Error('expired')
-    })
 
     const token = await provider.getCredentials()
 
@@ -136,20 +224,18 @@ describe('#WebIdentityTokenProvider', () => {
       WebIdentityToken: 'old-token'
     })
 
-    decodeMock.mockReturnValue({
-      exp: Date.now() / 1000 + 60
-    })
+    const first = await provider.getCredentials()
 
-    verifyTimeMock.mockReturnValue(undefined)
-
-    await provider.getCredentials()
+    expect(first).toBe('old-token')
 
     decodeMock.mockImplementation((token) =>
       token === 'old-token' ? { exp: 0 } : { exp: Date.now() / 1000 + 60 }
     )
 
-    verifyTimeMock.mockImplementation(() => {
-      throw new Error('expired')
+    verifyTimeMock.mockImplementation((decoded) => {
+      if (decoded.exp === 0) {
+        throw new Error('expired')
+      }
     })
 
     sendMock.mockRejectedValueOnce(new Error('refresh failure'))

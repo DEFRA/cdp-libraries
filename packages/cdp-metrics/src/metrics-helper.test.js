@@ -1,4 +1,5 @@
 import { MetricsHelper } from './metrics-helper.js'
+import { beforeEach, describe, expect, test, vi } from 'vitest'
 
 // Mock the entire aws-embedded-metrics module
 const mockPutMetric = vi.fn()

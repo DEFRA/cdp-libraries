@@ -1,5 +1,6 @@
 import { Server } from '@hapi/hapi'
 import connect from './connect.js'
+import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 
 describe('hapi-connect', () => {
   let server

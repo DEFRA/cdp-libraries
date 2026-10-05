@@ -1,4 +1,5 @@
 import { Metrics } from './metrics.js'
+import { beforeEach, describe, expect, test, vi } from 'vitest'
 
 const mockHelperInstance = {
   timer: vi.fn(),
