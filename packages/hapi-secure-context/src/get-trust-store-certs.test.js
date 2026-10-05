@@ -1,4 +1,5 @@
 import { getTrustStoreCerts } from './get-trust-store-certs.js'
+import { describe, expect, test } from 'vitest'
 
 describe('#getTrustStoreCerts', () => {
   const mockCert =

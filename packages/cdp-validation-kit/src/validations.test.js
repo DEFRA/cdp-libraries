@@ -8,6 +8,7 @@ import {
   repositoryNameValidation,
   versionValidation
 } from './validations'
+import { describe, expect, test } from 'vitest'
 
 describe('#validations', () => {
   test('Should pass with correct name', () => {

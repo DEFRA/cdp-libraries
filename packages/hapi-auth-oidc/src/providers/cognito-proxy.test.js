@@ -1,4 +1,5 @@
 import { CognitoTokenProvider } from './cognito.js'
+import { afterEach, describe, expect, test, vi } from 'vitest'
 
 describe('CognitoTokenProvider - Proxy Configuration', () => {
   afterEach(() => {

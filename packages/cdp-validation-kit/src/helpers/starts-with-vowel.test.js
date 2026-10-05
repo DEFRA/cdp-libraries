@@ -1,4 +1,5 @@
 import { startsWithVowel } from './starts-with-vowel.js'
+import { describe, expect, test } from 'vitest'
 
 describe('#startsWithVowel', () => {
   test('When string starts with vowel should return true', () => {

@@ -2,6 +2,7 @@ import pino from 'pino'
 
 import { audit, enableAuditing, setAuditLogger } from './auditing.js'
 import { auditLoggerConfig } from './audit-logger-config.js'
+import { afterEach, beforeEach, describe, expect, test } from 'vitest'
 
 export class TestPinoDestination {
   messages = []

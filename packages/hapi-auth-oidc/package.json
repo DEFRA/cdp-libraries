@@ -47,7 +47,7 @@
     "@hapi/hoek": "11.0.7",
     "@hapi/jwt": "3.2.3",
     "aws-sdk-v3-proxy": "2.2.0",
-    "joi": "18.2.1",
+    "joi": "18.2.9",
     "openid-client": "6.8.2"
   },
   "devDependencies": {

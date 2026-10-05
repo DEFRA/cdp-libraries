@@ -1,4 +1,5 @@
 import tls from 'node:tls'
+import { beforeEach, describe, expect, test, vi } from 'vitest'
 
 import { secureContext } from './secure-context.js'
 
