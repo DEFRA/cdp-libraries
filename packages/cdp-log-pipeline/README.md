@@ -35,24 +35,6 @@ The same steps, in the same order, as production:
 Keys follow the pipeline's rules: `/` means nested and `.` is part of the key name. `"trace.id": "x"` and
 `"trace": {"id": "x"}` are different fields, and only one of them may be allowed.
 
-## Checking against real Fluent Bit
-
-`npm run test:fluent-bit` runs every case in [`test/fluent-bit/cases.txt`](test/fluent-bit/cases.txt) through real
-Fluent Bit and through the tool's Fluent Bit stage (`--fluent-bit-only`), and fails if any output differs:
-
-```text
-Filter 4: grep on req.url (/health + 2xx is dropped)
-  SAME  dropped  {"req":{"url":"/health"},"res":{"statusCode":200}}
-  SAME  app      {"req":{"url":"/health"},"res":{"statusCode":301}}
-...
-49 cases, 0 different
-```
-
-It uses the Fluent Bit version and the `[FILTER]` sections from a `cdp-fluentbit` clone next to `cdp-libraries` (or in
-`CDP_ROOT_PATH`), read fresh on every run, so run it after `parse-json.conf` changes. It needs Docker and `jq`, so
-it is not part of `npm test`. `VERBOSE=1` prints both outputs for every case. Add a case to `cases.txt` for every new
-filter or edge case.
-
 ## Refreshing the config
 
 The tool is a copy of the pipeline in `cdp-opensearch-core` (`src/config/*.json`) and `cdp-fluentbit`
@@ -64,4 +46,4 @@ The tool is a copy of the pipeline in `cdp-opensearch-core` (`src/config/*.json`
 
 It regenerates the copy and is safe to re-run: if nothing changed upstream it prints `Up to date`, otherwise it lists
 the changed files for review. Fluent Bit filters can't be ported automatically: if they changed, update
-`src/fluent-bit.js` and run `npm run test:fluent-bit`.
+`src/fluent-bit.js` to match.

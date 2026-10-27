@@ -35,7 +35,8 @@
   "files": [
     "bin",
     "src",
-    "!src/**/*.test.js"
+    "!src/**/*.test.js",
+    "!src/config/*.sha256"
   ],
   "scripts": {
     "format": "prettier --write \"**/*.{cjs,js,json,md}\"",
@@ -46,8 +47,7 @@
     "lint:fix": "npm run lint -- --fix",
     "postinstall": "npm run setup:husky",
     "setup:husky": "node -e \"try { (await import('husky')).default() } catch (e) { if (e.code !== 'ERR_MODULE_NOT_FOUND') throw e }\" --input-type module",
-    "test": "vitest run --coverage",
-    "test:fluent-bit": "test/fluent-bit/test-against-real-fluent-bit.sh"
+    "test": "vitest run --coverage"
   },
   "release-it": {
     "npm": {

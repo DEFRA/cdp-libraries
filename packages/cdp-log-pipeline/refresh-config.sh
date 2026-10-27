@@ -14,7 +14,7 @@ for repo in $OPENSEARCH_CORE $FLUENTBIT; do
   [ -d "$repo" ] || { echo "$repo not found, set CDP_ROOT_PATH to the folder holding it" >&2; exit 2; }
 done
 CONFIG=src/config
-FLUENTBIT_HASH=test/fluent-bit/parse-json-filters.sha256
+FLUENTBIT_HASH=$CONFIG/fluent-bit-filters.sha256
 
 # default-logs-pipeline processors ($$ is Terraform's escaped $)
 sed 's/\[\${include_keys}\]/[]/' $OPENSEARCH_CORE/modules/opensearch_ingestion/files/tenants/yaml/cdp-logs-pipeline.yaml \
@@ -47,7 +47,7 @@ for file in $CONFIG/*.json $FLUENTBIT_HASH; do
     status=changed
     if [ "$file" = "$FLUENTBIT_HASH" ]; then
       echo "CHANGED  Fluent Bit filters or version: see git -C $FLUENTBIT log -p -- parse-json.conf Dockerfile"
-      echo "         then update src/fluent-bit.js and run npm run test:fluent-bit"
+      echo "         then update src/fluent-bit.js to match"
     else
       echo "CHANGED  $file: its source changed upstream, review with: git diff $file"
     fi
