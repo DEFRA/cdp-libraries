@@ -1,0 +1,69 @@
+# One app stdout line per case. `#` lines are section headers.
+# `@long <n>` is a JSON line with an n-character field, so Docker splits it.
+
+# Filter 1: multiline (joins lines over 16KB that Docker splits)
+@long 40000
+
+# Filter 2: parser json
+{"message":"hello"}
+plain text, not json
+{"message":"broken
+[1,2,3]
+"just a string"
+42
+null
+  {"message":"spaces around"}
+{"log":{"logger":"app"},"message":"own log field"}
+{"a":{"b":{"c":1}},"n":1.5,"t":true}
+
+# Filter 3: type_converter (status_code_str)
+{"res":{"statusCode":404}}
+{"http":{"response.status_code":500}}
+{"res":{"statusCode":404},"http":{"response.status_code":500}}
+{"res":{"statusCode":"404"}}
+{"res":{"statusCode":404.5}}
+{"http":{"response":{"status_code":500}}}
+{"message":"no status"}
+{"res":{"statusCode":200.0}}
+
+# Filter 4: grep on req.url (/health + 2xx is dropped)
+{"req":{"url":"/health"},"res":{"statusCode":200}}
+{"req":{"url":"/health"},"res":{"statusCode":204}}
+{"req":{"url":"/health"},"res":{"statusCode":299}}
+{"req":{"url":"/health"},"res":{"statusCode":301}}
+{"req":{"url":"/health"},"res":{"statusCode":500}}
+{"req":{"url":"/healthz"},"res":{"statusCode":200}}
+{"req":{"url":"/health/"},"res":{"statusCode":200}}
+{"req":{"url":"/Health"},"res":{"statusCode":200}}
+{"req":{"url":"/health?x=1"},"res":{"statusCode":200}}
+{"req":{"url":"/health"}}
+{"req":{"url":"/other"},"res":{"statusCode":200}}
+{"req":{"url":"/health"},"http":{"response.status_code":200}}
+{"req.url":"/health","res":{"statusCode":200}}
+{"req":{"url":"/health"},"res":{"statusCode":200.0}}
+{"req":{"url":"/health"},"status_code_str":"200"}
+{"req":{"url":"/health"},"status_code_str":200}
+
+# Filter 5: grep on url.path (/health + 2xx is dropped)
+{"url":{"path":"/health"},"http":{"response.status_code":200}}
+{"url":{"path":"/health"},"http":{"response.status_code":204}}
+{"url":{"path":"/health"},"http":{"response.status_code":503}}
+{"url":{"path":"/health"}}
+{"url":{"path":"/healthz"},"http":{"response.status_code":200}}
+{"url":{"path":"/api/health"},"http":{"response.status_code":200}}
+{"url":{"path":"/health"},"res":{"statusCode":200}}
+{"url.path":"/health","http":{"response.status_code":200}}
+{"url":{"path":"/health"},"http":{"response":{"status_code":200}}}
+{"req":{"url":"/other"},"url":{"path":"/health"},"res":{"statusCode":200}}
+
+# Filter 6: record_modifier (service.name / service.version)
+{"message":"hi"}
+{"message":"hi","service.name":"from-app","service.version":"9.9.9"}
+{"message":"hi","service":{"name":"nested-from-app","version":"9.9.9"}}
+
+# Filter 7: rewrite_tag (log.level audit → audit route)
+{"log.level":"audit","message":"user logged in"}
+{"log.level":"AUDIT","message":"user logged in"}
+{"log.level":"info","message":"not audit"}
+{"log":{"level":"audit"},"message":"nested level"}
+{"log.level":"audit","req":{"url":"/health"},"res":{"statusCode":200}}
