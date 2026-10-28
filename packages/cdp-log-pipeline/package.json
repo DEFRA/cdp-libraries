@@ -1,6 +1,6 @@
 {
   "name": "@defra/cdp-log-pipeline",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Run your service's logs through a local copy of the CDP log pipeline to see what ends up in OpenSearch",
   "type": "module",
   "engines": {
