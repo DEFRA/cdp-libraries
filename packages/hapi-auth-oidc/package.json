@@ -41,17 +41,17 @@
     "test": "vitest run --coverage"
   },
   "dependencies": {
-    "@aws-sdk/client-cognito-identity": "3.1044.0",
-    "@aws-sdk/client-sts": "3.1073.0",
+    "@aws-sdk/client-cognito-identity": "3.1154.0",
+    "@aws-sdk/client-sts": "3.1154.0",
     "@hapi/boom": "10.0.1",
     "@hapi/hoek": "11.0.7",
-    "@hapi/jwt": "3.2.3",
+    "@hapi/jwt": "3.2.4",
     "aws-sdk-v3-proxy": "2.2.0",
-    "joi": "18.2.9",
-    "openid-client": "6.8.2"
+    "joi": "18.3.0",
+    "openid-client": "6.8.8"
   },
   "devDependencies": {
-    "@hapi/hapi": "21.4.9"
+    "@hapi/hapi": "21.4.11"
   },
   "release-it": {
     "npm": {
