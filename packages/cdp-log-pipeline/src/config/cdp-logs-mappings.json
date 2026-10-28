@@ -1,0 +1,468 @@
+{
+  "properties": {
+    "@ingestion_timestamp": {
+      "type": "date"
+    },
+    "@timestamp": {
+      "type": "date"
+    },
+    "amazon": {
+      "properties": {
+        "trace": {
+          "properties": {
+            "id": {
+              "type": "text"
+            }
+          }
+        }
+      }
+    },
+    "cdp-uploader": {
+      "properties": {
+        "fileId": {
+          "type": "text"
+        },
+        "fileIds": {
+          "type": "text"
+        },
+        "uploadId": {
+          "type": "text"
+        },
+        "uploadStatus": {
+          "type": "text"
+        }
+      }
+    },
+    "client": {
+      "properties": {
+        "address": {
+          "type": "text"
+        },
+        "ip": {
+          "type": "text"
+        },
+        "port": {
+          "type": "long"
+        }
+      }
+    },
+    "console": {
+      "properties": {
+        "log": {
+          "type": "boolean"
+        }
+      }
+    },
+    "container_id": {
+      "type": "text"
+    },
+    "container_name": {
+      "type": "text",
+      "fields": {
+        "keyword": {
+          "type": "keyword",
+          "ignore_above": 256
+        }
+      }
+    },
+    "date": {
+      "type": "float"
+    },
+    "ecs": {
+      "properties": {
+        "version": {
+          "type": "text"
+        }
+      }
+    },
+    "ecs_cluster": {
+      "type": "text",
+      "fields": {
+        "keyword": {
+          "type": "keyword",
+          "ignore_above": 256
+        }
+      }
+    },
+    "ecs_task_arn": {
+      "type": "text"
+    },
+    "ecs_task_definition": {
+      "type": "text"
+    },
+    "error": {
+      "properties": {
+        "code": {
+          "type": "text"
+        },
+        "id": {
+          "type": "text"
+        },
+        "message": {
+          "type": "text"
+        },
+        "stack_trace": {
+          "type": "text"
+        },
+        "type": {
+          "type": "text"
+        }
+      }
+    },
+    "event": {
+      "properties": {
+        "action": {
+          "type": "text",
+          "fields": {
+            "keyword": {
+              "type": "keyword",
+              "ignore_above": 256
+            }
+          }
+        },
+        "category": {
+          "type": "text",
+          "fields": {
+            "keyword": {
+              "type": "keyword",
+              "ignore_above": 256
+            }
+          }
+        },
+        "created": {
+          "type": "date"
+        },
+        "duration": {
+          "type": "long"
+        },
+        "kind": {
+          "type": "text",
+          "fields": {
+            "keyword": {
+              "type": "keyword",
+              "ignore_above": 256
+            }
+          }
+        },
+        "outcome": {
+          "type": "text",
+          "fields": {
+            "keyword": {
+              "type": "keyword",
+              "ignore_above": 256
+            }
+          }
+        },
+        "reason": {
+          "type": "text",
+          "fields": {
+            "keyword": {
+              "type": "keyword",
+              "ignore_above": 256
+            }
+          }
+        },
+        "reference": {
+          "type": "text",
+          "fields": {
+            "keyword": {
+              "type": "keyword",
+              "ignore_above": 256
+            }
+          }
+        },
+        "severity": {
+          "type": "long"
+        },
+        "type": {
+          "type": "text",
+          "fields": {
+            "keyword": {
+              "type": "keyword",
+              "ignore_above": 256
+            }
+          }
+        }
+      }
+    },
+    "host": {
+      "properties": {
+        "hostname": {
+          "type": "text",
+          "fields": {
+            "keyword": {
+              "type": "keyword",
+              "ignore_above": 256
+            }
+          }
+        }
+      }
+    },
+    "http": {
+      "properties": {
+        "request": {
+          "properties": {
+            "body": {
+              "properties": {
+                "bytes": {
+                  "type": "long"
+                }
+              }
+            },
+            "bytes": {
+              "type": "long"
+            },
+            "headers": {
+              "properties": {
+                "Accept-language": {
+                  "type": "text"
+                },
+                "accept-encoding": {
+                  "type": "text"
+                },
+                "cache-control": {
+                  "type": "text"
+                },
+                "expires": {
+                  "type": "text"
+                },
+                "referer": {
+                  "type": "text"
+                }
+              }
+            },
+            "id": {
+              "type": "text"
+            },
+            "method": {
+              "type": "text"
+            }
+          }
+        },
+        "response": {
+          "properties": {
+            "body": {
+              "properties": {
+                "bytes": {
+                  "type": "long"
+                }
+              }
+            },
+            "bytes": {
+              "type": "long"
+            },
+            "mime_type": {
+              "type": "text"
+            },
+            "response_time": {
+              "type": "long"
+            },
+            "status_code": {
+              "type": "long"
+            }
+          }
+        }
+      }
+    },
+    "log": {
+      "properties": {
+        "level": {
+          "type": "text",
+          "fields": {
+            "keyword": {
+              "type": "keyword",
+              "ignore_above": 256
+            }
+          }
+        },
+        "file": {
+          "properties": {
+            "path": {
+              "type": "text"
+            }
+          }
+        },
+        "logger": {
+          "type": "text",
+          "fields": {
+            "keyword": {
+              "type": "keyword",
+              "ignore_above": 256
+            }
+          }
+        }
+      }
+    },
+    "message": {
+      "type": "text"
+    },
+    "process": {
+      "properties": {
+        "name": {
+          "type": "text"
+        },
+        "pid": {
+          "type": "long"
+        },
+        "thread": {
+          "properties": {
+            "id": {
+              "type": "long"
+            },
+            "name": {
+              "type": "text"
+            }
+          }
+        }
+      }
+    },
+    "server": {
+      "properties": {
+        "address": {
+          "type": "text"
+        }
+      }
+    },
+    "service": {
+      "properties": {
+        "name": {
+          "type": "text",
+          "fields": {
+            "keyword": {
+              "type": "keyword",
+              "ignore_above": 256
+            }
+          }
+        },
+        "type": {
+          "type": "text"
+        },
+        "version": {
+          "type": "text",
+          "fields": {
+            "keyword": {
+              "type": "keyword",
+              "ignore_above": 256
+            }
+          }
+        }
+      }
+    },
+    "source": {
+      "type": "text"
+    },
+    "span": {
+      "properties": {
+        "id": {
+          "type": "text"
+        }
+      }
+    },
+    "tenant": {
+      "properties": {
+        "id": {
+          "type": "text",
+          "fields": {
+            "keyword": {
+              "type": "keyword",
+              "ignore_above": 256
+            }
+          }
+        },
+        "message": {
+          "type": "text"
+        }
+      }
+    },
+    "trace": {
+      "properties": {
+        "id": {
+          "type": "text"
+        }
+      }
+    },
+    "transaction": {
+      "properties": {
+        "id": {
+          "type": "text",
+          "fields": {
+            "keyword": {
+              "type": "keyword",
+              "ignore_above": 256
+            }
+          }
+        }
+      }
+    },
+    "url": {
+      "properties": {
+        "domain": {
+          "type": "text",
+          "fields": {
+            "keyword": {
+              "type": "keyword",
+              "ignore_above": 256
+            }
+          }
+        },
+        "full": {
+          "type": "text",
+          "fields": {
+            "keyword": {
+              "type": "keyword",
+              "ignore_above": 256
+            }
+          }
+        },
+        "path": {
+          "type": "text",
+          "fields": {
+            "keyword": {
+              "type": "keyword",
+              "ignore_above": 256
+            }
+          }
+        },
+        "port": {
+          "type": "long"
+        },
+        "query": {
+          "type": "text",
+          "fields": {
+            "keyword": {
+              "type": "keyword",
+              "ignore_above": 256
+            }
+          }
+        }
+      }
+    },
+    "user": {
+      "properties": {
+        "id": {
+          "type": "text"
+        }
+      }
+    },
+    "user_agent": {
+      "properties": {
+        "device": {
+          "properties": {
+            "name": {
+              "type": "text"
+            }
+          }
+        },
+        "name": {
+          "type": "text"
+        },
+        "original": {
+          "type": "text"
+        },
+        "version": {
+          "type": "text"
+        }
+      }
+    }
+  }
+}

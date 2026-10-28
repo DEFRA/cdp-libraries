@@ -1,0 +1,555 @@
+[
+  {
+    "rename_keys": {
+      "entries": [
+        {
+          "from_key": "log",
+          "to_key": "temp_log",
+          "overwrite_if_to_key_exists": true
+        }
+      ]
+    }
+  },
+  {
+    "add_entries": {
+      "entries": [
+        {
+          "key": "message",
+          "format": "${temp_log}",
+          "add_when": "/temp_log typeof string"
+        },
+        {
+          "key": "log.level",
+          "value": "error",
+          "add_when": "/temp_log typeof string",
+          "overwrite_if_key_exists": true
+        },
+        {
+          "key": "console.log",
+          "value": true,
+          "add_when": "/temp_log typeof string",
+          "overwrite_if_key_exists": true
+        },
+        {
+          "key": "log/logger",
+          "value_expression": "/temp_log/logger",
+          "add_when": "/temp_log typeof map and /temp_log/logger != null"
+        },
+        {
+          "key": "log/file/path",
+          "value_expression": "/temp_log/file/path",
+          "add_when": "/temp_log typeof map and /temp_log/file/path != null"
+        }
+      ]
+    }
+  },
+  {
+    "rename_keys": {
+      "entries": [
+        {
+          "from_key": "/req/originalUrl",
+          "to_key": "url/path",
+          "overwrite_if_to_key_exists": true
+        },
+        {
+          "from_key": "/req/url",
+          "to_key": "url/path",
+          "overwrite_if_to_key_exists": true
+        },
+        {
+          "from_key": "/socket/remoteAddress",
+          "to_key": "client/ip",
+          "overwrite_if_to_key_exists": true
+        },
+        {
+          "from_key": "/req/ip",
+          "to_key": "client/ip",
+          "overwrite_if_to_key_exists": true
+        },
+        {
+          "from_key": "/req/remoteAddress",
+          "to_key": "client/address",
+          "overwrite_if_to_key_exists": true
+        },
+        {
+          "from_key": "/req/remotePort",
+          "to_key": "client/port",
+          "overwrite_if_to_key_exists": true
+        },
+        {
+          "from_key": "/req/headers/user-agent",
+          "to_key": "user_agent/original",
+          "overwrite_if_to_key_exists": true
+        },
+        {
+          "from_key": "/req/headers/host",
+          "to_key": "server/address",
+          "overwrite_if_to_key_exists": true
+        },
+        {
+          "from_key": "/req/method",
+          "to_key": "http/request/method",
+          "overwrite_if_to_key_exists": true
+        },
+        {
+          "from_key": "/req/id",
+          "to_key": "http/request/id"
+        },
+        {
+          "from_key": "/req/headers/x-amzn-trace-id",
+          "to_key": "amazon/trace.id",
+          "overwrite_if_to_key_exists": true
+        },
+        {
+          "from_key": "/res/statusCode",
+          "to_key": "http/response/status_code",
+          "overwrite_if_to_key_exists": true
+        },
+        {
+          "from_key": "/responseTime",
+          "to_key": "http/response/response_time",
+          "overwrite_if_to_key_exists": true
+        },
+        {
+          "from_key": "/req/headers",
+          "to_key": "http/request/headers",
+          "overwrite_if_to_key_exists": true
+        },
+        {
+          "from_key": "/res/headers",
+          "to_key": "http/response/headers",
+          "overwrite_if_to_key_exists": true
+        },
+        {
+          "from_key": "/process.pid",
+          "to_key": "process/pid",
+          "overwrite_if_to_key_exists": true
+        },
+        {
+          "from_key": "/process/thread.id",
+          "to_key": "process/thread/id",
+          "overwrite_if_to_key_exists": true
+        },
+        {
+          "from_key": "/process/thread.name",
+          "to_key": "process/thread/name",
+          "overwrite_if_to_key_exists": true
+        },
+        {
+          "from_key": "/http/request.id",
+          "to_key": "http/request/id"
+        },
+        {
+          "from_key": "/http/request.method",
+          "to_key": "http/request/method",
+          "overwrite_if_to_key_exists": true
+        },
+        {
+          "from_key": "/http/response.mime_type",
+          "to_key": "http/response/mime_type",
+          "overwrite_if_to_key_exists": true
+        },
+        {
+          "from_key": "/http/response.status_code",
+          "to_key": "http/response/status_code",
+          "overwrite_if_to_key_exists": true
+        },
+        {
+          "from_key": "/service.version",
+          "to_key": "service/version",
+          "overwrite_if_to_key_exists": true
+        },
+        {
+          "from_key": "/service.name",
+          "to_key": "service/name",
+          "overwrite_if_to_key_exists": true
+        },
+        {
+          "from_key": "/req/headers/x-cdp-request-id",
+          "to_key": "trace.id",
+          "overwrite_if_to_key_exists": true
+        },
+        {
+          "from_key": "/http/request/headers/x-cdp-request-id",
+          "to_key": "trace.id",
+          "overwrite_if_to_key_exists": true
+        },
+        {
+          "from_key": "/labels/x-cdp-request-id",
+          "to_key": "trace.id",
+          "overwrite_if_to_key_exists": true
+        },
+        {
+          "from_key": "/labels/CorrelationId",
+          "to_key": "trace.id",
+          "overwrite_if_to_key_exists": true
+        },
+        {
+          "from_key": "/trace/id",
+          "to_key": "trace.id",
+          "overwrite_if_to_key_exists": false
+        }
+      ]
+    }
+  },
+  {
+    "substitute_string": {
+      "entries": [
+        {
+          "source": "log.level",
+          "from": "Trace",
+          "to": "trace"
+        },
+        {
+          "source": "log.level",
+          "from": "Debug",
+          "to": "debug"
+        },
+        {
+          "source": "log.level",
+          "from": "Information",
+          "to": "info"
+        },
+        {
+          "source": "log.level",
+          "from": "Warning",
+          "to": "warn"
+        },
+        {
+          "source": "log.level",
+          "from": "Error",
+          "to": "error"
+        },
+        {
+          "source": "log.level",
+          "from": "Critical",
+          "to": "error"
+        }
+      ]
+    }
+  },
+  {
+    "obfuscate": {
+      "source": "/labels/MessageBody",
+      "target": "/labels/MessageBody",
+      "patterns": [
+        "(?:^|\\s)[A-Za-z0-9+_.-]+@(?:[A-Za-z0-9-]+\\.){1,20}[A-Za-z]{2,24}(?=$|\\s)",
+        "(password|Password|pass|PASSWORD)[=: ]*[a-zA-Z0-9\\*\\.!@#$%\\^&()\"\\'\\{\\}\\[\\]\\:;<>,\\?\\/\\~_\\+-=\\|\\-]{4,32}",
+        "(username|user|USER|USERNAME).{0,10}[A-Za-z0-9_.-]{2,24}",
+        "(?i)\\b(?:[A-Za-z0-9][A-Za-z0-9.'\\- ]{1,80},\\s*){1,20}[A-Z]{1,2}\\d[A-Z\\d]?\\s?\\d[A-Z]{2}\\b",
+        "(card|credit_card|credit-card|card_number|visa|mastercard|CARD|CREDIT_CARD|VISA|MASTERCARD|Card|CardNumber).{0,5}(\\d{4}[\\s\\-\\.]?){3}\\d{4}",
+        "(registration_number|registration-number|REGISTRATION_NUMBER|REGISTRATION-NUMBER|vehicle_registration|vehicle-registration|VEHICLE_REGISTRATION|VEHICLE-REGISTRATION|car_registration|car-registration|CAR_REGISTRATION|CAR-REGISTRATION|number_plate|NumberPlate|NUMBER_PLATE|NUMBER-PLATE).{0,5}([A-Z]{2}[0-9]{2}[A-Z]{3}|[a-z]{2}[0-9]{2}[a-z]{3})",
+        "\\b0[1-9][0-9]{9,10}\\b",
+        "\\+44\\s?7\\d{3}\\s?\\d{6}\\b",
+        "(drivinglicense|driving_license|driving|DRIVING_LICENSE|DrivingLicense).{0,10}[\\w9]{5}\\d{6}[\\w]{2}\\d{1}[\\w]{2}",
+        "(passport|Passport|PASSPORT|passport_number|PASSPORT_NUMBER).{0,10}\\d{9}",
+        "(surname|lastname|firstname|name|Surname|Lastname|Firstname|Name|FirstName|LastName|SURNAME|LASTNAME|FIRSTNAME|NAME).{0,10}[A-Za-z]{2,24}",
+        "(street|Street|STREET).{0,10}?[A-Za-z0-9\\s,.-]{3,50}",
+        "(address|Address|ADDRESS).{0,10}?[A-Za-z0-9\\s,.-]{5,100}",
+        "(postalcode|PostalCode|Postcode|PostCode|postal_code|POSTAL_CODE|POSTALCODE|postcode|POSTCODE).{0,10}[A-Z0-9\\s]{3,10}",
+        "(birth|birthdate|birthday|dob|born|Born|DOB|Dob|DoB)\\W+(?:\\w+\\W+){0,5}?(?<REDACT>(\\d{4}|\\d{1,2})[\\/\\-]\\d{1,2}[\\/\\-](\\d{4}|\\d{1,2}))",
+        "<[^>]*:?(FirstName|LastName|Name|Phone|Street|Address|PostalCode|eMail|firstname|lastname|name|phone|street|address|postalcode|email)[^>]*>([^<]+)</[^>]*>"
+      ],
+      "action": {
+        "mask": {
+          "mask_character": "*",
+          "mask_character_length": 6
+        }
+      }
+    }
+  },
+  {
+    "obfuscate": {
+      "source": "message",
+      "target": "message",
+      "patterns": [
+        "(?:^|\\s)[A-Za-z0-9+_.-]+@(?:[A-Za-z0-9-]+\\.){1,20}[A-Za-z]{2,24}(?=$|\\s)",
+        "(password|Password|pass|PASSWORD)[=: ]*[a-zA-Z0-9\\*\\.!@#$%\\^&()\"\\'\\{\\}\\[\\]\\:;<>,\\?\\/\\~_\\+-=\\|\\-]{4,32}",
+        "(username|user|USER|USERNAME).{0,10}[A-Za-z0-9_.-]{2,24}",
+        "(?i)\\b(?:[A-Za-z0-9][A-Za-z0-9.'\\- ]{1,80},\\s*){1,20}[A-Z]{1,2}\\d[A-Z\\d]?\\s?\\d[A-Z]{2}\\b",
+        "(card|credit_card|credit-card|card_number|visa|mastercard|CARD|CREDIT_CARD|VISA|MASTERCARD|Card|CardNumber).{0,5}(\\d{4}[\\s\\-\\.]?){3}\\d{4}",
+        "(registration_number|registration-number|REGISTRATION_NUMBER|REGISTRATION-NUMBER|vehicle_registration|vehicle-registration|VEHICLE_REGISTRATION|VEHICLE-REGISTRATION|car_registration|car-registration|CAR_REGISTRATION|CAR-REGISTRATION|number_plate|NumberPlate|NUMBER_PLATE|NUMBER-PLATE).{0,5}([A-Z]{2}[0-9]{2}[A-Z]{3}|[a-z]{2}[0-9]{2}[a-z]{3})",
+        "\\b0[1-9][0-9]{9,10}\\b",
+        "\\+44\\s?7\\d{3}\\s?\\d{6}\\b",
+        "(drivinglicense|driving_license|driving|DRIVING_LICENSE|DrivingLicense).{0,10}[\\w9]{5}\\d{6}[\\w]{2}\\d{1}[\\w]{2}",
+        "(passport|Passport|PASSPORT|passport_number|PASSPORT_NUMBER).{0,10}\\d{9}",
+        "(surname|lastname|firstname|name|Surname|Lastname|Firstname|Name|FirstName|LastName|SURNAME|LASTNAME|FIRSTNAME|NAME).{0,10}[A-Za-z]{2,24}",
+        "(street|Street|STREET).{0,10}?[A-Za-z0-9\\s,.-]{3,50}",
+        "(address|Address|ADDRESS).{0,10}?[A-Za-z0-9\\s,.-]{5,100}",
+        "(postalcode|PostalCode|Postcode|PostCode|postal_code|POSTAL_CODE|POSTALCODE|postcode|POSTCODE).{0,10}[A-Z0-9\\s]{3,10}",
+        "(birth|birthdate|birthday|dob|born|Born|DOB|Dob|DoB)\\W+(?:\\w+\\W+){0,5}?(?<REDACT>(\\d{4}|\\d{1,2})[\\/\\-]\\d{1,2}[\\/\\-](\\d{4}|\\d{1,2}))",
+        "<[^>]*:?(FirstName|LastName|Name|Phone|Street|Address|PostalCode|eMail|firstname|lastname|name|phone|street|address|postalcode|email)[^>]*>([^<]+)</[^>]*>"
+      ],
+      "action": {
+        "mask": {
+          "mask_character": "*",
+          "mask_character_length": 6
+        }
+      }
+    }
+  },
+  {
+    "obfuscate": {
+      "source": "log.message",
+      "target": "log.message",
+      "patterns": [
+        "(?:^|\\s)[A-Za-z0-9+_.-]+@(?:[A-Za-z0-9-]+\\.){1,20}[A-Za-z]{2,24}(?=$|\\s)",
+        "(password|Password|pass|PASSWORD)[=: ]*[a-zA-Z0-9\\*\\.!@#$%\\^&()\"\\'\\{\\}\\[\\]\\:;<>,\\?\\/\\~_\\+-=\\|\\-]{4,32}",
+        "(username|user|USER|USERNAME).{0,10}[A-Za-z0-9_.-]{2,24}",
+        "(?i)\\b(?:[A-Za-z0-9][A-Za-z0-9.'\\- ]{1,80},\\s*){1,20}[A-Z]{1,2}\\d[A-Z\\d]?\\s?\\d[A-Z]{2}\\b",
+        "(card|credit_card|credit-card|card_number|visa|mastercard|CARD|CREDIT_CARD|VISA|MASTERCARD|Card|CardNumber).{0,5}(\\d{4}[\\s\\-\\.]?){3}\\d{4}",
+        "(registration_number|registration-number|REGISTRATION_NUMBER|REGISTRATION-NUMBER|vehicle_registration|vehicle-registration|VEHICLE_REGISTRATION|VEHICLE-REGISTRATION|car_registration|car-registration|CAR_REGISTRATION|CAR-REGISTRATION|number_plate|NumberPlate|NUMBER_PLATE|NUMBER-PLATE).{0,5}([A-Z]{2}[0-9]{2}[A-Z]{3}|[a-z]{2}[0-9]{2}[a-z]{3})",
+        "\\b0[1-9][0-9]{9,10}\\b",
+        "\\+44\\s?7\\d{3}\\s?\\d{6}\\b",
+        "(drivinglicense|driving_license|driving|DRIVING_LICENSE|DrivingLicense).{0,10}[\\w9]{5}\\d{6}[\\w]{2}\\d{1}[\\w]{2}",
+        "(passport|Passport|PASSPORT|passport_number|PASSPORT_NUMBER).{0,10}\\d{9}",
+        "(surname|lastname|firstname|name|Surname|Lastname|Firstname|Name|FirstName|LastName|SURNAME|LASTNAME|FIRSTNAME|NAME).{0,10}[A-Za-z]{2,24}",
+        "(street|Street|STREET).{0,10}?[A-Za-z0-9\\s,.-]{3,50}",
+        "(address|Address|ADDRESS).{0,10}?[A-Za-z0-9\\s,.-]{5,100}",
+        "(postalcode|PostalCode|Postcode|PostCode|postal_code|POSTAL_CODE|POSTALCODE|postcode|POSTCODE).{0,10}[A-Z0-9\\s]{3,10}",
+        "(birth|birthdate|birthday|dob|born|Born|DOB|Dob|DoB)\\W+(?:\\w+\\W+){0,5}?(?<REDACT>(\\d{4}|\\d{1,2})[\\/\\-]\\d{1,2}[\\/\\-](\\d{4}|\\d{1,2}))",
+        "<[^>]*:?(FirstName|LastName|Name|Phone|Street|Address|PostalCode|eMail|firstname|lastname|name|phone|street|address|postalcode|email)[^>]*>([^<]+)</[^>]*>"
+      ],
+      "action": {
+        "mask": {
+          "mask_character": "*",
+          "mask_character_length": 6
+        }
+      }
+    }
+  },
+  {
+    "obfuscate": {
+      "source": "url/full",
+      "target": "url/full",
+      "patterns": [
+        "(?:password|Password|pass|PASSWORD)=[^&]*",
+        "(username|user|USER|USERNAME)=[^&]*",
+        "X-Amz-Signature=[^&]*"
+      ],
+      "action": {
+        "mask": {
+          "mask_character": "*",
+          "mask_character_length": 6
+        }
+      }
+    }
+  },
+  {
+    "obfuscate": {
+      "source": "url/path",
+      "target": "url/path",
+      "patterns": [
+        "(?:password|Password|pass|PASSWORD)=[^&]*",
+        "(username|user|USER|USERNAME)=[^&]*",
+        "X-Amz-Signature=[^&]*"
+      ],
+      "action": {
+        "mask": {
+          "mask_character": "*",
+          "mask_character_length": 6
+        }
+      }
+    }
+  },
+  {
+    "obfuscate": {
+      "source": "url/query",
+      "target": "url/query",
+      "patterns": [
+        "(?:password|Password|pass|PASSWORD)=[^&]*",
+        "(username|user|USER|USERNAME)=[^&]*",
+        "X-Amz-Signature=[^&]*"
+      ],
+      "action": {
+        "mask": {
+          "mask_character": "*",
+          "mask_character_length": 6
+        }
+      }
+    }
+  },
+  {
+    "obfuscate": {
+      "source": "surname"
+    }
+  },
+  {
+    "obfuscate": {
+      "source": "lastname"
+    }
+  },
+  {
+    "obfuscate": {
+      "source": "last_name"
+    }
+  },
+  {
+    "obfuscate": {
+      "source": "maiden_name"
+    }
+  },
+  {
+    "obfuscate": {
+      "source": "maidenname"
+    }
+  },
+  {
+    "obfuscate": {
+      "source": "phone"
+    }
+  },
+  {
+    "obfuscate": {
+      "source": "phone_number"
+    }
+  },
+  {
+    "obfuscate": {
+      "source": "telephone"
+    }
+  },
+  {
+    "obfuscate": {
+      "source": "mobile"
+    }
+  },
+  {
+    "obfuscate": {
+      "source": "mobile_number"
+    }
+  },
+  {
+    "obfuscate": {
+      "source": "password"
+    }
+  },
+  {
+    "obfuscate": {
+      "source": "address"
+    }
+  },
+  {
+    "obfuscate": {
+      "source": "dob"
+    }
+  },
+  {
+    "obfuscate": {
+      "source": "birth"
+    }
+  },
+  {
+    "obfuscate": {
+      "source": "birthdate"
+    }
+  },
+  {
+    "obfuscate": {
+      "source": "birthday"
+    }
+  },
+  {
+    "obfuscate": {
+      "source": "born"
+    }
+  },
+  {
+    "obfuscate": {
+      "source": "email"
+    }
+  },
+  {
+    "obfuscate": {
+      "source": "passport"
+    }
+  },
+  {
+    "obfuscate": {
+      "source": "passport_number"
+    }
+  },
+  {
+    "obfuscate": {
+      "source": "car_number"
+    }
+  },
+  {
+    "obfuscate": {
+      "source": "home_address"
+    }
+  },
+  {
+    "obfuscate": {
+      "source": "email_address"
+    }
+  },
+  {
+    "obfuscate": {
+      "source": "email.from.address"
+    }
+  },
+  {
+    "obfuscate": {
+      "source": "email.to.address"
+    }
+  },
+  {
+    "obfuscate": {
+      "source": "email.bbc.address"
+    }
+  },
+  {
+    "obfuscate": {
+      "source": "email.cc.address"
+    }
+  },
+  {
+    "obfuscate": {
+      "source": "email.sender.address"
+    }
+  },
+  {
+    "obfuscate": {
+      "source": "email.reply_to.address"
+    }
+  },
+  {
+    "obfuscate": {
+      "source": "req.headers.cookie"
+    }
+  },
+  {
+    "obfuscate": {
+      "source": "req.headers.authorization"
+    }
+  },
+  {
+    "obfuscate": {
+      "source": "res.headers"
+    }
+  },
+  {
+    "obfuscate": {
+      "source": "message.password"
+    }
+  },
+  {
+    "obfuscate": {
+      "source": "log.message.password"
+    }
+  },
+  {
+    "date": {
+      "from_time_received": true,
+      "destination": "@timestamp",
+      "date_when": "/@timestamp == null"
+    }
+  },
+  {
+    "date": {
+      "destination": "@ingestion_timestamp",
+      "from_time_received": true
+    }
+  }
+]

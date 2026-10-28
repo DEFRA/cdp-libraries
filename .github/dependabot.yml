@@ -78,6 +78,26 @@ updates:
     # workspace: @defra/cdp-auditing
 
   - package-ecosystem: "npm"
+    directory: "/packages/cdp-log-pipeline"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 10
+    versioning-strategy: increase
+    commit-message:
+      prefix: "cdp-log-pipeline"
+    groups:
+      minor-and-patch:
+        update-types:
+          - "minor"
+          - "patch"
+    cooldown:
+      default-days: 5
+      semver-major-days: 20
+      semver-minor-days: 7
+      semver-patch-days: 3
+    # workspace: @defra/cdp-log-pipeline
+
+  - package-ecosystem: "npm"
     directory: "/packages/cdp-metrics"
     schedule:
       interval: "weekly"
