@@ -41,7 +41,7 @@
     "test": "vitest run --coverage"
   },
   "devDependencies": {
-    "@hapi/hapi": "21.4.9"
+    "@hapi/hapi": "21.4.11"
   },
   "release-it": {
     "npm": {
@@ -62,7 +62,7 @@
     }
   },
   "dependencies": {
-    "@aws-sdk/client-dynamodb": "3.986.0",
-    "@aws-sdk/util-dynamodb": "3.986.0"
+    "@aws-sdk/client-dynamodb": "3.1154.0",
+    "@aws-sdk/util-dynamodb": "3.996.9"
   }
 }
