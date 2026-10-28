@@ -63,6 +63,6 @@
   },
   "dependencies": {
     "@aws-sdk/client-dynamodb": "3.986.0",
-    "@aws-sdk/util-dynamodb": "3.986.0"
+    "@aws-sdk/util-dynamodb": "3.996.9"
   }
 }
