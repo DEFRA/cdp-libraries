@@ -15,7 +15,7 @@ export const secureContext = {
         server.logger
       )
 
-      if (customCaCerts) {
+      if (Object.keys(customCaCerts).length > 0) {
         patchSecureContext(Object.values(customCaCerts).map((ca) => ca))
       }
 
