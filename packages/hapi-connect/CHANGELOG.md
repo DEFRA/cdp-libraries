@@ -1,5 +1,11 @@
 # @defra/hapi-connect
 
+## 1.0.3
+
+### Patch Changes
+
+- 90aade0: Upgrade dependencies
+
 ## 1.0.2
 
 ### Patch Changes

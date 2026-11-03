@@ -1,5 +1,11 @@
 # @defra/hapi-tracing
 
+## 1.30.2
+
+### Patch Changes
+
+- 90aade0: Upgrade dependencies
+
 ## 1.30.1
 
 ### Patch Changes

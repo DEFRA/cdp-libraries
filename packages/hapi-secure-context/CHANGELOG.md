@@ -1,5 +1,12 @@
 # @defra/hapi-secure-context
 
+## 0.4.2
+
+### Patch Changes
+
+- 90aade0: Upgrade dependencies
+- 8af9e77: Only patch tls.createSecureContext when custom CA certs are found
+
 ## 0.4.1
 
 ### Patch Changes
