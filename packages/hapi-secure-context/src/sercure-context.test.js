@@ -29,6 +29,12 @@ describe('#secure-context', () => {
     expect(server.decorate).toHaveBeenCalledWith('server', 'customCACerts', {})
   })
 
+  test('it does not patch tls.createSecureContext if no custom certs are set', () => {
+    secureContext.plugin.register(server, {})
+
+    expect(tls.createSecureContext).toBe(originalSecureContext)
+  })
+
   test('it loads custom ca-certs when set as environment variables', () => {
     vi.stubEnv('TRUSTSTORE_FOO', mockCertB64)
 

@@ -15,8 +15,10 @@ export const secureContext = {
         server.logger
       )
 
-      if (customCaCerts) {
-        patchSecureContext(Object.values(customCaCerts).map((ca) => ca))
+      const caCerts = Object.values(customCaCerts)
+
+      if (caCerts.length > 0) {
+        patchSecureContext(caCerts)
       }
 
       server.decorate('server', 'secureContext', tls.createSecureContext())
