@@ -1,11 +1,6 @@
 import pino from 'pino'
 
-import {
-  audit,
-  destStdout,
-  enableAuditing,
-  setAuditLogger
-} from './auditing.js'
+import { audit, enableAuditing, setAuditLogger } from './auditing.js'
 import { auditLoggerConfig } from './audit-logger-config.js'
 import { afterEach, beforeEach, describe, expect, test } from 'vitest'
 
@@ -20,13 +15,6 @@ export class TestPinoDestination {
 }
 
 describe('#Auditing', () => {
-  describe('destStdout', () => {
-    test('Is a shared async destination on stdout', () => {
-      expect(destStdout.fd).toBe(1)
-      expect(destStdout.sync).toBe(false)
-    })
-  })
-
   describe('audit', () => {
     const output = new TestPinoDestination()
     const testAuditLogger = pino(auditLoggerConfig, output)
