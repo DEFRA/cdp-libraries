@@ -1,7 +1,10 @@
 import pino from 'pino'
 import { auditLoggerConfig } from './audit-logger-config.js'
+import { destStdout } from './destination.js'
 
-let auditLogger = pino(auditLoggerConfig)
+export { destStdout }
+
+let auditLogger = pino(auditLoggerConfig, destStdout)
 
 if (process.env.CDP_AUDIT_ENABLED === 'false') {
   enableAuditing(false)
@@ -12,7 +15,7 @@ if (process.env.CDP_AUDIT_ENABLED === 'false') {
  *
  * @param {Logger} logger
  */
-function setAuditLogger(logger) {
+export function setAuditLogger(logger) {
   auditLogger = logger
 }
 
@@ -20,7 +23,7 @@ function setAuditLogger(logger) {
  * Globally enables or disables auditing
  * @param {boolean|null} isEnabled
  */
-function enableAuditing(isEnabled = true) {
+export function enableAuditing(isEnabled = true) {
   if (isEnabled) {
     auditLogger.level = 'audit'
   } else {
@@ -37,8 +40,6 @@ function enableAuditing(isEnabled = true) {
  *   - one Object or Error
  *   - one Object or Error and one String
  */
-function audit(...args) {
+export function audit(...args) {
   auditLogger.audit.apply(auditLogger, args)
 }
-
-export { audit, enableAuditing, setAuditLogger }
