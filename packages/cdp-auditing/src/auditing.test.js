@@ -1,6 +1,11 @@
 import pino from 'pino'
 
-import { audit, enableAuditing, setAuditLogger } from './auditing.js'
+import {
+  audit,
+  enableAuditing,
+  setAuditDestination,
+  setAuditLogger
+} from './auditing.js'
 import { auditLoggerConfig } from './audit-logger-config.js'
 import { afterEach, beforeEach, describe, expect, test } from 'vitest'
 
@@ -78,6 +83,36 @@ describe('#Auditing', () => {
           time: expect.any(String)
         }
       ])
+    })
+  })
+
+  describe('setAuditDestination', () => {
+    const output = new TestPinoDestination()
+
+    afterEach(() => {
+      output.reset()
+      enableAuditing()
+    })
+
+    test('Writes audit messages to the given destination', () => {
+      setAuditDestination(output)
+      audit('Sent to the shared destination')
+
+      expect(output.messages).toEqual([
+        {
+          'log.level': 'audit',
+          msg: 'Sent to the shared destination',
+          time: expect.any(String)
+        }
+      ])
+    })
+
+    test('Keeps auditing disabled when it was disabled before', () => {
+      enableAuditing(false)
+      setAuditDestination(output)
+      audit('Should not be written')
+
+      expect(output.messages).toEqual([])
     })
   })
 })

@@ -50,6 +50,21 @@ enableAuditing()
 enableAuditing(true)
 ```
 
+### Sharing stdout with your app logger
+
+Give the audit logger the same destination as your app and request loggers, so their JSON lines don't interleave
+under high load:
+
+```js
+import pino from 'pino'
+import { setAuditDestination } from '@defra/cdp-auditing'
+
+const destination = pino.destination({ fd: 1, sync: false })
+setAuditDestination(destination)
+
+const logger = pino(loggerOptions, destination)
+```
+
 ## How auditing works on the CDP Platform
 
 Auditing is basically just standard logger pre-configured to do the following:

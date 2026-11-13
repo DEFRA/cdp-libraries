@@ -12,15 +12,27 @@ if (process.env.CDP_AUDIT_ENABLED === 'false') {
  *
  * @param {Logger} logger
  */
-function setAuditLogger(logger) {
+export function setAuditLogger(logger) {
   auditLogger = logger
+}
+
+/**
+ * Writes audit messages to the given destination, keeping the current enabled state.
+ * Pass the destination your service loggers use, so their output can't interleave.
+ *
+ * @param {DestinationStream} destination
+ */
+export function setAuditDestination(destination) {
+  const level = auditLogger.level
+  auditLogger = pino(auditLoggerConfig, destination)
+  auditLogger.level = level
 }
 
 /**
  * Globally enables or disables auditing
  * @param {boolean|null} isEnabled
  */
-function enableAuditing(isEnabled = true) {
+export function enableAuditing(isEnabled = true) {
   if (isEnabled) {
     auditLogger.level = 'audit'
   } else {
@@ -37,8 +49,6 @@ function enableAuditing(isEnabled = true) {
  *   - one Object or Error
  *   - one Object or Error and one String
  */
-function audit(...args) {
+export function audit(...args) {
   auditLogger.audit.apply(auditLogger, args)
 }
-
-export { audit, enableAuditing, setAuditLogger }
