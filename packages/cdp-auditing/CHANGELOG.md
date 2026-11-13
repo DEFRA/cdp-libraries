@@ -1,5 +1,11 @@
 # @defra/cdp-auditing
 
+## 0.7.0
+
+### Minor Changes
+
+- 8ebc3ab: Add setAuditDestination so services can share one stdout destination with the audit logger and avoid interleaved log lines
+
 ## 0.6.3
 
 ### Patch Changes
