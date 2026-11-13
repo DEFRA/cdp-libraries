@@ -1,10 +1,7 @@
 import pino from 'pino'
 import { auditLoggerConfig } from './audit-logger-config.js'
-import { destStdout } from './destination.js'
 
-export { destStdout }
-
-let auditLogger = pino(auditLoggerConfig, destStdout)
+let auditLogger = pino(auditLoggerConfig)
 
 if (process.env.CDP_AUDIT_ENABLED === 'false') {
   enableAuditing(false)
@@ -17,6 +14,18 @@ if (process.env.CDP_AUDIT_ENABLED === 'false') {
  */
 export function setAuditLogger(logger) {
   auditLogger = logger
+}
+
+/**
+ * Writes audit messages to the given destination, keeping the current enabled state.
+ * Pass the destination your service loggers use, so their output can't interleave.
+ *
+ * @param {DestinationStream} destination
+ */
+export function setAuditDestination(destination) {
+  const level = auditLogger.level
+  auditLogger = pino(auditLoggerConfig, destination)
+  auditLogger.level = level
 }
 
 /**

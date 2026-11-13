@@ -2,4 +2,4 @@
 '@defra/cdp-auditing': minor
 ---
 
-Export a shared stdout destination so service and audit loggers don't interleave large log lines
+Add setAuditDestination so services can share one stdout destination with the audit logger and avoid interleaved log lines

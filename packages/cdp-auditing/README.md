@@ -52,14 +52,17 @@ enableAuditing(true)
 
 ### Sharing stdout with your app logger
 
-The audit logger writes to `destStdout`, an async pino destination on stdout. Pass the same destination to your
-app and request loggers so their JSON lines don't interleave under high load:
+Give the audit logger the same destination as your app and request loggers, so their JSON lines don't interleave
+under high load:
 
 ```js
 import pino from 'pino'
-import { destStdout } from '@defra/cdp-auditing'
+import { setAuditDestination } from '@defra/cdp-auditing'
 
-const logger = pino(loggerOptions, destStdout)
+const destination = pino.destination({ fd: 1, sync: false })
+setAuditDestination(destination)
+
+const logger = pino(loggerOptions, destination)
 ```
 
 ## How auditing works on the CDP Platform
